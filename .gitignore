@@ -286,3 +286,10 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# LaTeX files
+docs/*.aux
+docs/*.out
+docs/*.gz
+docs/*.pdf
+docs/*.toc
