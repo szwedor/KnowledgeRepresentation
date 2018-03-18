@@ -12,9 +12,14 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[polish]{babel}
 \usepackage{float}
+\usepackage{graphicx,stackengine,scalerel}
 
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\arraystretch}{1.5}
+
+\newtheorem{definition}{Definicja}[section]
+
+\def\tang{\ThisStyle{\abovebaseline[0pt]{\scalebox{-1}{$\SavedStyle\perp$}}}}
 
 \begin{document}
 
@@ -77,12 +82,176 @@
         \item Czy z dowolnego stanu spełniającego warunek $\pi$ cel $\gamma$ jest osiągany zawsze/kiedykolwiek/na ogół?
         \item Czy wskazany wykonawca jest zaangażowany w realizację programu zawsze/kiedykolwiek?
     \end{enumerate}
+    
+    \subsection{Oznaczenia}
+        Na potrzeby uproszczenia definicji oraz opisów w dokumencie wykorzystywane są następujące oznaczenia:
+    \begin{itemize}
+        \item $A \in \mathcal{A}c$ - akcje
+        \item $X \in \mathcal{X}$ - agenci
+        \item $f \in \mathcal{F}$ - fluenty
+        \item $\bar{f}$ - literał odpowiadający $f$, czyli $f$ lub $\neg f$
+        \item $\alpha, \pi \in Forms(\mathcal{F})$ - formuły
+    \end{itemize}
+   
+    Formułą nazywamy dowolne połączenie fluentów:
+    
+    $Forms(\mathcal{F}) \ni \alpha = f~|~\neg \alpha~|~\alpha_1 \wedge \alpha_2~|~\alpha_1 \vee \alpha_2~|~\alpha_1 \Rightarrow \alpha_2~|~\alpha_1 \Leftrightarrow \alpha_2$
+    
+    Dodatkowo istnieją specjalne formuły:
+    \begin{itemize}
+        \item $\tang$ oznaczający zawsze prawdę ($true$)
+        \item $\perp$ oznaczający zawsze fałsz ($false$)
+    \end{itemize}
 
     \section{Język akcji}
-    
-    \subsection{Sygnatura}
+    \begin{definition}[Język $\mathcal{ADA}$]
+        Język $\mathcal{ADA}$ jest językiem spełniającym założenia podane w opisie zadania. W poniższych sekcjach zostanie zdefiniowana jego sygnatura, syntaktyka oraz semantyka.
+    \end{definition}
+
+    \begin{definition}[Sygnatura]
+        Sygnaturą języka $\mathcal{ADA}$ nazywamy parę $\Upsilon=(\mathcal{F},\mathcal{A}c)$, gdzie:
+        \begin{itemize}
+            \item $\mathcal{F}$ jest zbiorem fluentów
+            \item $\mathcal{A}c$ jest zbiorem akcji
+        \end{itemize}
+    \end{definition}
     
     \subsection{Syntaktyka}
+    
+    Identyfikatorem jest nazwa akcji, agenta lub fluentu. Identyfikator składa się z ciągu dużych i małych liter alfabetu łacińskiego, cyfr oraz znaku podkreślenia (\_). Dodatkowo identyfikator nie może być żadnym ze słów kluczowych: \textbf{initially}, \textbf{always}, \textbf{observable}, \textbf{after}, \textbf{when}, \textbf{causes}, \textbf{impossible}, \textbf{typically}, \textbf{if}, \textbf{true}, \textbf{false}. W przypadku identyfikatorów wielkość liter ma znaczenie, to znaczy przykładowo akcje \textit{shoot} i \textit{Shoot} są dwiema różnymi akcjami.
+
+    \subsubsection{Formuły}
+    
+    Poszczególnym operacjom z konstrukcji formuł odpowiadają następujące zapisy:
+    \begin{itemize}
+        \item $f \rightarrow identyfikator$ - nazwa fluentu, będąca identyfikatorem zgodnym z opisem powyżej,
+        \item $\neg \alpha \rightarrow \mathbf{not}~\alpha$ - negacja logiczna formuły $\alpha$,
+        \item $\alpha_1 \wedge \alpha_2 \rightarrow \alpha_1~\mathbf{and}~\alpha_2$ - koniunkcja logiczna formuł $\alpha_1$ i $\alpha_2$,
+        \item $\alpha_1 \vee \alpha_2 \rightarrow \alpha_1~\mathbf{or}~\alpha_2$ - alternatywa logiczna formuł $\alpha_1$ i $\alpha_2$,
+        \item $\alpha_1 \Rightarrow \alpha_2 \rightarrow \alpha_1~\mathbf{then}~\alpha_2$ - implikacja logiczna formuły $\alpha_1$ w $\alpha_2$,
+        \item $\alpha_1 \Leftrightarrow \alpha_2 \rightarrow \alpha_1~\mathbf{iff}~\alpha_2$ - równoważność logiczna (\textit{if and only if}) formuł $\alpha_1$ i $\alpha_2$,
+        \item $\tang \rightarrow \mathbf{true}$ - oznacza zawsze prawdę,
+        \item $\perp \rightarrow \mathbf{false}$ oznacza zawsze fałsz.
+    \end{itemize}
+    
+    Dla wyżej wymienionych operacji została zdefiniowana następująca kolejność działań:
+    \begin{enumerate}
+        \item $\mathbf{not}$
+        \item $\mathbf{and}$, $\mathbf{or}$
+        \item $\mathbf{then}$
+        \item $\mathbf{iff}$
+    \end{enumerate}
+   
+    Nawiasy okrągłe \textit{()} mogą być użyte w celu grupowania wyrażeń oraz zmiany kolejności wykonywania działań matematycznych.
+    
+    \subsubsection{Instrukcja wartości}
+    
+    \begin{center}
+        $\alpha~\mathbf{after}~X_1~A_1,...,X_n~A_n$, gdzie $n \geq 1$
+    \end{center}
+    Formuła $\alpha$ jest \textbf{zawsze} prawdziwa po wykonaniu sekwencji akcji $A_1$ przez agenta $X_1$, $...$, $A_1$ przez agenta $X_n$. Podanie agenta wykonującego akcję nie jest wymagane. Jeżeli agent nie zostanie podany, wtedy akcja jest wykonywana przez kogokolwiek.
+    
+    \begin{center}
+            $\mathbf{initially}~\alpha$
+    \end{center}    
+        Jeżeli dla powyższej instrukcji $n=0$, to musimy użyć skróconego zapisu. Oznacza on, że formuła $\alpha$ jest spełniona dla stanu początkowego.
+                
+    \begin{center}    
+        $\mathbf{observable}~\alpha~\mathbf{after}~A_1,...,A_n$
+    \end{center}
+    Formuła $\alpha$ jest \textbf{czasem} prawdziwa po wykonaniu sekwencji akcji $A_1$ przez agenta $X_1$, $...$, $A_1$ przez agenta $X_n$. Podanie agenta wykonującego akcję nie jest wymagane. Jeżeli agent nie zostanie podany, wtedy akcja jest wykonywana przez kogokolwiek.
+    
+    \subsubsection{Instrukcja efektu}
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi$    
+    \end{center}
+    Jeżeli akcja $A$ jest wywołana przez agenta $X$ w stanie, który spełnia formułę $\pi$, stan wynikowy spełnia formułę $\alpha$.
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{causes}~\alpha$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana przez agenta $X$, stan wynikowy spełnia formułę $\alpha$.
+    
+    \begin{center}
+        $A~\mathbf{causes}~\alpha~\mathbf{if}~\pi$    
+    \end{center}
+    Jeżeli akcja $A$ jest wywołana przez dowolnego agenta w stanie, który spełnia formułę $\pi$, stan wynikowy spełnia formułę $\alpha$. Jest to zapis pierwszej instrukcji, jeżeli akcja jest wywoływana przez dowolnego agenta.
+    
+    \begin{center}
+        $A~\mathbf{causes}~\alpha$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana, stan wynikowy spełnia formułę $\alpha$.
+    
+    \begin{center}
+        $\mathbf{impossible}~X~A~\mathbf{if}~\pi$
+    \end{center}
+    Zapis równoważny z pierwszym, jeżeli $\alpha \equiv \perp$. Akcja $A$ nie jest wykonywalna przez agenta $X$ w stanie, który spełnia formułę $\alpha$. 
+    
+    \begin{center}
+        $\mathbf{impossible}~X~A$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Akcja $A$ nie jest wykonywalna przez agenta $X$. 
+    
+    \begin{center}
+        $\mathbf{impossible}~A~\mathbf{if}~\pi$
+    \end{center}
+    Akcja $A$ nie jest wykonywalna przez żadnego agenta w stanie, który spełnia formułę $\alpha$.
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi$    
+    \end{center}
+    Jeżeli akcja $A$ jest wywołana przez agenta $X$ w stanie, który spełnia formułę $\pi$, stan wynikowy z reguły powinien spełniać formułę $\alpha$. Efekt $\alpha$ jest \textbf{preferowany} w odróżnieniu do efektów niedeterministycznych, gdzie żaden wynik nie jest preferowany.
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{typically~causes}~\alpha$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana przez agenta $X$, stan wynikowy z reguły powinien spełniać formułę $\alpha$.
+    
+    \begin{center}
+        $A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi$    
+    \end{center}
+    Jeżeli akcja $A$ jest wywołana przez dowolnego agenta w stanie, który spełnia formułę $\pi$, stan wynikowy powinien spełniać formułę $\alpha$.
+    
+    \begin{center}
+        $A~\mathbf{typically~causes}~\alpha$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana, stan wynikowy powinien spełniać formułę $\alpha$.
+    
+    \subsubsection{Instrukcja uwolnienia}
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi$
+    \end{center}
+    Wykonanie akcji $A$ przez agenta $X$ w stanie, który spełnia warunek $\pi$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$.
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{releases}~\bar{f}$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Wykonanie akcji $A$ przez agenta $X$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$.
+    
+    \begin{center}
+        $A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi$
+    \end{center}
+    Wykonanie akcji $A$ przez dowolnego agenta w stanie, który spełnia warunek $\pi$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$. Jest to zapis pierwszej instrukcji, jeżeli akcja jest wywoływana przez dowolnego agenta.
+    
+    \begin{center}
+        $\mathbf{when}~X~A~\mathbf{releases}~\bar{f}$
+    \end{center}
+    Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Wykonanie akcji $A$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$.
+    
+    \subsubsection{Instrukcja ograniczenia}    
+   
+    \begin{center}
+        $\mathbf{always}~\alpha$
+    \end{center}
+    Każdy stan musi spełniać formułę $\alpha$.
+    
+    \subsubsection{Instrukcja opisu fluentu}
+    \begin{center}
+        $\mathbf{noninertial}~f$
+    \end{center}
+    Oznaczenia fluentu $f$ jako nieinercyjnego.
     
     \subsection{Semantyka}
     
@@ -92,6 +261,5 @@
     
     \subsection{Semantyka}
     
-    \section{Przykłady}
-    
+    \section{Przykłady}    
 \end{document}
