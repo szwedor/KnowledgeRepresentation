@@ -167,13 +167,13 @@
     \subsubsection{Instrukcja efektu}
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi$
+        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi$
         \\gdzie $n \geq 1$
     \end{center}
     Jeżeli akcja $A$ jest wywołana przez któregokolwiek z agentów $\omega_1, ..., \omega_n$ w stanie, który spełnia formułę $\pi$, stan wynikowy spełnia formułę $\alpha$.
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{causes}~\alpha$
+        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{causes}~\alpha$
         \\gdzie $n \geq 1$
     \end{center}
     Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana przez któregokolwiek z agentów $\omega_1, ..., \omega_n$, stan wynikowy spełnia formułę $\alpha$.
@@ -189,13 +189,13 @@
     Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana, stan wynikowy spełnia formułę $\alpha$.
     
     \begin{center}
-        $\mathbf{impossible}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{if}~\pi$
+        $\mathbf{impossible}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{if}~\pi$
         \\gdzie $n \geq 1$
     \end{center}
     Zapis równoważny z pierwszym, jeżeli $\alpha \equiv \perp$. Akcja $A$ nie jest wykonywalna przez żadnego z agentów $\omega_1, ..., \omega_n$, w stanie, który spełnia formułę $\alpha$. 
     
     \begin{center}
-        $\mathbf{impossible}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A$
+        $\mathbf{impossible}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A$
         \\gdzie $n \geq 1$
     \end{center}
     Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Akcja $A$ nie jest wykonywalna przez żadnego z agentów $\omega_1, ..., \omega_n$.
@@ -206,13 +206,13 @@
     Akcja $A$ nie jest wykonywalna przez żadnego agenta w stanie, który spełnia formułę $\alpha$.
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi$
+        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi$
         \\gdzie $n \geq 1$
     \end{center}
     Jeżeli akcja $A$ jest wywołana przez któregokolwiek z agentów $\omega_1, ..., \omega_n$ w stanie, który spełnia formułę $\pi$, stan wynikowy z reguły powinien spełniać formułę $\alpha$. Efekt $\alpha$ jest \textbf{preferowany} w odróżnieniu do efektów niedeterministycznych, gdzie żaden wynik nie jest preferowany.
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{typically~causes}~\alpha$
+        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{typically~causes}~\alpha$
         \\gdzie $n \geq 1$
     \end{center}
     Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Jeżeli akcja $A$ jest wywołana przez któregokolwiek z agentów $\omega_1, ..., \omega_n$, stan wynikowy z reguły powinien spełniać formułę $\alpha$.
@@ -230,12 +230,12 @@
     \subsubsection{Instrukcja uwolnienia}
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi$
+        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi$
     \end{center}
     Wykonanie akcji $A$ przez któregokolwiek agentów $\omega_1, ..., \omega_n$ w stanie, który spełnia warunek $\pi$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$.
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or},...,~\mathbf{or}~\omega_n~A~\mathbf{releases}~\bar{f}$
+        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{releases}~\bar{f}$
     \end{center}
     Zapis równoważny z powyższym, jeżeli $\pi \equiv \tang$. Wykonanie akcji $A$ któregokolwiek agentów $\omega_1, ..., \omega_n$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$.
     
