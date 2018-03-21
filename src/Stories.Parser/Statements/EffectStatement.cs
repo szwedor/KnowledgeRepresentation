@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Stories.Parser.Conditions;
 
 namespace Stories.Parser.Statements
@@ -7,7 +8,7 @@ namespace Stories.Parser.Statements
         public ConditionExpression Effect { get; set; }
         public ConditionExpression Condition { get; set; }
         public string Action { get; set; }
-        public string Agent { get; set; }
+        public List<string> Agents { get; set; }
         public bool IsTypical { get; set; }
     }
 }

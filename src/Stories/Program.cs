@@ -1,5 +1,4 @@
-﻿using Sprache;
-using Stories.Parser;
+﻿using Stories.Parser;
 
 namespace Stories
 {
@@ -13,10 +12,10 @@ namespace Stories
 
             load causes loaded
             shoot causes not loaded
-            when bob shoot causes not alive if loaded
+            when bob or ken shoot causes not alive if loaded
             when jim shoot typically causes not alive if loaded";
 
-            var history = Parsing.History.Parse(yaleShootingProblem);
+            var history = Parsing.GetHistory(yaleShootingProblem);
 
             var story = new Story(history);
         }

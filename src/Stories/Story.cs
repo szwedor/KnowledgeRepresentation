@@ -4,25 +4,20 @@ using System.Linq;
 using Sprache;
 using Stories.Parser;
 using Stories.Parser.Conditions;
+using Stories.Parser.Statements;
 
 namespace Stories
 {
-    class ActionExecution
-    {
-        public string Action { get; set; }
-        public string Agent { get; set; }
-    }
-
     class Story
     {
-        private History history { get; set; }
+        private HistoryStatement history { get; set; }
         private List<Fluent> fluents { get; set; }
         private List<string> agents { get; set; }
         private List<string> actions { get; set; }
 
         private List<AppState> states { get; set; }
 
-        public Story(History history)
+        public Story(HistoryStatement history)
         {
             this.history = history;
 
@@ -45,7 +40,7 @@ namespace Stories
         {
             var effects = history.Effects.Select(e => e.Action);
             var releases = history.Releases.Select(r => r.Action);
-            var values = history.Values.SelectMany(v => v.Actions);
+            var values = history.Values.SelectMany(v => v.Actions).Select(a => a.Action);
 
             return effects
                 .Concat(releases)
@@ -56,7 +51,8 @@ namespace Stories
 
         private List<string> getAllAgents()
         {
-            var effects = history.Effects.Select(e => e.Agent);
+            var values = history.Values.SelectMany(v => v.Actions).Select(a => a.Agent);
+            var effects = history.Effects.SelectMany(e => e.Agents ?? new List<string>());
 
             return effects.Where(a => !string.IsNullOrEmpty(a)).Distinct().ToList();
         }
