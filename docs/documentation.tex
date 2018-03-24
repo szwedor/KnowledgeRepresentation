@@ -341,9 +341,54 @@
     
     \section{Język kwerend}
     
+	Język akcji może być odpytywany przez zdefiniowany poniżej język kwerend. Wynikiem każdego z zapytań jest wartość $true$ oznaczająca prawdę lub $false$ oznaczająca fałsz.     
+    
     \subsection{Syntaktyka}
     
+    \textbf{Uwaga:} Warunek $\mathbf{always}$ zachodzi, jeśli odpowiedź na kwerendę we \textbf{wszystkich} ścieżkach wykonania ma wartość $true$. Warunek $\mathbf{ever}$ zachodzi jeżeli istnieje co najmniej jedna taka ścieżka.
+    
+    \begin{center}
+        $\mathbf{always}/\mathbf{ever}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
+    \end{center}
+    
+    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze/kiedykolwiek.
+    
+    \begin{center}
+        $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$
+    \end{center}
+    
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ zawsze/kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    
+    \begin{center}
+        $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi$
+    \end{center}
+    
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ zawsze/kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    
+    \begin{center}
+        $\mathbf{always}/\mathbf{ever}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
+    \end{center}
+    
+    Wykonawca $\omega$ jest zawsze/kiedykolwiek zaangażowany w realizację programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$.    
+    
     \subsection{Semantyka}
+    
+    \begin{definition}
+    	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D | \approx Q$):
+    
+    \begin{itemize}
+    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_s$ zachodzi $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi$: \\
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_s$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
+    \end{itemize}
+    \end{definition}
     
     \section{Przykłady}    
 \end{document}
