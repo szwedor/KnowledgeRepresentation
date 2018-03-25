@@ -21,6 +21,8 @@
 
 \def\tang{\ThisStyle{\abovebaseline[0pt]{\scalebox{-1}{$\SavedStyle\perp$}}}}
 
+\newcommand{\vapprox}{\mathrel{\scalebox{1}[2]{$\shortmid$}\mkern-3.1mu\raisebox{0.1ex}{$\approx$}}}
+
 \begin{document}
 
     \begin{titlepage}
@@ -369,65 +371,100 @@
     
     \subsection{Syntaktyka}
     
-    \textbf{Uwaga:} Warunek $\mathbf{always}$ zachodzi, jeśli odpowiedź na kwerendę we \textbf{wszystkich} ścieżkach wykonania ma wartość $true$. Warunek $\mathbf{ever}$ zachodzi jeżeli istnieje co najmniej jedna taka ścieżka.
+    %\textbf{Uwaga:} Warunek $\mathbf{always}$ zachodzi, jeśli odpowiedź na kwerendę we \textbf{wszystkich} ścieżkach wykonania ma wartość $true$. Warunek $\mathbf{ever}$ zachodzi jeżeli istnieje co najmniej jedna taka ścieżka.
     
     \begin{center}
-        $\mathbf{always}/\mathbf{ever}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
     \end{center}
     
-    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze/kiedykolwiek.
+    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze
     
     \begin{center}
-        $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
     \end{center}
     
-    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ zawsze/kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny kiedykolwiek.
     
     \begin{center}
-        $\mathbf{typically}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{necessary}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
+    \end{center}
+    
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ zawsze prowadzi do stanu spełniającego warunek $\pi$.
+    
+    \begin{center}
+        $\mathbf{possibly}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
+    \end{center}
+    
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    
+    \begin{center}
+        $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
     \end{center}
     
     Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ na ogół prowadzi do stanu spełniającego warunek $\pi$.
     
     \begin{center}
-        $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi$
+        $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ zawsze/kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ zawsze prowadzi do stanu spełniającego warunek $\pi$.
     
     \begin{center}
-        $\mathbf{typically}~\gamma~\mathbf{if}~\pi$
+        $\mathbf{possibly}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$
+    \end{center}
+    
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    
+    
+    \begin{center}
+        $\mathbf{typically}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$
     \end{center}
     
     Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ na ogół prowadzi do stanu spełniającego warunek $\pi$.
     
     \begin{center}
-        $\mathbf{always}/\mathbf{ever}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
     \end{center}
     
-    Wykonawca $\omega$ jest zawsze/kiedykolwiek zaangażowany w realizację programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$.    
+    Wykonawca $\omega$ jest zawsze zaangażowany w realizację programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$.
+    
+    \begin{center}
+        $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
+    \end{center}
+    
+    Wykonawca $\omega$ jest kiedykolwiek zaangażowany w realizację programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$.    
     
     \subsection{Semantyka}
     
     \begin{definition}[Konsekwencja]
-    	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D | \approx Q$), wtedy i tylko wtedy kiedy:
+    	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D \vapprox Q$), wtedy i tylko wtedy kiedy:
     
     \begin{itemize}
-    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny.
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma_0)$ jest zdefiniowane.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma_0)$ jest zdefiniowane.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ istnieje mapowanie $\Psi_S$, takie że zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{if}~\pi$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$, istnieje mapowanie $\Psi_S$, dla którego istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
+    	 \item jeżeli $Q$ jest postaci $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
     	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
     \end{itemize}
     \end{definition}
