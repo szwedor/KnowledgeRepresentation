@@ -389,38 +389,38 @@
         $\mathbf{necessary}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ zawsze prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\pi$ zawsze prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
         $\mathbf{possibly}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\pi$ kiedykolwiek prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
         $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ na ogół prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\pi$ na ogół prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
         $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ zawsze prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\pi$ zawsze prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
         $\mathbf{possibly}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\pi$ kiedykolwiek prowadzi do stanu spełniającego warunek $\gamma$.
     
     
     \begin{center}
         $\mathbf{typically}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$
     \end{center}
     
-    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ na ogół prowadzi do stanu spełniającego warunek $\pi$.
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\pi$ na ogół prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
         $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
@@ -440,32 +440,33 @@
     	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D \vapprox Q$), wtedy i tylko wtedy kiedy:
     
     \begin{itemize}
-    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma_0)$ jest zdefiniowane.
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma_0)$ jest zdefiniowane.
+    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ istnieje mapowanie $\Psi_S$, takie że zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ istnieje mapowanie $\Psi_S$, takie że zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$, istnieje mapowanie $\Psi_S$, dla którego istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$, istnieje mapowanie $\Psi_S$, dla którego istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
+    	 
     	 \item jeżeli $Q$ jest postaci $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
     \end{itemize}
     \end{definition}
     
