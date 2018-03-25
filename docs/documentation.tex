@@ -339,6 +339,30 @@
     Programem działań nazywamy ciąg $((A_1, \omega_1),...,(A_n,\omega_n))$, gdzie $A_i$ jest akcją, zaś $\omega_i$ jej wykonawcą lub $\epsilon$ (ktokolwiek). 
     \end{definition}
     
+    \begin{definition}[Miara nietypowości]
+    Dla każdej akcji $A \in \mathcal{A}c$, dowolnego wykonawcy $\omega$ i dowolnych dwóch stanów $\sigma$, $\sigma'$ $\in \Sigma$ definiujemy funkcję, zwaną miarą nietypowości: \\
+    \[
+    \kappa_S(A, \omega, \sigma, \sigma') = \left \{
+        \begin{array}{ll}
+             0,~jesli~\sigma' \in ResN(A, \omega, \sigma) \\
+             1~jesli~\sigma' \in ResAb(A, \omega, \sigma) \\
+             + \infty ~w.p.p.
+         \end{array}
+     \right.
+    \]
+    
+    \end{definition}
+    
+    \begin{definition}[Zbiór $\Pi_S$]
+    	Zdefiniujmy funkcję $K_{\Psi}$, taką że dla każdego mapowania $\Psi_S$ oraz dowolnego programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$:
+    	\begin{itemize}
+    		\item $K_{\Psi}((A_1, \omega_1),...,(A_n,\omega_n)) = + \infty$, jeżeli $\Psi_S(((A_1, \omega_1),...,(A_n,\omega_n)), \sigma_0)$ jest zdefiniowane
+    		\item $K_{\Psi}((A_1, \omega_1),...,(A_n,\omega_n)) = \sum_{i=1}^{n} \kappa_s(A_i, \sigma_{i-1}, \sigma_i)$, gdzie $\sigma_i = \Psi_S(A_i, \sigma_{i-1})$
+    	\end{itemize}
+    	
+    	wtedy dla każdego programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$, $\Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ jest zbiorem wszystkich mapowań $\Psi_S$, dla których $K_{\Psi}((A_1, \omega_1),...,(A_n,\omega_n))$ jest minimalne.
+    \end{definition}
+    
     \section{Język kwerend}
     
 	Język akcji może być odpytywany przez zdefiniowany poniżej język kwerend. Wynikiem każdego z zapytań jest wartość $true$ oznaczająca prawdę lub $false$ oznaczająca fałsz.     
@@ -360,10 +384,22 @@
     Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ zawsze/kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
     
     \begin{center}
+        $\mathbf{typically}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$
+    \end{center}
+    
+    Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\gamma$ na ogół prowadzi do stanu spełniającego warunek $\pi$.
+    
+    \begin{center}
         $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi$
     \end{center}
     
     Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ zawsze/kiedykolwiek prowadzi do stanu spełniającego warunek $\pi$.
+    
+    \begin{center}
+        $\mathbf{typically}~\gamma~\mathbf{if}~\pi$
+    \end{center}
+    
+    Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\gamma$ na ogół prowadzi do stanu spełniającego warunek $\pi$.
     
     \begin{center}
         $\mathbf{always}/\mathbf{ever}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
@@ -373,17 +409,23 @@
     
     \subsection{Semantyka}
     
-    \begin{definition}
-    	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D | \approx Q$):
+    \begin{definition}[Konsekwencja]
+    	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D | \approx Q$), wtedy i tylko wtedy kiedy:
     
     \begin{itemize}
     	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_s$ zachodzi $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{if}~\pi~\mathbf{when}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\gamma~\mathbf{if}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_s$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
+    	
+    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{if}~\pi$: \\
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{always}/\mathbf{ever}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
     	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
