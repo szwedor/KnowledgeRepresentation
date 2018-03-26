@@ -273,7 +273,7 @@
     \end{definition}
     
     \begin{definition}[Dziedzina akcji]
-    Dziedziną akcji $D$ nazywamy dowolny nie pusty zbiór instrukcji.
+    Dziedziną akcji $D$ nazywamy dowolny niepusty zbiór instrukcji.
     \end{definition}
     
     \begin{definition}[Semantyczna struktura interpretacyjna języka $\mathcal{ADA}$]
@@ -281,22 +281,22 @@
     \begin{itemize}
         \item $\Sigma$ jest zbiorem stanów
         \item $\sigma_0 \in \Sigma$ jest stanem początkowym
-        \item $ResAb: \mathcal{A}c \times \Omega \times \Sigma \rightarrow \Sigma^2$ jest nietypową funkcją przejścia
-        \item $ResN: \mathcal{A}c \times \Omega \times \Sigma \rightarrow \Sigma^2$ jest typową funkcją przejścia
+        \item $ResAb: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest nietypową funkcją przejścia
+        \item $ResN: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest typową funkcją przejścia
     \end{itemize}
     \end{definition}
     
     Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$ i niech $S=(\Sigma, \sigma_0, ResAb, ResN)$ będzie jego strukturą. Stan $\sigma$ jest stanem dziedziny $D$ wtedy i tylko wtedy, gdy dla każdej instrukcji ograniczenia typu $\mathbf{always}~\alpha$ zachodzi $\sigma \models \alpha$ w danej dziedzinie $D$.
     
-    Niech $Res = ResAb \cup ResN$, $\Psi_S: (\mathcal{A}c \times (\Omega \cup \{ \epsilon \}))^* \times \Sigma \rightarrow \Sigma^2$ będzie mapowaniem takim, że:
+    Niech $Res = ResAb \cup ResN$, $\Psi_S: (\mathcal{A}c \times (\Omega \cup \{ \epsilon \}))^* \times \Sigma \rightarrow 2^\Sigma$ będzie mapowaniem takim, że:
     \begin{itemize}
         \item $\Psi_S(\epsilon, \sigma) = \sigma$
         \item jeśli $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma)$ jest zdefiniowany, to    
     \[
     \Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \in \left \{
         \begin{array}{ll}
-             \bigcup\limits_{\omega \in \Omega} Res((A_n, \omega), \Psi_S((A_1, \omega_1), ..., (A_{1-n}, \omega_{1-n})),~jesli~\omega_n = \epsilon\\
-             Res((A_n, \omega_n), \Psi_S((A_1, \omega_1), ..., (A_{1-n}, \omega_{1-n})),~w~p.p.
+             \bigcup\limits_{\omega \in \Omega} Res((A_n, \omega), \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~jesli~\omega_n = \epsilon\\
+             Res((A_n, \omega_n), \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~w~p.p.
          \end{array}
      \right.
     \]
@@ -310,19 +310,19 @@
     
     Wprowadźmy następujące oznaczenia:
     \begin{itemize}
-        \item $New: \mathcal{A}c \times \Omega \times \Sigma \times \Sigma \rightarrow \bar{\mathcal{F}}^2$ jest funkcją, która przypisuje każdej akcji $A \in \mathcal{A}c$, każdemu agentowi $\omega \in \Omega$ i wszystkim $\sigma, \sigma' \in \Sigma$ zbiór literałów $\bar{f}$ takich, że:
+        \item $New: \mathcal{A}c \times \Omega \times \Sigma \times \Sigma \rightarrow 2^{\bar{\mathcal{F}}}$ jest funkcją, która przypisuje każdej akcji $A \in \mathcal{A}c$, każdemu agentowi $\omega \in \Omega$ i wszystkim $\sigma, \sigma' \in \Sigma$ zbiór literałów $\bar{f}$ takich, że:
         \begin{itemize}
             \item $\sigma' \models \bar{f}$
             \item $f$ jest inercjalny oraz $\sigma \models f \neq \sigma' \models f$ lub\\
             dla jakiejś instrukcji prawdziwe jest $(\mathbf{when}~\omega~A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \vee (A~\mathbf{releases}~f~\mathbf{if}~\pi) \wedge \sigma \models \pi$
         \end{itemize}
         
-        \item $Res_0: \mathcal{A}c \times \Omega \times \Sigma \rightarrow \Sigma^2$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
+        \item $Res_0: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
         $(\mathbf{when}~\omega~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi) \in D \vee (A~\mathbf{causes}~\alpha~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi \Rightarrow \sigma' \models \alpha$
 
-        \item $Res^-: \mathcal{A}c \times \Omega \times \Sigma \rightarrow \Sigma^2$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że zbiory $New(A, \omega, \sigma, \sigma')$ są minimalne.
+        \item $Res^-: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że zbiory $New(A, \omega, \sigma, \sigma')$ są minimalne.
         
-        \item $Res_0^+: \mathcal{A}c \times \Omega \times \Sigma \rightarrow \Sigma^2$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
+        \item $Res_0^+: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
         $(\mathbf{when}~\omega~A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi) \in D \vee (A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi \Rightarrow \sigma' \models \alpha$
     \end{itemize}
     
@@ -470,5 +470,82 @@
     \end{itemize}
     \end{definition}
     
-    \section{Przykłady}    
+    \section{Przykład}
+    
+    Na arenie zamknięto dwóch niziołków: Bilba i Froda. Arenę jako żywy może opuścić tylko jeden. Na arenie znajduje się miecz. Frodo jest silny i młody a Bilbo stary i słaby. Frodo jest w stanie pokonać Bilba bez użycia miecza, a Bilbo Froda tylko przy użyciu broni. Bilbo słabo włada mieczem i może się okazać, że cios wyprowadzony przez niego bronią nie zabije przeciwnika. Zakładamy, że wrogowie, nie wyrywają sobie miecza nawzajem po podniesieniu go przez któregoś z nich.
+    
+    System dynamiczny opisujący powyższą sytuację posiada:
+    \begin{itemize}
+    \item zbiór agentów: $\Omega$ = \{FA, BA\} - Frodo, Bilbo
+    \item zbiór akcji: $A_c$ = \{PM, ZF, ZB\} - ''Podnieś miecz'', ''Zaatakuj Froda'', ''Zaatakuj Bilba''
+    \item zbiór fluentów: $\mathcal{F}$ = \{F, B, FM, BM\} - Frodo żyje, Bilbo żyje, Frodo trzyma miecz, Bilbo trzyma miecz
+    \item zbiór stanów: $\Sigma$ = \{\\
+    	$\sigma_0$ = \{F, B, $\neg$FM, $\neg$BM\},\\
+    	$\sigma_1$ = \{F, B, FM, $\neg$BM\},\\
+    	$\sigma_2$ = \{F, B, $\neg$FM, BM\},\\
+    	$\sigma_3$ = \{$\neg$F, B, $\neg$FM, BM\},\\
+    	$\sigma_4$ = \{F, $\neg$B, FM, $\neg$BM\},\\
+    	$\sigma_5$ = \{F, $\neg$B, $\neg$FM, $\neg$BM\},\\
+    	$\sigma_6$ = \{F, $\neg$B, $\neg$FM, BM\}\\
+    \}.
+    \end{itemize}
+    Ponadto w języku znajdują się następujące zdania:
+    
+    \begin{center}
+    $\mathbf{initially}$ F $\wedge$ B $\wedge$ $\neg$FM $\wedge$ $\neg$BM\\
+    $\mathbf{when}$ FA PM $\mathbf{causes}$ FM $\mathbf{if}$ $\neg$BM\\
+    $\mathbf{impossible}$ FA ZF\\
+    $\mathbf{impossible}$ BA ZB\\
+    ZF $\mathbf{typically} ~ \mathbf{causes}~\neg$F $\mathbf{if}$ BM\\
+    ZB $\mathbf{causes}~\neg$B $\mathbf{if}$ FM\\
+    $\mathbf{observable}~\neg$B $\mathbf{after}$ ZB\\
+    \includegraphics[width=\textwidth]{resources/graf.jpg} 
+    \end{center}
+ 
+    \begin{table}[]
+\centering
+\label{my-label}
+\caption{$Res_0,~ Res_0^+,~ ResAb,~ Res^-,~ ResN$}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+     &   & PM FA & PM BA & ZB & ZF \\ \hline
+$Res_0$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+$Res^-$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\sigma_5$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_6$   &  $\sigma_2$  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+$Res_0^+$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+$ResN$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\emptyset$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+ $ResAb$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_2,~\sigma_6$   &  $\sigma_6$  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline          
+\end{tabular}
+\end{table}
+
+
 \end{document}
