@@ -1,13 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sprache;
-using Stories.Parser;
 using Stories.Parser.Conditions;
 using Stories.Parser.Statements;
 
 namespace Stories
 {
+    public class GraphNode
+    {
+        public AppState State { get; set; }
+        public List<GraphEdge> Edges { get; set; }
+    }
+
+    public class GraphEdge
+    {
+        public string Action { get; set; }
+        public string Agent { get; set; }
+        public GraphNode Node { get; set; }
+        public bool IsTypical { get; set; }
+    }
+
+    public class Graph
+    {
+        public List<GraphNode> Nodes { get; set; }
+    }
+
     class Story
     {
         private HistoryStatement history { get; set; }
@@ -16,6 +33,7 @@ namespace Stories
         private List<string> actions { get; set; }
 
         private List<AppState> states { get; set; }
+        private Graph graph { get; set; }
 
         public Story(HistoryStatement history)
         {
@@ -34,6 +52,55 @@ namespace Stories
             actions = getAllActions();
 
             states = AppState.ValidStates(history.Always.Select(a => a.Condition).ToList(), fluents.ToArray()).ToList();
+
+            CreateGraph();
+        }
+
+        private void CreateGraph()
+        {
+            var nodes = states.ToDictionary(s => s, s => new GraphNode
+            {
+                State = s,
+                Edges = new List<GraphEdge>()
+            });
+
+            graph = new Graph
+            {
+                Nodes = nodes.Values.ToList()
+            };
+
+            foreach (var node in graph.Nodes)
+            {
+                foreach (var effect in history.Effects)
+                {
+                    if (node.State.EvaluateCondition(effect.Condition))
+                    {
+                        var agents = effect.Agents ?? this.agents;
+
+                        if (agents.Count > 0)
+                        {
+                            var nextNodes = states
+                                .Where(s => s.EvaluateCondition(effect.Effect))
+                                .Select(s => nodes[s])
+                                .ToList();
+
+                            foreach (var nextNode in nextNodes)
+                            {
+                                foreach (var agent in agents)
+                                {
+                                    node.Edges.Add(new GraphEdge
+                                    {
+                                        Action = effect.Action,
+                                        Agent = agent,
+                                        IsTypical = effect.IsTypical,
+                                        Node = nextNode,
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private List<string> getAllActions()

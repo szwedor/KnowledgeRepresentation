@@ -12,8 +12,8 @@ namespace Stories
 
             load causes loaded
             shoot causes not loaded
-            when bob or ken shoot causes not alive if loaded
-            when jim shoot typically causes not alive if loaded";
+            when bob shoot causes not alive if loaded";
+            //when jim shoot typically causes not alive if loaded";
 
             var history = Parsing.GetHistory(yaleShootingProblem);
 

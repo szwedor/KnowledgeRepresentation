@@ -57,7 +57,7 @@ namespace Stories
         {
             switch (expression)
             {
-                case ConditionConstant constant: return false;
+                case ConditionConstant constant: return constant.Value;
                 case ConditionNegation negation: return !EvaluateCondition(negation.Expression);
                 case ConditionOperation operation:
                     switch (operation.Operation)
