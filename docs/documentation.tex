@@ -476,29 +476,37 @@
     
     System dynamiczny opisujący powyższą sytuację posiada:
     \begin{itemize}
-    \item zbiór agentów: $\Omega$ = \{FA, BA\} - Frodo, Bilbo
-    \item zbiór akcji: $A_c$ = \{PM, ZF, ZB\} - ''Podnieś miecz'', ''Zaatakuj Froda'', ''Zaatakuj Bilba''
-    \item zbiór fluentów: $\mathcal{F}$ = \{F, B, FM, BM\} - Frodo żyje, Bilbo żyje, Frodo trzyma miecz, Bilbo trzyma miecz
+    \item zbiór agentów: $\Omega$ = \{Frodo, Bilbo\}
+    \item zbiór akcji: $A_c$ = \{Take Sword, AttackFrodo, AttackBilbo\}
+    \item zbiór fluentów: $\mathcal{F}$ = \{FrodoLives, BilboLives, FrodoHasSword, BilboHasSword\}
     \item zbiór stanów: $\Sigma$ = \{\\
-    	$\sigma_0$ = \{F, B, $\neg$FM, $\neg$BM\},\\
-    	$\sigma_1$ = \{F, B, FM, $\neg$BM\},\\
-    	$\sigma_2$ = \{F, B, $\neg$FM, BM\},\\
-    	$\sigma_3$ = \{$\neg$F, B, $\neg$FM, BM\},\\
-    	$\sigma_4$ = \{F, $\neg$B, FM, $\neg$BM\},\\
-    	$\sigma_5$ = \{F, $\neg$B, $\neg$FM, $\neg$BM\},\\
-    	$\sigma_6$ = \{F, $\neg$B, $\neg$FM, BM\}\\
+    	$\sigma_0$ = \{FrodoLives, BilboLives, $\neg$FrodoHasSword, $\neg$BilboHasSword\},\\
+    	$\sigma_1$ = \{FrodoLives, BilboLives, FrodoHasSword, $\neg$BilboHasSword\},\\
+    	$\sigma_2$ = \{FrodoLives, BilboLives, $\neg$FrodoHasSword, BilboHasSword\},\\
+    	$\sigma_3$ = \{$\neg$FrodoLives, BilboLives, $\neg$FrodoHasSword, BilboHasSword\},\\
+    	$\sigma_4$ = \{FrodoLives, $\neg$BilboLives, FrodoHasSword, $\neg$BilboHasSword\},\\
+    	$\sigma_5$ = \{FrodoLives, $\neg$BilboLives, $\neg$FrodoHasSword, $\neg$BilboHasSword\},\\
+    	$\sigma_6$ = \{FrodoLives, $\neg$BilboLives, $\neg$FrodoHasSword, BilboHasSword\}\\
     \}.
     \end{itemize}
-    Ponadto w języku znajdują się następujące zdania:
+    Mamy następującą historię:
     
     \begin{center}
-    $\mathbf{initially}$ F $\wedge$ B $\wedge$ $\neg$FM $\wedge$ $\neg$BM\\
-    $\mathbf{when}$ FA PM $\mathbf{causes}$ FM $\mathbf{if}$ $\neg$BM\\
-    $\mathbf{impossible}$ FA ZF\\
-    $\mathbf{impossible}$ BA ZB\\
-    ZF $\mathbf{typically} ~ \mathbf{causes}~\neg$F $\mathbf{if}$ BM\\
-    ZB $\mathbf{causes}~\neg$B $\mathbf{if}$ FM\\
-    $\mathbf{observable}~\neg$B $\mathbf{after}$ ZB\\
+    $\mathbf{initially}$ FrodoLives $\mathbf{and}$ BilboLives $\mathbf{and}$ $\mathbf{not}$ FrodoHasSword $\mathbf{and}$ $\mathbf{not}$ BilboHasSword\\
+    
+    $\mathbf{when}$ Frodo TakeSword $\mathbf{causes}$ FrodoHasSword $\mathbf{if}$ $\mathbf{not}$ BilboHasSword\\
+    
+    $\mathbf{when}$ Bilbo TakeSword $\mathbf{causes}$ BilboHasSword $\mathbf{if}$ $\mathbf{not}$ FrodoHasSword\\
+    
+    $\mathbf{impossible}$ Frodo AttackFrodo\\
+    
+    $\mathbf{impossible}$ Bilbo AttackBilbo\\
+    
+    AttackFrodo $\mathbf{typically} ~ \mathbf{causes~not}$ FrodoLives $\mathbf{if}$ BilboHasSword\\
+    
+    AttackBilbo $\mathbf{causes~not}$ BilboLives $\mathbf{if}$ FrodoHasSword\\
+    
+    $\mathbf{observable~not}$ BilboLives $\mathbf{after}$ AttackBilbo\\ $\mathbf{if~not}$ FrodoHasSword
     \includegraphics[width=\textwidth]{resources/graf.jpg} 
     \end{center}
  
