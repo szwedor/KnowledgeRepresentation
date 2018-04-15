@@ -88,7 +88,7 @@
         Na potrzeby uproszczenia definicji oraz opisów w dokumencie wykorzystywane są następujące oznaczenia:
     \begin{itemize}
         \item $A \in \mathcal{A}c$ - akcje
-        \item $\omega \in \Omega$ - agenci, w szczególności $\epsilon$ oznacza brak agenta (jakiegokolwiek agenta)
+        \item $\omega \in \Omega$ - agenci, w szczególności $\varepsilon$ oznacza brak agenta (jakiegokolwiek agenta)
         \item $f \in \mathcal{F}$ - fluenty
         \item $\bar{f}$ - literał odpowiadający $f$, czyli $f$ lub $\neg f$
         \item $\alpha, \pi \in Forms(\mathcal{F})$ - formuły
@@ -287,19 +287,21 @@
     
     Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$ i niech $S=(\Sigma, \sigma_0, ResAb, ResN)$ będzie jego strukturą. Stan $\sigma$ jest stanem dziedziny $D$ wtedy i tylko wtedy, gdy dla każdej instrukcji ograniczenia typu $\mathbf{always}~\alpha$ zachodzi $\sigma \models \alpha$ w danej dziedzinie $D$.
     
-    Niech $Res = ResAb \cup ResN$, $\Psi_S: (\mathcal{A}c \times (\Omega \cup \{ \epsilon \}))^* \times \Sigma \rightarrow 2^\Sigma$ będzie mapowaniem takim, że:
+    \begin{definition}[Ścieżka wykonalności]
+    Niech $Res = ResAb \cup ResN$, ścieżką wykonalności będziemy nazywać mapowanie $\Psi_S: (\mathcal{A}c \times (\Omega \cup \{ \varepsilon \}))^* \times \Sigma \rightarrow 2^\Sigma$ takie, że:
     \begin{itemize}
         \item $\Psi_S(\epsilon, \sigma) = \sigma$
         \item jeśli $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma)$ jest zdefiniowany, to    
     \[
     \Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \in \left \{
         \begin{array}{ll}
-             \bigcup\limits_{\omega \in \Omega} Res((A_n, \omega), \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~jesli~\omega_n = \epsilon\\
-             Res((A_n, \omega_n), \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~w~p.p.
+             \bigcup\limits_{\omega \in \Omega} Res(A_n, \omega, \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~jesli~\omega_n = \varepsilon\\
+             Res(A_n, \omega_n, \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~w~p.p.
          \end{array}
      \right.
     \]
     \end{itemize}
+    \end{definition}
     
     Instrukcja wartości typu $(\mathbf{observable})~\alpha~\mathbf{after}~\omega_1~A_1,...,\omega_n~A_n$ jest prawdziwa w $S$ wtedy i tylko wtedy, gdy dla (jakiegokolwiek) \textbf{każdego} mapowania $\Psi_S$
     \begin{itemize}
@@ -312,16 +314,16 @@
         \item $New: \mathcal{A}c \times \Omega \times \Sigma \times \Sigma \rightarrow 2^{\bar{\mathcal{F}}}$ jest funkcją, która przypisuje każdej akcji $A \in \mathcal{A}c$, każdemu agentowi $\omega \in \Omega$ i wszystkim $\sigma, \sigma' \in \Sigma$ zbiór literałów $\bar{f}$ takich, że:
         \begin{itemize}
             \item $\sigma' \models \bar{f}$
-            \item $f$ jest inercjalny oraz $\sigma \models f \neq \sigma' \models f$ lub\\
-            dla jakiejś instrukcji prawdziwe jest $(\mathbf{when}~\omega~A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \vee (A~\mathbf{releases}~f~\mathbf{if}~\pi) \wedge \sigma \models \pi$
+            \item $f$ jest inercjalny oraz $\sigma \models f \neq \sigma' \models f$ lub
+            dla jakiejś instrukcji prawdziwe jest\\$(\mathbf{when}~\omega~A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \vee (A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi$
         \end{itemize}
         
         \item $Res_0: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
         $(\mathbf{when}~\omega~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi) \in D \vee (A~\mathbf{causes}~\alpha~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi \Rightarrow \sigma' \models \alpha$
 
-        \item $Res^-: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że zbiory $New(A, \omega, \sigma, \sigma')$ są minimalne.
+        \item $Res^-: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in Res_0(A, \omega, \sigma)$ takich, że zbiory $New(A, \omega, \sigma, \sigma')$ są minimalne.
         
-        \item $Res_0^+: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
+        \item $Res_0^+: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in Res_0(A, \omega, \sigma)$ takich, że:\\
         $(\mathbf{when}~\omega~A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi) \in D \vee (A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi \Rightarrow \sigma' \models \alpha$
     \end{itemize}
     
@@ -331,13 +333,13 @@
         \item $\Sigma$ jest zbiorem wszystkich stanów dziedziny $D$
         \item wszystkie instrukcje wartości w $D$ są prawdziwe w $S$
         \item dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$
-        \\$ResN(A,\omega,\sigma)=\{\sigma' \in Res_0^+(A,\omega,\sigma) \cup Res_0(A,\omega,\sigma):~ New(A,\omega,\sigma,\sigma')~jest~minimalny\}$
+        \\$ResN(A,\omega,\sigma)=\{\sigma' \in Res_0^+(A,\omega,\sigma):~ New(A,\omega,\sigma,\sigma')~jest~minimalny\}$
         \\$ResAb(A,\omega,\sigma)=Res^-(A,\omega,\sigma) \textbackslash ResN(A,\omega,\sigma)$
     \end{itemize}
     \end{definition}
     
     \begin{definition}[Program działań]
-    Programem działań nazywamy ciąg $((A_1, \omega_1),...,(A_n,\omega_n))$, gdzie $A_i$ jest akcją, zaś $\omega_i$ jej wykonawcą lub $\epsilon$ (ktokolwiek). 
+    Programem działań nazywamy ciąg $((A_1, \omega_1),...,(A_n,\omega_n))$, gdzie $A_i$ jest akcją, zaś $\omega_i$ jej wykonawcą lub $\varepsilon$ (ktokolwiek). 
     \end{definition}
     
     \begin{definition}[Miara nietypowości]
@@ -462,10 +464,10 @@
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (dla każdego stanu $\sigma$ osiągniętego po wykonaniu poprzednich akcji).
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \varepsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (dla każdego stanu $\sigma$ osiągniętego po wykonaniu poprzednich akcji).
     	 
     	 \item jeżeli $Q$ jest postaci $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (istnieje spełniający ten warunek stan $\sigma$ osiągnięty po wykonaniu poprzednich akcji).
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \varepsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (istnieje spełniający ten warunek stan $\sigma$ osiągnięty po wykonaniu poprzednich akcji).
     \end{itemize}
     \end{definition}
     
