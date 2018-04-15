@@ -369,7 +369,7 @@
     
     \section{Język kwerend}
     
-	Język akcji może być odpytywany przez zdefiniowany poniżej język kwerend. Wynikiem każdego z zapytań jest wartość $true$ oznaczająca prawdę lub $false$ oznaczająca fałsz.     
+	Dla dziedziny akcji $D$ możemy definiować zdania, zwane kwerendami.  
     
     \subsection{Syntaktyka}
     
@@ -379,7 +379,7 @@
         $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
     \end{center}
     
-    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze
+    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze.
     
     \begin{center}
         $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
@@ -453,7 +453,7 @@
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ istnieje mapowanie $\Psi_S$, takie że zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi: \\ $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
