@@ -514,35 +514,36 @@
 
 \newpage
 \subsection{Kwerendy}
-Pytanie, na które szukamy odpowiedzi: \\
+\begin{itemize}
+\item Pytanie, na które szukamy odpowiedzi: \\
 Czy Frodo zawsze atakuje Bilbo?\\
 Postać kwerendy: \\
 necessary executable {Frodo, AttacksBilbo} \\
 Odpowiedź: \\
 False \\
 
-Pytanie, na które szukamy odpowiedzi: \\
+\item Pytanie, na które szukamy odpowiedzi: \\
 Czy możliwe jest, że Frodo zaatakuje Bilbo, po tym jak Bilbo weźmie miecz i zaatakuje Froda?\\
 Postać kwerendy: \\
 possibly executable  ({Bilbo, TakeSword},{Bilbo,AttakFrodo},{Frodo,AttackBilbo})
 Odpowiedź: \\
 True\\
 
-Pytanie, na które szukamy odpowiedzi: \\
+\item Pytanie, na które szukamy odpowiedzi: \\
 Czy Bilbo zawsze umiera, jeśli Frodo weźmie miecz i zaatakuje Bilbo, zakładając że obaj żyją?\\
 Postać kwerendy: \\
 necessary $\neg$BilboLives after ({Frodo,TakeSword},{Frodo,AttackBilbo}) from BilboLives and FrodoLives  and $\neg$ FrodoHasSword \\
 Odpowiedź: \\
 False\\
 
-Pytanie, na które szukamy odpowiedzi: \\
+\item Pytanie, na które szukamy odpowiedzi: \\
 Czy Frodo na ogół umiera, jeśli Bilbo weźmie miecz i zaatakuje Frodo, zakładając że Bilbo i Frodo żyją, i Frodo nie ma miecza?\\
 Postać kwerendy: \\
 typically $\neg$FrodoLives after {Bilbo,TakeSword},{Bilbo, AttackFrodo}) from BilboLives and FrodoLives and $\neg$ FrodoHasSword \\
 Odpowiedź: \\
 True\\
 
-Pytanie, na które szukamy odpowiedzi: \\
+\item Pytanie, na które szukamy odpowiedzi: \\
 Czy Bilbo kiedykolwiek umiera, jeśli weźmie miecz, zaatakuje Frodo, po czym Frodo zaatakuje jego, jeśli na początku obaj żyją? \\
 Postać kwerendy: \\
 possibly $\neg$BilboLives
@@ -550,13 +551,29 @@ possibly $\neg$BilboLives
  Odpowiedź: \\
 True
 
-Pytanie, na które szukamy odpowiedzi: \\
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy zawsze możliwe jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Bilbo żyje, a Frodo ma miecz? \\ \\
+Postać kwerendy: \\
+necessary accessible FrodoLives from BilboLives, FrodoHasSword \\ \\
+Odpowiedź: \\
+True
+
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy kiedykolwiek możliwe jest osiągnięcie stanu, w którym obaj żyją po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że obaj żyją, a Bilbo ma miecz? \\ \\
+Postać kwerendy: \\
+possibly accessible FrodoLives, BilboLives from FrodoLives, BilboLives BilboHasSword \\ \\
+Odpowiedź: \\
+True
+
+
+\item Pytanie, na które szukamy odpowiedzi: \\
 Czy typowym jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Frodo żyje, a Bilbo ma miecz? \\ \\
 Postać kwerendy: \\
 typically accessible FrodoLives from FrodoLives, BilboHasSword \\ \\
 Odpowiedź: \\
 False 
-
+\end{itemize}
 \begin{table}[]
 	\centering
 	\label{my-label}
