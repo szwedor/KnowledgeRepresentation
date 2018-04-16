@@ -12,6 +12,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[polish]{babel}
 \usepackage{float}
+\usepackage{longtable}
 \usepackage{graphicx,stackengine,scalerel}
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -510,29 +511,30 @@
     \includegraphics[width=\textwidth]{resources/graf.jpg} 
     \end{center}
  
-\begin{table}[]
-\centering
-\label{my-label}
-\caption{$New$}
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
-\hline
- New(x,y)    & $\sigma_0$  & $\sigma_1$ & $\sigma_2$ & $\sigma_3$ & $\sigma_4$ & $\sigma_5$ & $\sigma_6$ \\ \hline
-	 $\sigma_0$ & $\emptyset$  & \{FrodoHasSword\} & \{$\neg$BilboLives, FrodoHasSword\} & \{ $\neg$BilboLives, FrodoHasSword\} & \{$\neg$BilboLives, FrodoHasSword\} & \{$\neg$BilboLives\} & \{$\neg$BilboLives, BilboHasSword\} \\ \hline
-	 
-     $\sigma_1$ &  \{$\neg$FrodoHasSword\} & $\emptyset$ & \{$\neg$FrodoHasSword, BilboHasSword\}  & \{$\neg$FrodoLives, $\neg$FrodoHasSword, BilboHasSword\}  & \{$\neg$BilboLives\} & \{$\neg$BilboLives, $\neg$FrodoHasSword\} & \{$\neg$BilboLives, $\neg$FrodoHasSword, BilboHasSword\}\\ \hline
-     
-     $\sigma_2$ &  \{BilboLives, $\neg$FrodoHasSword\}  & \{FrodoHasSword, $\neg$BilboHasSword\} & $\emptyset$ & \{$\neg$FrodoLives\} & \{$\neg$BilboLives, FrodoHasSword, $\neg$BilboHasSword\} & \{$\neg$BilboLives, $\neg$BilboHasSword\} & \{$\neg$BilboLives\}\\ \hline
-     
-     $\sigma_3$ &  \{FrodoLives, $\neg$BilboHasSword\}  & \{FrodoLives, FrodoHasSword, $\neg$BilboHasSword\} & \{FrodoLives\} &  $\emptyset$ & \{FrodoLives, $\neg$BilboLives, FrodoHasSword, $\neg$BilboHasSword\} & \{FrodoLives, $\neg$BilboLives, $\neg$BilboHasSword\} & \{FrodoLives, $\neg$BilboLives\} \\ \hline
-     
-     $\sigma_4$ &  \{BilboLives, $\neg$FrodoHasSword\}  & \{$\neg$BilboLives\} & \{BilboLives, $\neg$FrodoHasSword, BilboHasSword\} & \{$\neg$FrodoLives, BilboLives, $\neg$FrodoHasSword, BilboHasSword\} & $\emptyset$ &\{$\neg$FrodoHasSword\} & \{$\neg$FrodoHasSword, BilboHasSword\}  \\ \hline
-     
-     $\sigma_5$ &  \{BilboLives\}  & \{BilboLives, FrodoHasSword\} & \{BilboLives, BilboHasSword\} & \{$\neg$FrodoLives, BilboLives, BilboHasSword\} & \{FrodoHasSword\} & $\emptyset$ & \{BilboHasSword\} \\ \hline
-     
-     $\sigma_6$ &  \{BilboLives, $\neg$BilboHasSword\} & \{BilboLives, FrodoHasSword, $\neg$BilboHasSword\} & \{BilboLives\} & \{$\neg$FrodoLives, BilboLives\} & \{FrodoHasSword, $\neg$BilboHasSword\} & \{$\neg$BilboHasSword\} & $\emptyset$\\ \hline
-     
 
-\end{tabular}
+\newpage
+
+\begin{table}[]
+	\centering
+	\label{my-label}
+	\caption{$New$}
+\begin{longtable}{|p{1cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}
+\hline
+ New (x,y)    & $\sigma_0$  & $\sigma_1$ & $\sigma_2$ & $\sigma_3$ & $\sigma_4$ & $\sigma_5$ & $\sigma_6$ \\ \hline
+	 $\sigma_0$ & $\emptyset$  & \{Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, Bilbo Has Sword\} \\ \hline
+	 
+     $\sigma_1$ &  \{$\neg$Frodo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Has Sword, Bilbo Has Sword\}  & \{$\neg$Frodo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\}  & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, $\neg$Frodo  Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\}\\ \hline
+     
+     $\sigma_2$ &  \{Bilbo Lives, $\neg$Frodo Has Sword\}  & \{Frodo Has Sword, $\neg$Bilbo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Lives\} & \{$\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives\}\\ \hline
+     
+     $\sigma_3$ &  \{Frodo Lives, $\neg$Bilbo Has Sword\}  & \{Frodo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Frodo Lives\} &  $\emptyset$ & \{Frodo Lives, $\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Frodo Lives, $\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{Frodo Lives, $\neg$Bilbo Lives\} \\ \hline
+     
+     $\sigma_4$ &  \{Bilbo Lives, $\neg$Frodo Has Sword\}  & \{$\neg$Bilbo Lives\} & \{Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\} & \{$\neg$Frodo Lives, Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\} & $\emptyset$ &\{$\neg$Frodo Has Sword\} & \{$\neg$Frodo Has Sword, Bilbo Has Sword\}  \\ \hline
+     
+     $\sigma_5$ &  \{Bilbo Lives\}  & \{Bilbo Lives, Frodo Has Sword\} & \{Bilbo Lives, Bilbo Has Sword\} & \{$\neg$Frodo Lives, Bilbo Lives, Bilbo Has Sword\} & \{Frodo Has Sword\} & $\emptyset$ & \{Bilbo Has Sword\} \\ \hline
+     
+     $\sigma_6$ &  \{Bilbo Lives, $\neg$Bilbo Has Sword\} & \{Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Bilbo Lives\} & \{$\neg$Frodo Lives, Bilbo Lives\} & \{Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Has Sword\} & $\emptyset$\\ \hline
+\end{longtable}
 \end{table}
  
  
