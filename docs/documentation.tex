@@ -4,6 +4,7 @@
 \usepackage[margin=2cm,includefoot,footskip=30pt]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{helvet}
 \usepackage{graphicx}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{pgfgantt}
@@ -11,6 +12,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[polish]{babel}
 \usepackage{float}
+\usepackage{longtable}
 \usepackage{graphicx,stackengine,scalerel}
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -88,7 +90,7 @@
         Na potrzeby uproszczenia definicji oraz opisów w dokumencie wykorzystywane są następujące oznaczenia:
     \begin{itemize}
         \item $A \in \mathcal{A}c$ - akcje
-        \item $\omega \in \Omega$ - agenci, w szczególności $\varepsilon$ oznacza brak agenta (jakiegokolwiek agenta)
+        \item $\omega \in \Omega$ - agenci, w szczególności $\epsilon$ oznacza brak agenta (jakiegokolwiek agenta)
         \item $f \in \mathcal{F}$ - fluenty
         \item $\bar{f}$ - literał odpowiadający $f$, czyli $f$ lub $\neg f$
         \item $\alpha, \pi \in Forms(\mathcal{F})$ - formuły
@@ -287,21 +289,19 @@
     
     Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$ i niech $S=(\Sigma, \sigma_0, ResAb, ResN)$ będzie jego strukturą. Stan $\sigma$ jest stanem dziedziny $D$ wtedy i tylko wtedy, gdy dla każdej instrukcji ograniczenia typu $\mathbf{always}~\alpha$ zachodzi $\sigma \models \alpha$ w danej dziedzinie $D$.
     
-    \begin{definition}[Ścieżka wykonalności]
-    Niech $Res = ResAb \cup ResN$, ścieżką wykonalności będziemy nazywać mapowanie $\Psi_S: (\mathcal{A}c \times (\Omega \cup \{ \varepsilon \}))^* \times \Sigma \rightarrow 2^\Sigma$ takie, że:
+    Niech $Res = ResAb \cup ResN$, $\Psi_S: (\mathcal{A}c \times (\Omega \cup \{ \epsilon \}))^* \times \Sigma \rightarrow 2^\Sigma$ będzie mapowaniem takim, że:
     \begin{itemize}
         \item $\Psi_S(\epsilon, \sigma) = \sigma$
         \item jeśli $\Psi_s(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma)$ jest zdefiniowany, to    
     \[
     \Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n), \sigma) \in \left \{
         \begin{array}{ll}
-             \bigcup\limits_{\omega \in \Omega} Res(A_n, \omega, \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~jesli~\omega_n = \varepsilon\\
-             Res(A_n, \omega_n, \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~w~p.p.
+             \bigcup\limits_{\omega \in \Omega} Res((A_n, \omega), \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~jesli~\omega_n = \epsilon\\
+             Res((A_n, \omega_n), \Psi_S((A_1, \omega_1), ..., (A_{n-1}, \omega_{n-1})),~w~p.p.
          \end{array}
      \right.
     \]
     \end{itemize}
-    \end{definition}
     
     Instrukcja wartości typu $(\mathbf{observable})~\alpha~\mathbf{after}~\omega_1~A_1,...,\omega_n~A_n$ jest prawdziwa w $S$ wtedy i tylko wtedy, gdy dla (jakiegokolwiek) \textbf{każdego} mapowania $\Psi_S$
     \begin{itemize}
@@ -314,16 +314,16 @@
         \item $New: \mathcal{A}c \times \Omega \times \Sigma \times \Sigma \rightarrow 2^{\bar{\mathcal{F}}}$ jest funkcją, która przypisuje każdej akcji $A \in \mathcal{A}c$, każdemu agentowi $\omega \in \Omega$ i wszystkim $\sigma, \sigma' \in \Sigma$ zbiór literałów $\bar{f}$ takich, że:
         \begin{itemize}
             \item $\sigma' \models \bar{f}$
-            \item $f$ jest inercjalny oraz $\sigma \models f \neq \sigma' \models f$ lub
-            dla jakiejś instrukcji prawdziwe jest\\$(\mathbf{when}~\omega~A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \vee (A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi$
+            \item $f$ jest inercjalny oraz $\sigma \models f \neq \sigma' \models f$ lub\\
+            dla jakiejś instrukcji prawdziwe jest $(\mathbf{when}~\omega~A~\mathbf{releases}~f~\mathbf{if}~\pi) \in D \vee (A~\mathbf{releases}~f~\mathbf{if}~\pi) \wedge \sigma \models \pi$
         \end{itemize}
         
         \item $Res_0: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
         $(\mathbf{when}~\omega~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi) \in D \vee (A~\mathbf{causes}~\alpha~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi \Rightarrow \sigma' \models \alpha$
 
-        \item $Res^-: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in Res_0(A, \omega, \sigma)$ takich, że zbiory $New(A, \omega, \sigma, \sigma')$ są minimalne.
+        \item $Res^-: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że zbiory $New(A, \omega, \sigma, \sigma')$ są minimalne.
         
-        \item $Res_0^+: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in Res_0(A, \omega, \sigma)$ takich, że:\\
+        \item $Res_0^+: \mathcal{A}c \times \Omega \times \Sigma \rightarrow 2^\Sigma$ jest funkcją, która dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$ jest zbiorem wszystkich stanów $\sigma' \in \Sigma$ takich, że:\\
         $(\mathbf{when}~\omega~A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi) \in D \vee (A~\mathbf{typically~causes}~\alpha~\mathbf{if}~\pi) \in D \wedge \sigma \models \pi \Rightarrow \sigma' \models \alpha$
     \end{itemize}
     
@@ -333,13 +333,13 @@
         \item $\Sigma$ jest zbiorem wszystkich stanów dziedziny $D$
         \item wszystkie instrukcje wartości w $D$ są prawdziwe w $S$
         \item dla każdej akcji $A \in \mathcal{A}c$, każdego stanu $\sigma \in \Sigma$ i każdego agenta $\omega \in \Omega$
-        \\$ResN(A,\omega,\sigma)=\{\sigma' \in Res_0^+(A,\omega,\sigma):~ New(A,\omega,\sigma,\sigma')~jest~minimalny\}$
+        \\$ResN(A,\omega,\sigma)=\{\sigma' \in Res_0^+(A,\omega,\sigma) \cup Res_0(A,\omega,\sigma):~ New(A,\omega,\sigma,\sigma')~jest~minimalny\}$
         \\$ResAb(A,\omega,\sigma)=Res^-(A,\omega,\sigma) \textbackslash ResN(A,\omega,\sigma)$
     \end{itemize}
     \end{definition}
     
     \begin{definition}[Program działań]
-    Programem działań nazywamy ciąg $((A_1, \omega_1),...,(A_n,\omega_n))$, gdzie $A_i$ jest akcją, zaś $\omega_i$ jej wykonawcą lub $\varepsilon$ (ktokolwiek). 
+    Programem działań nazywamy ciąg $((A_1, \omega_1),...,(A_n,\omega_n))$, gdzie $A_i$ jest akcją, zaś $\omega_i$ jej wykonawcą lub $\epsilon$ (ktokolwiek). 
     \end{definition}
     
     \begin{definition}[Miara nietypowości]
@@ -368,7 +368,7 @@
     
     \section{Język kwerend}
     
-	Dla dziedziny akcji $D$ możemy definiować zdania, zwane kwerendami.  
+	Język akcji może być odpytywany przez zdefiniowany poniżej język kwerend. Wynikiem każdego z zapytań jest wartość $true$ oznaczająca prawdę lub $false$ oznaczająca fałsz.     
     
     \subsection{Syntaktyka}
     
@@ -378,7 +378,7 @@
         $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
     \end{center}
     
-    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze.
+    Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze
     
     \begin{center}
         $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
@@ -452,7 +452,7 @@
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ istnieje mapowanie $\Psi_S$, takie że zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
-    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi: \\ $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
+    	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
@@ -464,10 +464,10 @@
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \varepsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (dla każdego stanu $\sigma$ osiągniętego po wykonaniu poprzednich akcji).
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
     	 
     	 \item jeżeli $Q$ jest postaci $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
-    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \varepsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (istnieje spełniający ten warunek stan $\sigma$ osiągnięty po wykonaniu poprzednich akcji).
+    	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \epsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$.
     \end{itemize}
     \end{definition}
     
@@ -490,7 +490,7 @@
     	$\sigma_6$ = \{FrodoLives, $\neg$BilboLives, $\neg$FrodoHasSword, BilboHasSword\}\\
     \}.
     \end{itemize}
-    Mamy następującą historię:
+    Mamy następującą domenę akcji:
     
     \begin{center}
     $\mathbf{initially}$ FrodoLives $\mathbf{and}$ BilboLives $\mathbf{and}$ $\mathbf{not}$ FrodoHasSword $\mathbf{and}$ $\mathbf{not}$ BilboHasSword\\
@@ -507,9 +507,98 @@
     
     AttackBilbo $\mathbf{causes~not}$ BilboLives $\mathbf{if}$ FrodoHasSword\\
     
-    $\mathbf{observable~not}$ BilboLives $\mathbf{after}$ AttackBilbo\\ $\mathbf{if~not}$ FrodoHasSword
+    $\mathbf{observable~not}$ BilboLives $\mathbf{after}$ AttackBilbo\\ $\mathbf{if~not}$ FrodoHasSwordynh
     \includegraphics[width=\textwidth]{resources/graf.jpg} 
     \end{center}
+ 
+
+\newpage
+\subsection{Kwerendy}
+\begin{itemize}
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy Frodo zawsze atakuje Bilbo?\\
+Postać kwerendy: \\
+necessary executable {Frodo, AttacksBilbo} \\
+Odpowiedź: \\
+False \\
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy możliwe jest, że Frodo zaatakuje Bilbo, po tym jak Bilbo weźmie miecz i zaatakuje Froda?\\
+Postać kwerendy: \\
+possibly executable  ({Bilbo, TakeSword},{Bilbo,AttakFrodo},{Frodo,AttackBilbo})
+Odpowiedź: \\
+True\\
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy Bilbo zawsze umiera, jeśli Frodo weźmie miecz i zaatakuje Bilbo, zakładając że obaj żyją?\\
+Postać kwerendy: \\
+necessary $\neg$BilboLives after ({Frodo,TakeSword},{Frodo,AttackBilbo}) from BilboLives and FrodoLives  and $\neg$ FrodoHasSword \\
+Odpowiedź: \\
+False\\
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy Frodo na ogół umiera, jeśli Bilbo weźmie miecz i zaatakuje Frodo, zakładając że Bilbo i Frodo żyją, i Frodo nie ma miecza?\\
+Postać kwerendy: \\
+typically $\neg$FrodoLives after {Bilbo,TakeSword},{Bilbo, AttackFrodo}) from BilboLives and FrodoLives and $\neg$ FrodoHasSword \\
+Odpowiedź: \\
+True\\
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy Bilbo kiedykolwiek umiera, jeśli weźmie miecz, zaatakuje Frodo, po czym Frodo zaatakuje jego, jeśli na początku obaj żyją? \\
+Postać kwerendy: \\
+possibly $\neg$BilboLives
+ after ({Bilbo,TakeSword},{Bilbo,AttackFrodo},{Frodo,AttackBilbo}) from BilboLives and FrodoLives \\
+ Odpowiedź: \\
+True
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy zawsze możliwe jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Bilbo żyje, a Frodo ma miecz? \\ \\
+Postać kwerendy: \\
+necessary accessible FrodoLives from BilboLives, FrodoHasSword \\ \\
+Odpowiedź: \\
+True
+
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy kiedykolwiek możliwe jest osiągnięcie stanu, w którym obaj żyją po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że obaj żyją, a Bilbo ma miecz? \\ \\
+Postać kwerendy: \\
+possibly accessible FrodoLives, BilboLives from FrodoLives, BilboLives BilboHasSword \\ \\
+Odpowiedź: \\
+True
+
+
+\item Pytanie, na które szukamy odpowiedzi: \\
+Czy typowym jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Frodo żyje, a Bilbo ma miecz? \\ \\
+Postać kwerendy: \\
+typically accessible FrodoLives from FrodoLives, BilboHasSword \\ \\
+Odpowiedź: \\
+False 
+
+\end{itemize}
+
+\begin{table}[]
+	\centering
+	\label{my-label}
+	\caption{Różnice między stanami}
+\begin{longtable}{|p{1cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}
+\hline
+     & $\sigma_0$  & $\sigma_1$ & $\sigma_2$ & $\sigma_3$ & $\sigma_4$ & $\sigma_5$ & $\sigma_6$ \\ \hline
+	 $\sigma_0$ & $\emptyset$  & \{Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, Bilbo Has Sword\} \\ \hline
+	 
+     $\sigma_1$ &  \{$\neg$Frodo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Has Sword, Bilbo Has Sword\}  & \{$\neg$Frodo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\}  & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, $\neg$Frodo  Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\}\\ \hline
+     
+     $\sigma_2$ &  \{Bilbo Lives, $\neg$Frodo Has Sword\}  & \{Frodo Has Sword, $\neg$Bilbo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Lives\} & \{$\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives\}\\ \hline
+     
+     $\sigma_3$ &  \{Frodo Lives, $\neg$Bilbo Has Sword\}  & \{Frodo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Frodo Lives\} &  $\emptyset$ & \{Frodo Lives, $\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Frodo Lives, $\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{Frodo Lives, $\neg$Bilbo Lives\} \\ \hline
+     
+     $\sigma_4$ &  \{Bilbo Lives, $\neg$Frodo Has Sword\}  & \{Bilbo Lives\} & \{Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\} & \{$\neg$Frodo Lives, Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\} & $\emptyset$ &\{$\neg$Frodo Has Sword\} & \{$\neg$Frodo Has Sword, Bilbo Has Sword\}  \\ \hline
+     
+     $\sigma_5$ &  \{Bilbo Lives\}  & \{Bilbo Lives, Frodo Has Sword\} & \{Bilbo Lives, Bilbo Has Sword\} & \{$\neg$Frodo Lives, Bilbo Lives, Bilbo Has Sword\} & \{Frodo Has Sword\} & $\emptyset$ & \{Bilbo Has Sword\} \\ \hline
+     
+     $\sigma_6$ &  \{Bilbo Lives, $\neg$Bilbo Has Sword\} & \{Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Bilbo Lives\} & \{$\neg$Frodo Lives, Bilbo Lives\} & \{Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Has Sword\} & $\emptyset$\\ \hline
+\end{longtable}
+\end{table}
+ 
  
     \begin{table}[]
 \centering
@@ -517,28 +606,29 @@
 \caption{$Res_0,~ Res_0^+,~ ResAb,~ Res^-,~ ResN$}
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
-     &   & PM FA & PM BA & ZB & ZF \\ \hline
-$Res_0$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-$Res^-$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\sigma_5$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_6$   &  $\sigma_2$  \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-$Res_0^+$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     &   & Frodo TakeSword & Bilbo TakeSword & AttackBilbo & AttackFrodo \\ \hline
+$Res_0$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$  &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
+     & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$  \\ \hline
+$Res^-$ & $\sigma_0$ &  \{$\sigma_4$\} & \{$\sigma_3$, $\sigma_6$\} & $\emptyset$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  \{$\sigma_4$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & \{$\sigma_3$, $\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\}  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & \{$\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
+     & $\sigma_4$ &  \{$\sigma_1$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  \{$\sigma_1$\}  & \{$\sigma_2$, $\sigma_3$\} & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & \{$\sigma_3$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
+$Res_0^+$
+]= & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$  &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
+     & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$  \\ \hline
 $ResN$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\emptyset$ & $\emptyset$   \\ \hline
      & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
      & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
@@ -548,13 +638,15 @@ $ResN$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\emptyset$ & $\emptyset$   \\ 
      & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
  $ResAb$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
      & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_2,~\sigma_6$   &  $\sigma_6$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_6$   &  $\sigma_2$  \\ \hline
      & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline          
 \end{tabular}
 \end{table}
+
+
 
 
 \end{document}
