@@ -514,7 +514,9 @@
 
 \newpage
 \subsection{Kwerendy}
-necessary executable (Frodo, AttacksBilbo) - false
+necessary executable (Frodo, AttacksBilbo) - false \\
+necessary $\neg$BilboLives after ({Frodo,TakeSword},{Frodo,AttackBilbo}) from BilboLives and FrodoLives  and $\neg$ FrodoHasSword false\\
+typically $\neg$FrodoLives after {Bilbo,TakeSword},{Bilbo, AttackFrodo}) from BilboLives and FrodoLives and $\neg$ FrodoHasSword - true\\
 \\ \\
 Pytanie, na które szukamy odpowiedzi: \\
 Czy typowym jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Frodo żyje, a Bilbo ma miecz? \\ \\
@@ -562,13 +564,13 @@ $Res_0$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, 
      & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\emptyset$  \\ \hline
      & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$  \\ \hline
-$Res^-$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\sigma_5$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_6$   &  $\sigma_2$  \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+$Res^-$ & $\sigma_0$ &  \{$\sigma_4$\} & \{$\sigma_3$, $\sigma_6$\} & $\emptyset$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  \{$\sigma_4$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & \{$\sigma_3$, $\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\}  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & \{$\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
+     & $\sigma_4$ &  \{$\sigma_1$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  \{$\sigma_1$\}  & \{$\sigma_2$, $\sigma_3$\} & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & \{$\sigma_3$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
 $Res_0^+$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
      & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
