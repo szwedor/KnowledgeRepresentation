@@ -489,7 +489,7 @@
     	$\sigma_6$ = \{FrodoLives, $\neg$BilboLives, $\neg$FrodoHasSword, BilboHasSword\}\\
     \}.
     \end{itemize}
-    Mamy następującą domenę akcjiujjuji7:
+    Mamy następującą domenę akcji:
     
     \begin{center}
     $\mathbf{initially}$ FrodoLives $\mathbf{and}$ BilboLives $\mathbf{and}$ $\mathbf{not}$ FrodoHasSword $\mathbf{and}$ $\mathbf{not}$ BilboHasSword\\
@@ -509,6 +509,32 @@
     $\mathbf{observable~not}$ BilboLives $\mathbf{after}$ AttackBilbo\\ $\mathbf{if~not}$ FrodoHasSwordynh
     \includegraphics[width=\textwidth]{resources/graf.jpg} 
     \end{center}
+ 
+\begin{table}[]
+\centering
+\label{my-label}
+\caption{$New$}
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+ New(x,y)    & $\sigma_0$  & $\sigma_1$ & $\sigma_2$ & $\sigma_3$ & $\sigma_4$ & $\sigma_5$ & $\sigma_6$ \\ \hline
+	 $\sigma_0$ & $\emptyset$  & \{FrodoHasSword\} & \{$\neg$BilboLives, FrodoHasSword\} & \{ $\neg$BilboLives, FrodoHasSword\} & \{$\neg$BilboLives, FrodoHasSword\} & \{$\neg$BilboLives\} & \{$\neg$BilboLives, BilboHasSword\} \\ \hline
+	 
+     $\sigma_1$ &  \{$\neg$FrodoHasSword\} & $\emptyset$ & \{$\neg$FrodoHasSword, BilboHasSword\}  & \{$\neg$FrodoLives, $\neg$FrodoHasSword, BilboHasSword\}  & \{$\neg$BilboLives\} & \{$\neg$BilboLives, $\neg$FrodoHasSword\} & \{$\neg$BilboLives, $\neg$FrodoHasSword, BilboHasSword\}\\ \hline
+     
+     $\sigma_2$ &  \{BilboLives, $\neg$FrodoHasSword\}  & \{FrodoHasSword, $\neg$BilboHasSword\} & $\emptyset$ & \{$\neg$FrodoLives\} & \{$\neg$BilboLives, FrodoHasSword, $\neg$BilboHasSword\} & \{$\neg$BilboLives, $\neg$BilboHasSword\} & \{$\neg$BilboLives\}\\ \hline
+     
+     $\sigma_3$ &  \{FrodoLives, $\neg$BilboHasSword\}  & \{FrodoLives, FrodoHasSword, $\neg$BilboHasSword\} & \{FrodoLives\} &  $\emptyset$ & \{FrodoLives, $\neg$BilboLives, FrodoHasSword, $\neg$BilboHasSword\} & \{FrodoLives, $\neg$BilboLives, $\neg$BilboHasSword\} & \{FrodoLives, $\neg$BilboLives\} \\ \hline
+     
+     $\sigma_4$ &  \{BilboLives, $\neg$FrodoHasSword\}  & \{$\neg$BilboLives\} & \{BilboLives, $\neg$FrodoHasSword, BilboHasSword\} & \{$\neg$FrodoLives, BilboLives, $\neg$FrodoHasSword, BilboHasSword\} & $\emptyset$ &\{$\neg$FrodoHasSword\} & \{$\neg$FrodoHasSword, BilboHasSword\}  \\ \hline
+     
+     $\sigma_5$ &  \{BilboLives\}  & \{BilboLives, FrodoHasSword\} & \{BilboLives, BilboHasSword\} & \{$\neg$FrodoLives, BilboLives, BilboHasSword\} & \{FrodoHasSword\} & $\emptyset$ & \{BilboHasSword\} \\ \hline
+     
+     $\sigma_6$ &  \{BilboLives, $\neg$BilboHasSword\} & \{BilboLives, FrodoHasSword, $\neg$BilboHasSword\} & \{BilboLives\} & \{$\neg$FrodoLives, BilboLives\} & \{FrodoHasSword, $\neg$BilboHasSword\} & \{$\neg$BilboHasSword\} & $\emptyset$\\ \hline
+     
+
+\end{tabular}
+\end{table}
+ 
  
     \begin{table}[]
 \centering
@@ -554,6 +580,8 @@ $ResN$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\emptyset$ & $\emptyset$   \\ 
      & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline          
 \end{tabular}
 \end{table}
+
+
 
 
 \end{document}
