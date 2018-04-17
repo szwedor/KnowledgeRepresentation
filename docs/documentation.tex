@@ -496,8 +496,10 @@
     $\mathbf{initially}$ FrodoLives $\mathbf{and}$ BilboLives $\mathbf{and}$ $\mathbf{not}$ FrodoHasSword $\mathbf{and}$ $\mathbf{not}$ BilboHasSword\\    
     $\mathbf{when}$ Frodo TakeSword $\mathbf{causes}$ FrodoHasSword $\mathbf{if}$ $\mathbf{not}$ BilboHasSword\\    
     $\mathbf{when}$ Bilbo TakeSword $\mathbf{causes}$ BilboHasSword $\mathbf{if}$ $\mathbf{not}$ FrodoHasSword\\    
-    $\mathbf{impossible}$ Frodo AttackFrodo\\    
-    $\mathbf{impossible}$ Bilbo AttackBilbo\\    
+    $\mathbf{impossible}$ Frodo AttackFrodo\\ 
+     $\mathbf{impossible}$ Frodo TakeSword $\mathbf{if}$ $\mathbf{not}$ FrodoLives\\   
+    $\mathbf{impossible}$ Bilbo AttackBilbo\\   
+    $\mathbf{impossible}$ Bilbo TakeSword $\mathbf{if}$ $\mathbf{not}$ BilboLives\\    
     AttackFrodo $\mathbf{typically} ~ \mathbf{causes~not}$ FrodoLives $\mathbf{if}$ BilboHasSword\\    
     AttackBilbo $\mathbf{causes~not}$ BilboLives $\mathbf{if}$ FrodoHasSword\\    
     $\mathbf{observable~not}$ BilboLives $\mathbf{after}$ AttackBilbo $\mathbf{if~not}$ FrodoHasSword
@@ -546,11 +548,11 @@ Odpowiedź: True
 \begin{longtable}{|p{1cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}
 \hline
      & $\sigma_0$  & $\sigma_1$ & $\sigma_2$ & $\sigma_3$ & $\sigma_4$ & $\sigma_5$ & $\sigma_6$ \\ \hline
-	 $\sigma_0$ & $\emptyset$  & \{Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, Bilbo Has Sword\} \\ \hline
+	 $\sigma_0$ & $\emptyset$  & \{Frodo Has Sword\} & \{Bilbo Has Sword\} & \{$\neg$Frodo Lives, Bilbo Has Sword\} & \{$\neg$Bilbo Lives, Frodo Has Sword\} & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, Bilbo Has Sword\} \\ \hline
 	 
      $\sigma_1$ &  \{$\neg$Frodo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Has Sword, Bilbo Has Sword\}  & \{$\neg$Frodo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\}  & \{$\neg$Bilbo Lives\} & \{$\neg$Bilbo Lives, $\neg$Frodo  Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Frodo Has Sword, Bilbo Has Sword\}\\ \hline
      
-     $\sigma_2$ &  \{Bilbo Lives, $\neg$Frodo Has Sword\}  & \{Frodo Has Sword, $\neg$Bilbo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Lives\} & \{$\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives\}\\ \hline
+     $\sigma_2$ &  \{$\neg$Bilbo Has Sword\}  & \{Frodo Has Sword, $\neg$Bilbo Has Sword\} & $\emptyset$ & \{$\neg$Frodo Lives\} & \{$\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{$\neg$Bilbo Lives\}\\ \hline
      
      $\sigma_3$ &  \{Frodo Lives, $\neg$Bilbo Has Sword\}  & \{Frodo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Frodo Lives\} &  $\emptyset$ & \{Frodo Lives, $\neg$Bilbo Lives, Frodo Has Sword, $\neg$Bilbo Has Sword\} & \{Frodo Lives, $\neg$Bilbo Lives, $\neg$Bilbo Has Sword\} & \{Frodo Lives, $\neg$Bilbo Lives\} \\ \hline
      
@@ -569,26 +571,26 @@ Odpowiedź: True
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
      &   & Frodo TakeSword & Bilbo TakeSword & AttackBilbo & AttackFrodo \\ \hline
-$Res_0$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$  &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
-     & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$  \\ \hline
-$Res^-$ & $\sigma_0$ &  \{$\sigma_4$\} & \{$\sigma_3$, $\sigma_6$\} & $\emptyset$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  \{$\sigma_4$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & \{$\sigma_3$, $\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\}  \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & \{$\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
-     & $\sigma_4$ &  \{$\sigma_1$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  \{$\sigma_1$\}  & \{$\sigma_2$, $\sigma_3$\} & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & \{$\sigma_3$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
+$Res_0$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$   \\ \hline
+     & $\sigma_1$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$  &  $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ &  $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$ \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$ \\ \hline
+     & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$  \\ \hline
+     & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\emptyset$   &  $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_0,\sigma_1,\sigma_2,\sigma_3,\sigma_4, \sigma_5,\sigma_6\right\}$  \\ \hline
+$Res^-$ & $\sigma_0$ &  \{$\sigma_1$\} & \{$\sigma_2$\} & $\emptyset$ & \{$\sigma_0$\}   \\ \hline
+     & $\sigma_1$ &  \{$\sigma_1$\}  & $\emptyset$ & \{$\sigma_4$\}   &  \{$\sigma_1$\}  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & \{$\sigma_2$\} & $\emptyset$   &  \{$\sigma_2$\}  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & \{$\sigma_3$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
+     & $\sigma_4$ &  \{$\sigma_4$\}  & $\emptyset$ & \{$\sigma_4$\}   &  \{$\sigma_4$\}  \\ \hline
+     & $\sigma_5$ &  \{$\sigma_4$\}  & $\emptyset$ & $\emptyset$   &  \{$\sigma_5$\}  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & \{$\sigma_6$\} & $\emptyset$   &  \{$\sigma_6$\} \\ \hline
 $Res_0^+$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\emptyset$   \\ \hline
      & $\sigma_1$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$  &  $\emptyset$  \\ \hline
      & $\sigma_2$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
      & $\sigma_3$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
      & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$  \\ \hline
 \end{tabular}
 \end{table}
@@ -599,20 +601,20 @@ $Res_0^+$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
      &   & Frodo TakeSword & Bilbo TakeSword & AttackBilbo & AttackFrodo \\ \hline
-$ResN$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\emptyset$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
+$ResN$ & $\sigma_0$ &  \{$\sigma_1$\} & \{$\sigma_2$\} & $\emptyset$ & $\emptyset$   \\ \hline
+     & $\sigma_1$ &  \{$\sigma_1$\}  & $\emptyset$ & \{$\sigma_4$\}   &  $\emptyset$  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & \{$\sigma_2$\} & $\emptyset$   &  \{$\sigma_3$\}  \\ \hline
+     & $\sigma_3$ &  $\emptyset$  & \{$\sigma_3$\} & $\emptyset$   &  \{$\sigma_3$\}  \\ \hline
+     & $\sigma_4$ &  \{$\sigma_4$\}  & $\emptyset$ & \{$\sigma_4$\}   &  $\emptyset$  \\ \hline
+     & $\sigma_5$ &  \{$\sigma_4$\}  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & \{$\sigma_6$\} & $\emptyset$   &  \{$\sigma_3$\}  \\ \hline
+ $ResAb$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\emptyset$ & \{$\sigma_0$\}  \\ \hline
+     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  \{$\sigma_1$\}  \\ \hline
+     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  \{$\sigma_2$\}  \\ \hline
      & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
- $ResAb$ & $\sigma_0$ &  $\emptyset$ & $\emptyset$ & $\sigma_5$ & $\emptyset$   \\ \hline
-     & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\sigma_6$   &  $\sigma_2$  \\ \hline
-     & $\sigma_3$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline
-     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\emptyset$  \\ \hline          
+     & $\sigma_4$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  \{$\sigma_4$\}  \\ \hline
+     & $\sigma_5$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  \{$\sigma_5$\}  \\ \hline
+     & $\sigma_6$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  \{$\sigma_6$\}  \\ \hline          
 \end{tabular}
 \end{table}
 
