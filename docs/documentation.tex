@@ -531,22 +531,17 @@ $\mathbf{possibly}$ $\neg$BilboLives $\mathbf{after}$ Bilbo TakeSword, Bilbo Att
 Odpowiedź: True
 
 \item Czy zawsze możliwe jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Bilbo żyje, a Frodo ma miecz? \\ \\
-$\mathbf{necessary~accessible}$ FrodoLives $\mathbf{frin}$ BilboLives, FrodoHasSword \\ \\
+$\mathbf{necessary~accessible}$ FrodoLives $\mathbf{from}$ BilboLives, FrodoHasSword \\ \\
 Odpowiedź: True
 
 \item Czy kiedykolwiek możliwe jest osiągnięcie stanu, w którym obaj żyją po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że obaj żyją, a Bilbo ma miecz? \\ \\
 $\mathbf{possibly~accessible}$ FrodoLives and BilboLives $\mathbf{from}$ FrodoLives and BilboLives and BilboHasSword \\ \\
 Odpowiedź: True
 
-\item Czy typowym jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Frodo żyje, a Bilbo ma miecz? \\ \\
-$\mathbf{typically~accessible}$ FrodoLives from FrodoLives and BilboHasSword \\ \\
-Odpowiedź: False 
-
 \end{itemize}
 
 \begin{table}[]
 	\centering
-	\label{my-label}
 	\caption{Różnice między stanami}
 \begin{longtable}{|p{1cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|p{1.9cm}|}
 \hline
@@ -568,10 +563,9 @@ Odpowiedź: False
 \end{table}
  
  
-    \begin{table}[]
+    \begin{table}[ht!]
 \centering
-\label{my-label}
-\caption{$Res_0,~ Res_0^+,~ ResAb,~ Res^-,~ ResN$}
+\caption{$Res_0,~ Res_0^+,~ Res^-$}
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
      &   & Frodo TakeSword & Bilbo TakeSword & AttackBilbo & AttackFrodo \\ \hline
@@ -589,14 +583,22 @@ $Res^-$ & $\sigma_0$ &  \{$\sigma_4$\} & \{$\sigma_3$, $\sigma_6$\} & $\emptyset
      & $\sigma_4$ &  \{$\sigma_1$\}  & $\emptyset$ & \{$\sigma_6$\}   &  $\emptyset$  \\ \hline
      & $\sigma_5$ &  \{$\sigma_1$\}  & \{$\sigma_2$, $\sigma_3$\} & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_6$ &  $\emptyset$  & \{$\sigma_3$\} & $\emptyset$   &  \{$\sigma_3$\} \\ \hline
-$Res_0^+$
-]= & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\emptyset$   \\ \hline
+$Res_0^+$ & $\sigma_0$ & $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$ & $\emptyset$   \\ \hline
      & $\sigma_1$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$  &  $\emptyset$  \\ \hline
      & $\sigma_2$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
      & $\sigma_3$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$ \\ \hline
      & $\sigma_4$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\emptyset$ & $\left\{\sigma_4, \sigma_5,\sigma_6\right\}$   &  $\emptyset$  \\ \hline
      & $\sigma_5$ &  $\left\{\sigma_1, \sigma_4\right\}$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\emptyset$  \\ \hline
      & $\sigma_6$ &  $\emptyset$  & $\left\{\sigma_2, \sigma_3,\sigma_6\right\}$ & $\emptyset$   &  $\left\{\sigma_3\right\}$  \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\caption{$ResAb,~ ResN$}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+     &   & Frodo TakeSword & Bilbo TakeSword & AttackBilbo & AttackFrodo \\ \hline
 $ResN$ & $\sigma_0$ &  $\sigma_1$ & $\sigma_2$ & $\emptyset$ & $\emptyset$   \\ \hline
      & $\sigma_1$ &  $\emptyset$  & $\emptyset$ & $\sigma_4$   &  $\emptyset$  \\ \hline
      & $\sigma_2$ &  $\emptyset$  & $\emptyset$ & $\emptyset$   &  $\sigma_3$  \\ \hline
