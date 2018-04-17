@@ -376,31 +376,31 @@
     %\textbf{Uwaga:} Warunek $\mathbf{always}$ zachodzi, jeśli odpowiedź na kwerendę we \textbf{wszystkich} ścieżkach wykonania ma wartość $true$. Warunek $\mathbf{ever}$ zachodzi jeżeli istnieje co najmniej jedna taka ścieżka.
     
     \begin{center}
-        $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{necessary}~\mathbf{executable}~A_1~\omega_1, ..., A_n~\omega_n$
     \end{center}
     
     Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny zawsze.
     
     \begin{center}
-        $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{possibly}~\mathbf{executable}~A_1~\omega_1, ..., A_n~\omega_n$
     \end{center}
     
     Program działań $((A_1, \omega_1),...,(A_n,\omega_n))$ jest wykonywalny kiedykolwiek.
     
     \begin{center}
-        $\mathbf{necessary}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
+        $\mathbf{necessary}~\gamma~\mathbf{after}~A_1~\omega_1, ..., A_n~\omega_n~\mathbf{from}~\pi$
     \end{center}
     
     Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\pi$ zawsze prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
-        $\mathbf{possibly}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
+        $\mathbf{possibly}~\gamma~\mathbf{after}~A_1~\omega_1, ..., A_n~\omega_n~\mathbf{from}~\pi$
     \end{center}
     
     Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\pi$ kiedykolwiek prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
-        $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$
+        $\mathbf{typically}~\gamma~\mathbf{after}~A_1~\omega_1, ..., A_n~\omega_n~\mathbf{from}~\pi$
     \end{center}
     
     Wykonanie programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$ z dowolnego stanu spełniającego  warunek $\pi$ na ogół prowadzi do stanu spełniającego warunek $\gamma$.
@@ -425,13 +425,13 @@
     Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek $\pi$ na ogół prowadzi do stanu spełniającego warunek $\gamma$.
     
     \begin{center}
-        $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{necessary}~\omega~\mathbf{in}~A_1~\omega_1, ..., A_n~\omega_n$
     \end{center}
     
     Wykonawca $\omega$ jest zawsze zaangażowany w realizację programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$.
     
     \begin{center}
-        $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$
+        $\mathbf{possibly}~\omega~\mathbf{in}~A_1~\omega_1, ..., A_n~\omega_n$
     \end{center}
     
     Wykonawca $\omega$ jest kiedykolwiek zaangażowany w realizację programu działań $((A_1, \omega_1),...,(A_n,\omega_n))$.    
@@ -442,17 +442,17 @@
     	Niech $D$ będzie dziedziną akcji języka $\mathcal{ADA}$. $Q$ jest konsekwencją $D$ (ozn. $D \vapprox Q$), wtedy i tylko wtedy kiedy:
     
     \begin{itemize}
-    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane.
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{executable}~A_1~\omega_1, ..., A_n~\omega_n$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{executable}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane.
+    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\mathbf{executable}~A_1~\omega_1, ..., A_n~\omega_n$: \\ dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\gamma~\mathbf{after}~A_1~\omega_1, ..., A_n~\omega_n~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S$ zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{possibly}~\gamma~\mathbf{after}~A_1~\omega_1, ..., A_n~\omega_n~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ istnieje mapowanie $\Psi_S$, takie że zachodzi $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{after}~((A_1, \omega_1),...,(A_n,\omega_n))~\mathbf{from}~\pi$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\gamma~\mathbf{after}~A_1~\omega_1, ..., A_n~\omega_n~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ zachodzi: \\ $\Psi_S^{*}(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
     	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
@@ -464,10 +464,10 @@
     	\item jeżeli $Q$ jest postaci $\mathbf{typically}~\mathbf{accessible}~\gamma~\mathbf{from}~\pi$: \\
     	dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, każdego stanu $\sigma \in \Sigma$ spełniającego warunek $\pi$ oraz każdego mapowania $\Psi_S^{*} \in \Pi_S((A_1, \omega_1),...,(A_n,\omega_n))$ istnieje program działań $((A_1, \omega_1), ..., (A_n, \omega_n))$, taki że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma) \models \gamma$.
     	
-    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	\item jeżeli $Q$ jest postaci $\mathbf{necessary}~\omega~\mathbf{in}~~A_1~\omega_1, ..., A_n~\omega_n$: \\
     	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$ oraz każdego mapowania $\Psi_S$, $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \varepsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna \textbf{jedynie} przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (dla każdego stanu $\sigma$ osiągniętego po wykonaniu poprzednich akcji).
     	 
-    	 \item jeżeli $Q$ jest postaci $\mathbf{possibly}~\omega~\mathbf{in}~((A_1, \omega_1),...,(A_n,\omega_n))$: \\
+    	 \item jeżeli $Q$ jest postaci $\mathbf{possibly}~\omega~\mathbf{in}~~A_1~\omega_1, ..., A_n~\omega_n$: \\
     	 dla każdej struktury $S=(\Sigma, \sigma_0, ResAb, ResN)$, będącej modelem $D$, istnieje mapowanie $\Psi_S$, takie że $\Psi_S(((A_1, \omega_1), ..., (A_n, \omega_n)), \sigma_0)$ jest zdefiniowane oraz $\omega$ jest wykonawcą w jednym z elementów ciągu $((A_1, \omega_1),...,(A_n,\omega_n))$ lub istnieje element tego ciągu $(A_i, \varepsilon),~1 \leq i \leq n$, taki że akcja $A_i$ jest wykonywalna przez wykonawcę $\omega$ w stanie otrzymanym po wykonaniu planu działania $((A_1, \omega_1),...,(A_{i-1},\omega_{i-1}))$ lub w stanie $\sigma_0$ jeżeli $i=1$, a także $\Psi_S(((A_i, \omega), ..., (A_n, \omega_n)), \sigma)$ jest zdefiniowane (istnieje spełniający ten warunek stan $\sigma$ osiągnięty po wykonaniu poprzednich akcji).
     \end{itemize}
     \end{definition}
@@ -510,64 +510,37 @@
 \newpage
 \subsection{Kwerendy}
 \begin{itemize}
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy Frodo zawsze atakuje Bilbo?\\
-Postać kwerendy: \\
-necessary executable {Frodo, AttacksBilbo} \\
-Odpowiedź: \\
-False \\
+\item Czy Frodo zawsze atakuje Bilbo? \\ \\
+$\mathbf{necessary~exectuable}$ Frodo AttackBilbo \\ \\
+Odpowiedź: False
 
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy możliwe jest, że Frodo zaatakuje Bilbo, po tym jak Bilbo weźmie miecz i zaatakuje Froda?\\
-Postać kwerendy: \\
-possibly executable  ({Bilbo, TakeSword},{Bilbo,AttakFrodo},{Frodo,AttackBilbo})
-Odpowiedź: \\
-True\\
+\item Czy możliwe jest, że Frodo zaatakuje Bilbo, po tym jak Bilbo weźmie miecz i zaatakuje Froda? \\ \\
+$\mathbf{possibly~exectuable}$ Bilbo TakeSword, Bilbo AttackFrodo, Frodo AttackBilbo \\ \\
+Odpowiedź: True
 
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy Bilbo zawsze umiera, jeśli Frodo weźmie miecz i zaatakuje Bilbo, zakładając że obaj żyją?\\
-Postać kwerendy: \\
-necessary $\neg$BilboLives after ({Frodo,TakeSword},{Frodo,AttackBilbo}) from BilboLives and FrodoLives  and $\neg$ FrodoHasSword \\
-Odpowiedź: \\
-False\\
+\item Czy Bilbo zawsze umiera, jeśli Frodo weźmie miecz i zaatakuje Bilbo, zakładając że obaj żyją? \\ \\
+$\mathbf{necessary}$ $\neg$BilboLives $\mathbf{after}$ Frodo TakeSword, Frodo AttackBilbo $\mathbf{from}$ BilboLives and FrodoLives and $\neg$ FrodoHasSword \\ \\
+Odpowiedź: False
 
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy Frodo na ogół umiera, jeśli Bilbo weźmie miecz i zaatakuje Frodo, zakładając że Bilbo i Frodo żyją, i Frodo nie ma miecza?\\
-Postać kwerendy: \\
-typically $\neg$FrodoLives after {Bilbo,TakeSword},{Bilbo, AttackFrodo}) from BilboLives and FrodoLives and $\neg$ FrodoHasSword \\
-Odpowiedź: \\
-True\\
+\item Czy Frodo na ogół umiera, jeśli Bilbo weźmie miecz i zaatakuje Frodo, zakładając że Bilbo i Frodo żyją, i Frodo nie ma miecza? \\ \\
+$\mathbf{typically}$ $\neg$FrodoLives $\mathbf{after}$ Bilbo TakeSword, Bilbo AttackFrodo $\mathbf{from}$ BilboLives and FrodoLives and $\neg$ FrodoHasSword \\ \\
+Odpowiedź: True
 
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy Bilbo kiedykolwiek umiera, jeśli weźmie miecz, zaatakuje Frodo, po czym Frodo zaatakuje jego, jeśli na początku obaj żyją? \\
-Postać kwerendy: \\
-possibly $\neg$BilboLives
- after ({Bilbo,TakeSword},{Bilbo,AttackFrodo},{Frodo,AttackBilbo}) from BilboLives and FrodoLives \\
- Odpowiedź: \\
-True
+\item Czy Bilbo kiedykolwiek umiera, jeśli weźmie miecz, zaatakuje Frodo, po czym Frodo zaatakuje jego, jeśli na początku obaj żyją? \\ \\
+$\mathbf{possibly}$ $\neg$BilboLives $\mathbf{after}$ Bilbo TakeSword, Bilbo AttackFrodo, Frodo AttackBilbo $\mathbf{from}$ BilboLives and FrodoLives \\ \\
+Odpowiedź: True
 
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy zawsze możliwe jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Bilbo żyje, a Frodo ma miecz? \\ \\
-Postać kwerendy: \\
-necessary accessible FrodoLives from BilboLives, FrodoHasSword \\ \\
-Odpowiedź: \\
-True
+\item Czy zawsze możliwe jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Bilbo żyje, a Frodo ma miecz? \\ \\
+$\mathbf{necessary~accessible}$ FrodoLives $\mathbf{frin}$ BilboLives, FrodoHasSword \\ \\
+Odpowiedź: True
 
+\item Czy kiedykolwiek możliwe jest osiągnięcie stanu, w którym obaj żyją po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że obaj żyją, a Bilbo ma miecz? \\ \\
+$\mathbf{possibly~accessible}$ FrodoLives and BilboLives $\mathbf{from}$ FrodoLives and BilboLives and BilboHasSword \\ \\
+Odpowiedź: True
 
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy kiedykolwiek możliwe jest osiągnięcie stanu, w którym obaj żyją po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że obaj żyją, a Bilbo ma miecz? \\ \\
-Postać kwerendy: \\
-possibly accessible FrodoLives, BilboLives from FrodoLives, BilboLives BilboHasSword \\ \\
-Odpowiedź: \\
-True
-
-
-\item Pytanie, na które szukamy odpowiedzi: \\
-Czy typowym jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Frodo żyje, a Bilbo ma miecz? \\ \\
-Postać kwerendy: \\
-typically accessible FrodoLives from FrodoLives, BilboHasSword \\ \\
-Odpowiedź: \\
-False 
+\item Czy typowym jest osiągnięcie stanu, w którym Frodo żyje po wykonaniu pewnego programu w przypadku, gdy stan początkowy spełnia warunek, że Frodo żyje, a Bilbo ma miecz? \\ \\
+$\mathbf{typically~accessible}$ FrodoLives from FrodoLives and BilboHasSword \\ \\
+Odpowiedź: False 
 
 \end{itemize}
 
