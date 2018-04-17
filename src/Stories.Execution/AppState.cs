@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Stories.Parser.Conditions;
 
-namespace Stories
+namespace Stories.Execution
 {
     public class AppState
     {
