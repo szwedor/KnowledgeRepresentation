@@ -166,11 +166,12 @@
     \end{center}
     Formuła $\alpha$ jest \textbf{czasem} prawdziwa po wykonaniu sekwencji akcji $A_1$ przez agenta $\omega_1$, $...$, $A_n$ przez agenta $\omega_n$. Podanie agenta wykonującego akcję nie jest wymagane. Jeżeli agent nie zostanie podany, wtedy akcja jest wykonywana przez kogokolwiek.
     
-    \subsubsection{Instrukcja efektu}
-    
+    \subsubsection{Instrukcja efektu}    
+    \vspace{-8mm}
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi$
-        \\gdzie $n \geq 1$
+    	\begin{equation}       \vspace{-4mm}\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{causes}~\alpha~\mathbf{if}~\pi\tag{*}
+    	\end{equation}
+    	\\gdzie $n \geq 1$
     \end{center}
     Jeżeli akcja $A$ jest wywołana przez któregokolwiek z agentów $\omega_1, ..., \omega_n$ w stanie, który spełnia formułę $\pi$, stan wynikowy spełnia formułę $\alpha$.
     
@@ -183,7 +184,7 @@
     \begin{center}
         $A~\mathbf{causes}~\alpha~\mathbf{if}~\pi$    
     \end{center}
-    Jeżeli akcja $A$ jest wywołana przez dowolnego agenta w stanie, który spełnia formułę $\pi$, stan wynikowy spełnia formułę $\alpha$. Jest to zapis pierwszej instrukcji, jeżeli akcja jest wywoływana przez dowolnego agenta.
+    Jeżeli akcja $A$ jest wywołana przez dowolnego agenta w stanie, który spełnia formułę $\pi$, stan wynikowy spełnia formułę $\alpha$. Jest to zapis instrukcji (*), jeżeli akcja jest wywoływana przez dowolnego agenta.
     
     \begin{center}
         $A~\mathbf{causes}~\alpha$
@@ -194,7 +195,7 @@
         $\mathbf{impossible}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{if}~\pi$
         \\gdzie $n \geq 1$
     \end{center}
-    Zapis równoważny z pierwszym, jeżeli $\alpha \equiv \perp$. Akcja $A$ nie jest wykonywalna przez żadnego z agentów $\omega_1, ..., \omega_n$, w stanie, który spełnia formułę $\alpha$. 
+    Zapis równoważny z (*), jeżeli $\alpha \equiv \perp$. Akcja $A$ nie jest wykonywalna przez żadnego z agentów $\omega_1, ..., \omega_n$, w stanie, który spełnia formułę $\alpha$. 
     
     \begin{center}
         $\mathbf{impossible}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A$
@@ -232,7 +233,10 @@
     \subsubsection{Instrukcja uwolnienia}
     
     \begin{center}
-        $\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi$
+    	\vspace{-8mm}
+    	\begin{equation}
+    	\vspace{-4mm}\mathbf{when}~\omega_1~\mathbf{or}~...~\mathbf{or}~\omega_n~A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi\tag{**}
+    	\end{equation}
     \end{center}
     Wykonanie akcji $A$ przez któregokolwiek agentów $\omega_1, ..., \omega_n$ w stanie, który spełnia warunek $\pi$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$.
     
@@ -244,7 +248,7 @@
     \begin{center}
         $A~\mathbf{releases}~\bar{f}~\mathbf{if}~\pi$
     \end{center}
-    Wykonanie akcji $A$ przez dowolnego agenta w stanie, który spełnia warunek $\pi$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$. Jest to zapis pierwszej instrukcji, jeżeli akcja jest wywoływana przez dowolnego agenta.
+    Wykonanie akcji $A$ przez dowolnego agenta w stanie, który spełnia warunek $\pi$ \textbf{może}, ale \textbf{nie musi} zmienić wartość inercyjnego fluentu $f$. Jest to zapis instrukcji (**), jeżeli akcja jest wywoływana przez dowolnego agenta.
     
     \begin{center}
         $A~\mathbf{releases}~\bar{f}$
@@ -267,8 +271,8 @@
     \subsection{Semantyka}
     
     \begin{definition}[Stan]
-    Stanem nazywamy funkcję $\sigma: \mathcal{F} \rightarrow \{\tang, \perp\}$.
-    Jeżeli $f \in \mathcal{F}$ i $\sigma(f)=\tang$ to zapisujemy $\sigma \models f$.
+    Stanem nazywamy funkcję $\sigma: \mathcal{F} \rightarrow \{0, 1\}$.
+    Jeżeli $f \in \mathcal{F}$ i $\sigma(f)=1$ to zapisujemy $\sigma \models f$.
     Jeżeli $\alpha \in Forms(\mathcal{F})$ i formuła $\alpha$ jest prawdziwa w stanie $\sigma$ ($\sigma$ jest modelem $\alpha$), to zapisujemy $\sigma \models \alpha$.
     \end{definition}
     
