@@ -15,13 +15,18 @@ namespace Stories.Parser.Parsers
         public static readonly Parser<List<string>> Agents = Agent.DelimitedBy(Parse.String("or").Token()).Select(a => a.ToList()).Token();
 
         public static readonly Parser<ActionWithExecutor> ActionWithExecutor =
-        (from agent in Agent.Optional()
+        (from agent in Agent
          from action in Action
          select new ActionWithExecutor
          {
-             Agent = agent.GetOrDefault(),
+             Agent = agent,
              Action = action
-         });
+         }).Or(
+            from action in Action
+            select new ActionWithExecutor()
+            {
+                Action = action
+            });
 
         public static readonly Parser<List<string>> WhenAgents =
            (from when in KeywordsParser.When
