@@ -6,11 +6,11 @@ using Stories.Parser.Statements;
 
 namespace Stories.Parser.Parsers
 {
-    static class CommonParser
+    public static class CommonParser
     {
-        public static readonly Parser<string> Action = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Token();
-        public static readonly Parser<string> Agent = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Token();
-        public static readonly Parser<string> Fluent = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Token();
+        public static readonly Parser<string> Action = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).ExceptKeywords().Token();
+        public static readonly Parser<string> Agent = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).ExceptKeywords().Token();
+        public static readonly Parser<string> Fluent = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).ExceptKeywords().Token();
 
         public static readonly Parser<List<string>> Agents = Agent.DelimitedBy(Parse.String("or").Token()).Select(a => a.ToList()).Token();
 

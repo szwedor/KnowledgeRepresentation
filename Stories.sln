@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Parser", "src\Stori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Execution", "src\Stories.Execution\Stories.Execution.csproj", "{C003C183-3CC1-4B2B-ABDE-B59182AADEEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Tests", "src\Stories.Tests\Stories.Tests.csproj", "{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{C003C183-3CC1-4B2B-ABDE-B59182AADEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C003C183-3CC1-4B2B-ABDE-B59182AADEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C003C183-3CC1-4B2B-ABDE-B59182AADEEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE55AD4B-30A5-47D2-8C6C-E863745B0406}
 	EndGlobalSection
 EndGlobal

@@ -3,6 +3,8 @@ using Sprache;
 
 namespace Stories.Parser.Conditions
 {
+    using Stories.Parser.Parsers;
+
     public static class ConditionsParsing
     {
         private static readonly Parser<OperationType> And = Parse.String("and").Token().Return(OperationType.And);
@@ -13,7 +15,7 @@ namespace Stories.Parser.Conditions
 
         private static readonly Parser<ConditionExpression> Constant = (Parse.String("true").Return(new ConditionConstant(true)).Or(Parse.String("false").Return(new ConditionConstant(false))));
         private static readonly Parser<ConditionExpression> Variable = Parse
-            .Identifier(Parse.Letter, Parse.LetterOrDigit).Token().Select(t => new ConditionVariable(t));
+            .Identifier(Parse.Letter, Parse.LetterOrDigit).Token().ExceptKeywords().Select(t => new ConditionVariable(t));
 
         private static ConditionOperation MakeOperation(OperationType operation, ConditionExpression left, ConditionExpression right)
         {

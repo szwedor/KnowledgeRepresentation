@@ -8,30 +8,28 @@ namespace Stories.Execution
 {
     public class Story
     {
-        private HistoryStatement history { get; set; }
-        private List<Fluent> fluents { get; set; }
-        private List<string> agents { get; set; }
-        private List<string> actions { get; set; }
-
-        private List<AppState> states { get; set; }
+        private HistoryStatement history { get;  }
+        public IReadOnlyList<Fluent> Fluents { get; }
+        public IReadOnlyList<string> Agents { get;  }
+        public IReadOnlyList<string> Actions { get; }
+        public IReadOnlyList<AppState> States { get; }
 
         public Story(HistoryStatement history)
         {
             this.history = history;
-
             var fluents = getAllFluents();
             var nonInertialFluents = getAllNonInertialFluents();
 
-            this.fluents = fluents.Select(f => new Fluent
+            this.Fluents = fluents.Select(f => new Fluent
             {
                 Label = f,
                 IsInertial = !nonInertialFluents.Contains(f)
             }).ToList();
 
-            agents = getAllAgents();
-            actions = getAllActions();
+            this.Agents = getAllAgents();
+            this.Actions = getAllActions();
 
-            states = AppState.ValidStates(history.Always.Select(a => a.Condition).ToList(), fluents.ToArray()).ToList();
+            this.States = AppState.ValidStates(history.Always.Select(a => a.Condition).ToList(), fluents.ToArray()).ToList();
         }
         
         private List<string> getAllActions()

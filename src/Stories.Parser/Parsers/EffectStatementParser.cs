@@ -25,16 +25,28 @@ namespace Stories.Parser.Parsers
 
         public static readonly Parser<EffectStatement> Impossible =
             (from impossible in KeywordsParser.Impossible
-             from agents in CommonParser.Agents.Optional()
+             from agent in CommonParser.Agents
              from action in CommonParser.Action
              from condition in CommonParser.IfCondition.Optional()
              select new EffectStatement
              {
-                 Agents = agents.GetOrElse(null),
+                 Agents = agent,
                  Action = action,
                  IsTypical = false,
                  Effect = new ConditionConstant(false),
                  Condition = condition.GetOrElse(new ConditionConstant(true))
-             }).Token();
+             }).Or(
+                (from impossible in KeywordsParser.Impossible
+                    from action in CommonParser.Action
+                    from condition in CommonParser.IfCondition.Optional()
+                    select new EffectStatement
+                    {
+                        Action = action,
+                        IsTypical = false,
+                        Effect = new ConditionConstant(false),
+                        Condition = condition.GetOrElse(new ConditionConstant(true))
+                    }).Token()
+
+                ).Token();
     }
 }
