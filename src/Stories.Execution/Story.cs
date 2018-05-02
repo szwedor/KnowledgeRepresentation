@@ -90,5 +90,73 @@ namespace Stories.Execution
                 default: throw new InvalidOperationException();
             }
         }
+
+        public HashSet<AppState> Res0(string agent, string action, AppState state)
+        {
+            var effects = history.Effects
+                .Where(p => p.IsTypical == false)
+                .Where(p=>p.Action == action)
+                .Where(p => p.Agents == null || p.Agents.Contains(agent))
+                .Where(p => state.EvaluateCondition(p.Condition)).ToList();
+
+            var states = States.Where(p => effects.Any(c => p.EvaluateCondition(c.Effect)));
+            return new HashSet<AppState>(states);
+        }
+
+        public HashSet<string> New(string agent, string action, AppState state,AppState state2)
+        {
+            var fluent = Fluents.Where(p => p.IsInertial)
+                .Where(p => state.GetVariable(p.Label) != state2.GetVariable(p.Label))
+                .Select(p=>p.Label).ToList();
+
+            var releasesFluent = history.Releases
+                .Where(p => p.Agents == null || p.Agents.Contains(agent))
+                .Where(p => state.EvaluateCondition(p.Condition))
+                .Select(p => p.Fluent).ToList();
+
+            return new HashSet<string>(fluent.Union(releasesFluent));
+        }
+
+        public HashSet<AppState> ResMinus(string agent, string action, AppState state)
+        {
+            var res = Res0(agent, action, state)
+                .Select(p => new {state = p, @new = New(agent, action, state, p).Count})
+                .OrderBy(p=>p.@new).ToList();
+            return new HashSet<AppState>(res.Where(p=>p.@new==res[0].@new).Select(p=>p.state));
+        }
+
+        public HashSet<AppState> Res0Plus(string agent, string action, AppState state)
+        {
+            var actionEffects = history.Effects
+                .Where(p => p.Action == action).ToList();
+
+            var effects = actionEffects
+                .Where(p => p.Agents == null || p.Agents.Contains(agent))
+                .Where(p => state.EvaluateCondition(p.Condition)).ToList();
+
+            var isCertainEffectOnly = effects.All(p => !p.IsTypical);
+            if (!isCertainEffectOnly)
+                effects = effects.Where(p => p.IsTypical).ToList();
+            
+            var states = States
+                .Where(p => effects.Any(c => p.EvaluateCondition(c.Effect)))
+                .Intersect(Res0(agent, action, state))
+                .ToList();
+            
+            return new HashSet<AppState>(states);
+        }
+        public HashSet<AppState> ResN(string agent, string action, AppState state)
+        {
+            var res = this.Res0Plus(agent, action, state)
+                .Select(p => new { state = p, @new = New(agent, action, state, p).Count })
+                .OrderBy(p => p.@new).ToList();
+            return new HashSet<AppState>(res.Where(p => p.@new == res[0].@new).Select(p => p.state)); return new HashSet<AppState>(res.Where(p => p.@new == res[0].@new).Select(p => p.state));
+        }
+        public HashSet<AppState> ResAb(string agent, string action, AppState state)
+        {
+            var set = ResMinus(agent, action, state);
+            set.ExceptWith(ResN(agent, action, state));
+            return set;
+        }
     }
 }

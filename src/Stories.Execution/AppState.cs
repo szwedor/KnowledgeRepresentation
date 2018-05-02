@@ -5,8 +5,22 @@ using Stories.Parser.Conditions;
 
 namespace Stories.Execution
 {
+    using System.Diagnostics;
+    
     public class AppState
     {
+        public override bool Equals(object obj)
+        {
+            if (obj is AppState appState)
+                return this.values.Equals(appState.values);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.values.GetHashCode();
+        }
+
         private Dictionary<string, bool> values;
 
         private AppState(string[] fluents, bool[] values)
@@ -14,6 +28,11 @@ namespace Stories.Execution
             this.values = fluents
                 .Zip(values, (key, value) => new { key, value })
                 .ToDictionary(v => v.key, v => v.value);
+        }
+
+        public override string ToString()
+        {
+            return string.Join("", this.values.Select(p => $"[{p.Key}:{p.Value}]"));
         }
 
         public static IEnumerable<AppState> ValidStates(List<ConditionExpression> alwaysConditions, string[] fluents)
@@ -72,5 +91,6 @@ namespace Stories.Execution
                 default: throw new InvalidOperationException();
             }
         }
+        
     }
 }
