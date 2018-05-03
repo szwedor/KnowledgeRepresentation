@@ -11,7 +11,7 @@ namespace Stories.Parser.Parsers
             (from agents in CommonParser.WhenAgents.Optional()
              from action in CommonParser.Action
              from releases in KeywordsParser.Releases
-             from negation in Parse.String("not").Token().Optional()
+             from negation in KeywordsParser.Not.Optional()
              from fluent in CommonParser.Fluent
              from condition in CommonParser.IfCondition.Optional()
              select new ReleaseStatement

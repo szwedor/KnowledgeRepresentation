@@ -82,7 +82,7 @@
                     </CheckBox>
 
                 </ToolBar>
-                <avalonedit:TextEditor Name="textEditor"
+                <avalonedit:TextEditor Name="textEditor" TextChanged="TextEditor_OnTextChanged"
                                    FontFamily="Consolas"
                                    FontSize="10pt"
                                    DataContextChanged="DataContextChanged">

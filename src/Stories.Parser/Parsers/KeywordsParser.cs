@@ -8,11 +8,11 @@ namespace Stories.Parser.Parsers
 
     public static class KeywordsParser
     {
-        public static List<string> KeywordsList { get; } = new List<string>();
         private static Parser<string> Keyword(string keyword)
         {
-            KeywordsList.Add(keyword);
-            return Parse.String(keyword).Text().Token();
+            return Parse.String(keyword).Text()
+                .Then(p=>Parse.WhiteSpace.Once()).Text().Token()
+                .Named("keyword");
         }
 
         public static readonly Parser<string> Initially = Keyword("initially");
@@ -29,6 +29,7 @@ namespace Stories.Parser.Parsers
         public static readonly Parser<string> Iff = Keyword("iff");
         public static readonly Parser<string> And = Keyword("and");
         public static readonly Parser<string> Or = Keyword("or");
+        public static readonly Parser<string> Not = Keyword("not");
         public static readonly Parser<string> Then = Keyword("then");
         public static readonly Parser<string> True = Keyword("true");
         public static readonly Parser<string> False = Keyword("false");
@@ -36,9 +37,11 @@ namespace Stories.Parser.Parsers
 
         public static Parser<string> ExceptKeywords(this Parser<string> parser)
         {
-            return parser.Except(typeof(KeywordsParser)
+           var parsers = typeof(KeywordsParser)
                 .GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Select(p => (Parser<string>)p.GetValue(null)).Aggregate((a, b) => b = b.Or(a)));
+                .Select(p => (Parser<string>) p.GetValue(null)).ToList();
+
+            return parser.Except(parsers.Aggregate(parsers.First(),(a, b) => b = b.Or(a)));
         }
 
     }

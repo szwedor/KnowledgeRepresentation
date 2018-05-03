@@ -1,11 +1,14 @@
 ﻿namespace Stories.ViewModel
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
+    using System.Windows.Media;
     using Newtonsoft.Json;
     using Stories.Annotations;
     using Stories.Execution;
@@ -27,14 +30,25 @@
                         {
                             var history = Parsing.GetHistory(this.GetInput());
                             var story = new Story(history);
-                            var serialized = JsonConvert.SerializeObject(story, Formatting.Indented);
+                            var serialized = JsonConvert.SerializeObject(
+                                new{history,story}, Formatting.Indented);
+                            var keywords = 
+                                new (IEnumerable<string>,Color)[]
+                                {
+                                    (story.Agents, Colors.Purple),
+                                    (story.Actions, Colors.CadetBlue),
+                                    (story.Fluents.Where(p=>p.IsInertial).Select(p=>p.Label), Colors.DeepPink),
+                                    (story.Fluents.Where(p=>!p.IsInertial).Select(p=>p.Label), Colors.DeepSkyBlue)
+                                };
+
+                            this.AddTextHighlighting(keywords);
                             this.SaveOutput(serialized);
                         });
                         this.IsProcessing = false;
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Processing failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                      //  MessageBox.Show("Processing failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 });
         }
@@ -51,6 +65,8 @@
                 this.OnPropertyChanged();
             }
         }
+
+        public event Action<(IEnumerable<string> keywords, Color color)[]> AddTextHighlighting;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

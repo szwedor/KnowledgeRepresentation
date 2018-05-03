@@ -17,7 +17,7 @@
     public partial class StoryInputView : UserControl
     {
         private string currentFileName;
-
+        private bool addedHighlighting;
         public StoryInputView()
         {
             this.InitializeComponent();
@@ -32,24 +32,7 @@
                 .Select(p => p.Trim()));
 
 
-            using (var reader = new XmlTextReader(new StringReader(Properties.Resources.AdaSyntaxt)))
-            {
-                var highlighting = HighlightingLoader.Load(reader,
-                    HighlightingManager.Instance);
-
-                var highlightingRule = new HighlightingRule();
-                highlightingRule.Color = new HighlightingColor
-                {
-                    Foreground = new SimpleHighlightingBrush(Colors.Blue),
-                    FontWeight = FontWeights.Bold
-                };
-
-                var regex = string.Format(@"\b({0})\w*\b", string.Join("|", KeywordsParser.KeywordsList));
-                highlightingRule.Regex = new Regex(regex);
-
-                highlighting.MainRuleSet.Rules.Add(highlightingRule);
-                this.textEditor.SyntaxHighlighting = highlighting;
-            }
+            this.textEditor.ResetHighlighting();
         }
 
         private void OpenFileToEditClick(object sender, RoutedEventArgs e)
@@ -114,8 +97,29 @@
                     this.textOutput.Clear();
                     return this.textEditor.Text;
                 });
+                viewmodel.AddTextHighlighting += (t) =>
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        if(!addedHighlighting)
+                        { foreach (var tuple in t)
+                        {
+                            this.textEditor.AddHighlighting(tuple.keywords, tuple.color);
+                        }
+                            this.textEditor.RefreshHighlighting();
+                        }
+
+                        this.addedHighlighting = true;
+                    });
+                
                 viewmodel.SaveOutput += output => this.Dispatcher.Invoke(() => this.textOutput.AppendText(output));
             }
+        }
+
+        private void TextEditor_OnTextChanged(object sender, EventArgs e)
+        {
+            if(this.addedHighlighting)
+                this.textEditor.ResetHighlighting();
+            this.addedHighlighting = false;
         }
     }
 }

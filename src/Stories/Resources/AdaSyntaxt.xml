@@ -1,9 +1,35 @@
 <SyntaxDefinition name="ADA"
                   xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
- 
 
     <!-- This is the main ruleset. -->
     <RuleSet>
-      
+
+
+      <Keywords fontWeight="bold" foreground="Blue">
+        <Word>initially</Word>
+        <Word>always</Word>
+        <Word>observable</Word>
+        <Word>releases</Word>
+        <Word>noninertial</Word>
+        <Word>after</Word>
+        <Word>when</Word>
+        <Word>causes</Word>
+        <Word>impossible</Word>
+        <Word>typically</Word>
+        <Word>if</Word>
+      </Keywords>
+      <Keywords fontWeight="bold" foreground="Green">
+        <Word>iff</Word>
+        <Word>and</Word>
+        <Word>or</Word>
+        <Word>then</Word>
+        <Word>not</Word>
+      </Keywords>
+      <Keywords fontWeight="bold" foreground="Red">
+        <Word>true</Word>
+        <Word>false</Word>
+      </Keywords>
+
+
     </RuleSet>
 </SyntaxDefinition>

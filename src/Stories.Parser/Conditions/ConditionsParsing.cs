@@ -3,17 +3,20 @@ using Sprache;
 
 namespace Stories.Parser.Conditions
 {
+    using System.Security.Cryptography;
     using Stories.Parser.Parsers;
 
     public static class ConditionsParsing
     {
-        private static readonly Parser<OperationType> And = Parse.String("and").Token().Return(OperationType.And);
-        private static readonly Parser<OperationType> Or = Parse.String("or").Token().Return(OperationType.Or);
-        private static readonly Parser<OperationType> Not = Parse.String("not").Token().Return(OperationType.Not);
-        private static readonly Parser<OperationType> Iff = Parse.String("iff").Token().Return(OperationType.Iff);
-        private static readonly Parser<OperationType> Consequence = Parse.String("then").Token().Return(OperationType.Consequence);
+        private static readonly Parser<OperationType> And = KeywordsParser.And.Return(OperationType.And);
+        private static readonly Parser<OperationType> Or = KeywordsParser.Or.Return(OperationType.Or);
+        private static readonly Parser<OperationType> Not = KeywordsParser.Not.Return(OperationType.Not);
+        private static readonly Parser<OperationType> Iff = KeywordsParser.Iff.Return(OperationType.Iff);
+        private static readonly Parser<OperationType> Consequence = KeywordsParser.Then.Return(OperationType.Consequence);
 
-        private static readonly Parser<ConditionExpression> Constant = (Parse.String("true").Return(new ConditionConstant(true)).Or(Parse.String("false").Return(new ConditionConstant(false))));
+        private static readonly Parser<ConditionExpression> Constant = 
+            (KeywordsParser.True.Return(new ConditionConstant(true))
+            .Or(KeywordsParser.False.Return(new ConditionConstant(false)))).Named("bool");
         private static readonly Parser<ConditionExpression> Variable = Parse
             .Identifier(Parse.Letter, Parse.LetterOrDigit).Token().ExceptKeywords().Select(t => new ConditionVariable(t));
 
@@ -32,13 +35,15 @@ namespace Stories.Parser.Conditions
              from expr in Parse.Ref(() => Condition)
              from rparen in Parse.Char(')')
              select expr).Named("expression")
-             .XOr(Constant)
-             .XOr(Variable);
+             .XOr(Variable)
+             .XOr(Constant);
 
         private static readonly Parser<ConditionExpression> Operand = 
-            ((from sign in Not
+            ((from sign in Not.Many()
               from factor in Factor
-              select new ConditionNegation(factor)
+              select sign.Count()%2==1?
+                  new ConditionNegation(factor):
+                  factor
              ).XOr(Factor)).Token();
 
         private static readonly Parser<ConditionExpression> Condition3 = Parse.ChainOperator(And.Or(Or), Operand, MakeOperation);
