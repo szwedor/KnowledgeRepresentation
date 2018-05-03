@@ -6,10 +6,12 @@ namespace Stories.Parser.Parsers
     using System.Linq;
     using System.Reflection;
 
-    static class KeywordsParser
+    public static class KeywordsParser
     {
+        public static List<string> KeywordsList { get; } = new List<string>();
         private static Parser<string> Keyword(string keyword)
         {
+            KeywordsList.Add(keyword);
             return Parse.String(keyword).Text().Token();
         }
 

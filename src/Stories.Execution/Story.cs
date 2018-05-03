@@ -150,8 +150,8 @@ namespace Stories.Execution
             var res = this.Res0Plus(agent, action, state)
                 .Select(p => new { state = p, @new = New(agent, action, state, p).Count })
                 .OrderBy(p => p.@new).ToList();
-            return new HashSet<AppState>(res.Where(p => p.@new == res[0].@new).Select(p => p.state)); return new HashSet<AppState>(res.Where(p => p.@new == res[0].@new).Select(p => p.state));
-        }
+            return new HashSet<AppState>(res.Where(p => p.@new == res[0].@new).Select(p => p.state));
+          }
         public HashSet<AppState> ResAb(string agent, string action, AppState state)
         {
             var set = ResMinus(agent, action, state);

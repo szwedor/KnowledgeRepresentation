@@ -5,6 +5,7 @@ using Stories.Parser.Conditions;
 
 namespace Stories.Execution
 {
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     
     public class AppState
@@ -23,11 +24,14 @@ namespace Stories.Execution
 
         private Dictionary<string, bool> values;
 
+        public IReadOnlyDictionary<string, bool> Values;
+
         private AppState(string[] fluents, bool[] values)
         {
             this.values = fluents
                 .Zip(values, (key, value) => new { key, value })
                 .ToDictionary(v => v.key, v => v.value);
+            this.Values = new ReadOnlyDictionary<string, bool>(this.values);
         }
 
         public override string ToString()

@@ -19,7 +19,7 @@ namespace Stories.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,29 @@ namespace Stories.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;C#&quot;
+        ///                  xmlns=&quot;http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008&quot;&gt;
+        ///    &lt;Color name=&quot;Comment&quot; foreground=&quot;Green&quot; /&gt;
+        ///    &lt;Color name=&quot;String&quot; foreground=&quot;Blue&quot; /&gt;
+        ///
+        ///    &lt;!-- This is the main ruleset. --&gt;
+        ///    &lt;RuleSet&gt;
+        ///        &lt;Span color=&quot;Comment&quot; begin=&quot;//&quot; /&gt;
+        ///        &lt;Span color=&quot;Comment&quot; multiline=&quot;true&quot; begin=&quot;/\*&quot; end=&quot;\*/&quot; /&gt;
+        ///
+        ///        &lt;Span color=&quot;String&quot;&gt;
+        ///            &lt;Begin&gt;&quot;&lt;/Begin&gt;
+        ///            &lt;End&gt;&quot;&lt;/End&gt;
+        ///            &lt;RuleSet&gt;
+        ///               [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AdaSyntaxt {
+            get {
+                return ResourceManager.GetString("AdaSyntaxt", resourceCulture);
             }
         }
     }

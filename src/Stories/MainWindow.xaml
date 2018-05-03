@@ -1,12 +1,28 @@
-﻿<Window x:Class="Stories.MainWindow"
+﻿<mah:MetroWindow x:Class="Stories.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stories"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:view="clr-namespace:Stories.View"
+        xmlns:viewModel="clr-namespace:Stories.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+        DataContext="{DynamicResource StoriesViewModel}"
+        Title="MainWindow" Height="350" Width="525" >
+
+    <mah:MetroWindow.Resources>
+        <viewModel:StoriesViewModel x:Key="StoriesViewModel" />
+    </mah:MetroWindow.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Button Command="{Binding ProcessCommand}">
+            ></Button>
+        <view:StoryInputView  Grid.Row="1"/>
     </Grid>
-</Window>
+</mah:MetroWindow>
+
