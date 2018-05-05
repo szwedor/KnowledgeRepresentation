@@ -96,17 +96,9 @@ namespace Stories.Execution
             var effects = history.Effects
                 .Where(p => p.IsTypical == false)
                 .Where(p=>p.Action == action)
-                .Where(p => p.Agents == null || p.Agents.Contains(agent)).ToList();
-            bool canExecute = false;
-            if(effects.Count>0)
-            canExecute = state.EvaluateCondition(effects.Select(p=>p.Condition).Aggregate((a,b)=>a=new ConditionOperation()
-                {
-                    Left = a,
-                    Operation = OperationType.And,
-                    Right = b
-                }));
-            if(!canExecute) return new HashSet<AppState>();
-
+                .Where(p => p.Agents == null || p.Agents.Contains(agent))
+                .Where(p => state.EvaluateCondition(p.Condition)).ToList();
+            if (!effects.Any()) return new HashSet<AppState>();
             var states = States.Where(p => effects.All(c => p.EvaluateCondition(c.Effect)));
             return new HashSet<AppState>(states);
         }
@@ -138,27 +130,17 @@ namespace Stories.Execution
             var actionEffects = history.Effects
                 .Where(p => p.Action == action).ToList();
 
-            var effectsGroup = actionEffects
-                .Where(p => p.Agents == null || p.Agents.Contains(agent)).GroupBy(p=>p.IsTypical).ToList();
+            var effects = actionEffects
+                .Where(p => p.Agents == null || p.Agents.Contains(agent))
+                .Where(p => state.EvaluateCondition(p.Condition)).ToList();
 
-            var eff = effectsGroup.Select(ef => new
-            {
-                canExecute = state.EvaluateCondition(ef.Select(p => p.Condition).Aggregate((a, b) => a =
-                    new ConditionOperation()
-                    {
-                        Left = a,
-                        Operation = OperationType.And,
-                        Right = b
-                    })),
-                effects = ef.ToList(),
-                IsTypical = ef.Key
-            }).ToList();
+            var isCertainEffectOnly = effects.All(p => !p.IsTypical);
+            if (!isCertainEffectOnly)
+                effects = effects.Where(p => p.IsTypical).ToList();
 
-            var isCertainEffectOnly = !eff.FirstOrDefault(p=>p.IsTypical)?.canExecute ?? true;
-                //.All(p => !p.IsTypical);
-            var effects = eff.FirstOrDefault(p => !p.IsTypical == isCertainEffectOnly)?.effects ?? new List<EffectStatement>();
-           
-            
+            if (!effects.Any())
+                return new HashSet<AppState>();
+
             var states = States
                 .Where(p => effects.All(c => p.EvaluateCondition(c.Effect)))
                 .Intersect(Res0(agent, action, state))

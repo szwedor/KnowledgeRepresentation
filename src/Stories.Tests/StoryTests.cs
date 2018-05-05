@@ -94,23 +94,61 @@
                         impossible Bilbo AttackBilbo
                         impossible Bilbo TakeSword if not BilboLives
                         AttackFrodo typically causes not FrodoLives if BilboHasSword
-                        AttackBilbo causes not BilboLives if FrodoHasSword";
+                        AttackBilbo causes not BilboLives if FrodoHasSword
+                        observable not BilboLives after AttackBilbo ";
             var history = Parsing.GetHistory(text);
             var story = new Story(history);
 
             var q0 = story.States.First(
+                p => p.GetVariable("FrodoLives") &&
+                     p.GetVariable("BilboLives") &&
+                     !p.GetVariable("FrodoHasSword") &&
+                     !p.GetVariable("BilboHasSword"));
+            var q1 = story.States.First(
+                p => p.GetVariable("FrodoLives") &&
+                     p.GetVariable("BilboLives") &&
+                     p.GetVariable("FrodoHasSword") &&
+                     !p.GetVariable("BilboHasSword"));
+            var q2 = story.States.First(
+                p => p.GetVariable("FrodoLives") &&
+                     p.GetVariable("BilboLives") &&
+                     !p.GetVariable("FrodoHasSword") &&
+                     p.GetVariable("BilboHasSword"));
+            var q3 = story.States.First(
                 p => !p.GetVariable("FrodoLives") &&
+                     p.GetVariable("BilboLives") &&
+                     !p.GetVariable("FrodoHasSword") &&
+                     p.GetVariable("BilboHasSword"));
+            var q4 = story.States.First(
+                p => p.GetVariable("FrodoLives") &&
+                     !p.GetVariable("BilboLives") &&
+                     p.GetVariable("FrodoHasSword") &&
+                     !p.GetVariable("BilboHasSword"));
+
+            var q5 = story.States.First(
+                p => p.GetVariable("FrodoLives") &&
                      !p.GetVariable("BilboLives") &&
                      !p.GetVariable("FrodoHasSword") &&
                      !p.GetVariable("BilboHasSword"));
 
-           var r =story.Res0(null, "shoot", q0).ToArray();
-           var r1 =story.ResMinus(null, "shoot", q0).ToArray();
-           var r2 =story.Res0Plus(null, "shoot", q0).ToArray();
-          var r4  =story.ResN(null, "shoot", q0).ToArray();
-           var r3=  story.ResAb(null, "shoot", q0).ToArray();
+            var q6 = story.States.First(
+                p => p.GetVariable("FrodoLives") &&
+                     !p.GetVariable("BilboLives") &&
+                     !p.GetVariable("FrodoHasSword") &&
+                     p.GetVariable("BilboHasSword"));
+
             var g= Graph.Graph.CreateGraph(story);
-            var rr =g.Vertexes.First(p => p.State == q0);
+            g.Vertexes.First(p => p.State == q0)
+                .ShouldHaveEdges("Frodo", q1)//q5
+                .ShouldHaveEdges("Bilbo", q2);
+
+            g.Vertexes.First(p => p.State == q1)
+                .ShouldHaveEdges("Frodo", q4);
+
+            g.Vertexes.First(p => p.State == q2)
+                .ShouldHaveEdges("Frodo", q6)
+                .ShouldHaveEdges("Bilbo", q2, q3);
         }
+        
     }
 }

@@ -4,7 +4,10 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using FluentAssertions;
+    using Stories.Execution;
+    using Stories.Graph.Model;
     using Stories.Parser;
     using Stories.Parser.Conditions;
     using Stories.Parser.Statements;
@@ -21,7 +24,11 @@
             ConditionExpression expressionToCompare)
             => expression.Should().BeEquivalentTo(expressionToCompare, opts => opts.IncludingAllRuntimeProperties());
 
-
+        public static Vertex ShouldHaveEdges(this Vertex vertex, string actor, params AppState[] states)
+        {
+             vertex.EdgesOutgoing.Where(p => p.Actor == actor).Select(p => p.To.State).Should().BeEquivalentTo(states);
+            return vertex;
+        }
     };
 
 }
