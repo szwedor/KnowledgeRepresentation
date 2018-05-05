@@ -36,7 +36,7 @@ namespace Stories.Execution
 
         public override string ToString()
         {
-            return string.Join("", this.values.Select(p => $"[{p.Key}:{p.Value}]"));
+            return string.Join("", this.values.Where(p=>p.Value).Select(p => $"[{p.Key}]"));
         }
 
         public static IEnumerable<AppState> ValidStates(List<ConditionExpression> alwaysConditions, string[] fluents)

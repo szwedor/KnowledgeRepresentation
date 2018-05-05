@@ -3,8 +3,12 @@ using Stories.Execution;
 
 namespace Stories.Graph.Model
 {
+    using System.Linq;
+
     public class Vertex
     {
+        private static int count = 0;
+        private int key = count++;
         public List<Edge> EdgesOutgoing;
 
         public List<Edge> EdgesIncoming;
@@ -17,6 +21,9 @@ namespace Stories.Graph.Model
             this.EdgesIncoming = new List<Edge>();
             this.State = state;
         }
-
+        public override string ToString()
+        {
+            return this.key.ToString();
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace Stories.Graph
             }
             foreach (var vertexFrom in graph.Vertexes)
             {
+                GetEdges(null, graph, story, vertexFrom);
                 if (story.Agents.Count > 0)
                 {
                     foreach (var agent in story.Agents)
@@ -34,7 +35,7 @@ namespace Stories.Graph
                         GetEdges(agent, graph, story, vertexFrom);
                     }
                 }           
-               GetEdges(null, graph, story, vertexFrom);          
+                        
             }
             
             return graph;
@@ -49,6 +50,9 @@ namespace Stories.Graph
                 foreach (var state in resN.ToArray())
                 {
                     var vertexTo = graph.Vertexes.Find(x => x.State.Equals(state));
+                    if (graph.Edges.Any(p =>
+                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)))
+                        continue;
                     Edge edge = new Edge(vertexFrom, vertexTo, true, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
@@ -80,7 +84,9 @@ namespace Stories.Graph
 
             foreach (var edge in Edges)
             {
-                sb.AppendLine("From " + edge.From.State.ToString() + "To " + edge.To.State.ToString() + "Action " +edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
+                sb.AppendLine("From " + edge.From.State.Values.Select(p => $"[{p.Key}:{p.Value}]") 
+                                      + "To " + edge.To.State.Values.Select(p => $"[{p.Key}:{p.Value}]")
+                                      + "Action " +edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
             }
             return sb.ToString();
         }

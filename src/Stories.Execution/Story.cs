@@ -98,8 +98,8 @@ namespace Stories.Execution
                 .Where(p=>p.Action == action)
                 .Where(p => p.Agents == null || p.Agents.Contains(agent))
                 .Where(p => state.EvaluateCondition(p.Condition)).ToList();
-
-            var states = States.Where(p => effects.Any(c => p.EvaluateCondition(c.Effect)));
+            if (!effects.Any()) return new HashSet<AppState>();
+            var states = States.Where(p => effects.All(c => p.EvaluateCondition(c.Effect)));
             return new HashSet<AppState>(states);
         }
 
@@ -137,9 +137,12 @@ namespace Stories.Execution
             var isCertainEffectOnly = effects.All(p => !p.IsTypical);
             if (!isCertainEffectOnly)
                 effects = effects.Where(p => p.IsTypical).ToList();
-            
+
+            if (!effects.Any())
+                return new HashSet<AppState>();
+
             var states = States
-                .Where(p => effects.Any(c => p.EvaluateCondition(c.Effect)))
+                .Where(p => effects.All(c => p.EvaluateCondition(c.Effect)))
                 .Intersect(Res0(agent, action, state))
                 .ToList();
             
