@@ -12,7 +12,7 @@ namespace Stories.Parser.Parsers
         {
             return Parse.String(keyword).Text()
                 .Then(p=>Parse.WhiteSpace.Once()).Text().Token()
-                .Named("keyword");
+                .Or(Parse.String(keyword).Text().End());
         }
 
         public static readonly Parser<string> Initially = Keyword("initially");
