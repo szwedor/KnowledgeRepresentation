@@ -84,7 +84,9 @@ namespace Stories.Graph
 
             foreach (var edge in Edges)
             {
-                sb.AppendLine("From " + edge.From.State.ToString() + "To " + edge.To.State.ToString() + "Action " +edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
+                sb.AppendLine("From " + edge.From.State.Values.Select(p => $"[{p.Key}:{p.Value}]") 
+                                      + "To " + edge.To.State.Values.Select(p => $"[{p.Key}:{p.Value}]")
+                                      + "Action " +edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
             }
             return sb.ToString();
         }
