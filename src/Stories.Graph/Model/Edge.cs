@@ -10,12 +10,15 @@
 
         public string Action;
 
-        public Edge(Vertex from, Vertex to, bool isTypical, string action)
+        public string Actor;
+
+        public Edge(Vertex from, Vertex to, bool isTypical, string action, string actor)
         {
             this.From = from;
             this.To = to;
             this.IsTypical = isTypical;
             this.Action = action;
+            this.Actor = actor;
         }
     }
 }
