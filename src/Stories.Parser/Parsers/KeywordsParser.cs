@@ -2,6 +2,7 @@ using Sprache;
 
 namespace Stories.Parser.Parsers
 {
+    using Stories.Parser.Statements;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -14,6 +15,7 @@ namespace Stories.Parser.Parsers
                 .Then(p=>Parse.WhiteSpace.Once()).Text().Token()
                 .Named("keyword");
         }
+
 
         public static readonly Parser<string> Initially = Keyword("initially");
         public static readonly Parser<string> Always = Keyword("always");
@@ -33,6 +35,13 @@ namespace Stories.Parser.Parsers
         public static readonly Parser<string> Then = Keyword("then");
         public static readonly Parser<string> True = Keyword("true");
         public static readonly Parser<string> False = Keyword("false");
+        public static readonly Parser<string> Executable = Keyword("executable");
+        public static readonly Parser<string> From = Keyword("from");
+        public static readonly Parser<string> Accessible = Keyword("accessible");
+        public static readonly Parser<string> In = Keyword("in");
+        public static readonly Parser<string> Necesssary = Keyword("necessary");
+        public static readonly Parser<string> Possibly = Keyword("possibly");
+
 
 
         public static Parser<string> ExceptKeywords(this Parser<string> parser)

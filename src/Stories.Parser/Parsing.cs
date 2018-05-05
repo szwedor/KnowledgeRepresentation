@@ -10,5 +10,10 @@ namespace Stories.Parser
         {
             return HistoryParser.History.Parse(history);
         }
+
+        public static QueryStatement GetQuery(string query)
+        {
+            return QueryParser.Query.Parse(query);
+        }
     }
 }
