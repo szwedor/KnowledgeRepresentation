@@ -12,7 +12,7 @@ namespace Stories.Graph
 
         public List<Edge> Edges;
 
-        public Graph()
+        private Graph()
         {
             this.Vertexes = new List<Vertex>();
             this.Edges = new List<Edge>();
@@ -49,7 +49,7 @@ namespace Stories.Graph
                 foreach (var state in resN.ToArray())
                 {
                     var vertexTo = graph.Vertexes.Find(x => x.State.Equals(state));
-                    Edge edge = new Edge(vertexFrom, vertexTo, true, action);
+                    Edge edge = new Edge(vertexFrom, vertexTo, true, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);
@@ -62,7 +62,7 @@ namespace Stories.Graph
                         p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)))
                         continue;
 
-                    Edge edge = new Edge(vertexFrom, vertexTo, false, action);
+                    Edge edge = new Edge(vertexFrom, vertexTo, false, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);
@@ -80,7 +80,7 @@ namespace Stories.Graph
 
             foreach (var edge in Edges)
             {
-                sb.AppendLine("From " + edge.From.State.ToString() + "To " + edge.To.State.ToString() + "Action " + edge.Action + "Typically " + edge.IsTypical);
+                sb.AppendLine("From " + edge.From.State.ToString() + "To " + edge.To.State.ToString() + "Action " +edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
             }
             return sb.ToString();
         }
