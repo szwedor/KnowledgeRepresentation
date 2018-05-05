@@ -55,7 +55,12 @@
     <Compile Include="Parsers\HistoryParser.cs" />
     <Compile Include="Parsers\KeywordsParser.cs" />
     <Compile Include="Parsers\NonInertialStatementParser.cs" />
-    <Compile Include="Parsers\QueryParser.cs" />
+    <Compile Include="Parsers\QueryParsers\AccessibleQueryParser.cs" />
+    <Compile Include="Parsers\QueryParsers\AfterQueryParser.cs" />
+    <Compile Include="Parsers\QueryParsers\AgentInQueryParser.cs" />
+    <Compile Include="Parsers\QueryParsers\ExecutableQueryParser.cs" />
+    <Compile Include="Parsers\QueryParsers\QueryParser.cs" />
+    <Compile Include="Parsers\QueryParsers\SufficiencyParser.cs" />
     <Compile Include="Parsers\ReleaseStatementParser.cs" />
     <Compile Include="Parsers\ValueStatementParser.cs" />
     <Compile Include="Parsing.cs" />
