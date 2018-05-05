@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Parser", "src\Stori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Execution", "src\Stories.Execution\Stories.Execution.csproj", "{C003C183-3CC1-4B2B-ABDE-B59182AADEEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Tests", "src\Stories.Tests\Stories.Tests.csproj", "{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stories.Tests", "src\Stories.Tests\Stories.Tests.csproj", "{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Graph", "src\Stories.Graph\Stories.Graph.csproj", "{15A857A9-C205-4248-A147-F99AAA7CBDFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{793C4CB7-82AF-4D30-B794-115D3ECCFFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

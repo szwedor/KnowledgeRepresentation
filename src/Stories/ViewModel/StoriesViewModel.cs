@@ -13,6 +13,7 @@
     using Stories.Annotations;
     using Stories.Execution;
     using Stories.Parser;
+    using Stories.Graph;
 
     public class StoriesViewModel : INotifyPropertyChanged
     {
@@ -30,6 +31,7 @@
                         {
                             var history = Parsing.GetHistory(this.GetInput());
                             var story = new Story(history);
+                            var graph = Graph.CreateGraph(story);
                             var serialized = JsonConvert.SerializeObject(
                                 new{history,story}, Formatting.Indented);
                             var keywords = 
@@ -42,7 +44,7 @@
                                 };
 
                             this.AddTextHighlighting(keywords);
-                            this.SaveOutput(serialized);
+                            this.SaveOutput(serialized +"\n"+graph.GetString());
                         });
                         this.IsProcessing = false;
                     }
