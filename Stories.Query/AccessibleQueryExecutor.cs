@@ -26,7 +26,7 @@ namespace Stories.Query
             switch (query.Sufficiency)
             {
                 case Sufficiency.Necessary:
-                        return ExecuteNecessarySufficiency(startVertices, endVertices);
+                    return ExecuteNecessarySufficiency(startVertices, endVertices);
                 case Sufficiency.Possibly:
                     break;
                 case Sufficiency.Typically:
@@ -41,7 +41,7 @@ namespace Stories.Query
         {
             var queryResult = true;
             var verticesToCheck = startVertices;
-            var closedVertices = new List<Vertex>();
+            var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.Equals(y) ? 0 : 1));
             do
             {
                 if (!verticesToCheck.All(v => endVertices.Contains(v)))
@@ -49,8 +49,8 @@ namespace Stories.Query
                     queryResult = false;
                     break;
                 }
-                closedVertices.AddRange(verticesToCheck);
-                verticesToCheck = verticesToCheck.SelectMany(x => x.EdgesOutgoing.Select(y => y.To)).ToList();
+                closedVertices.UnionWith(verticesToCheck);
+                verticesToCheck = verticesToCheck.SelectMany(x => x.EdgesOutgoing.Select(y => y.To)).Distinct().Except(closedVertices).ToList();
             } while (!verticesToCheck.All(v => closedVertices.Contains(v)));
 
             return queryResult;

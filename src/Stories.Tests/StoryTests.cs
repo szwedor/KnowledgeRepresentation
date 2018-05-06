@@ -94,9 +94,9 @@
                         impossible Bilbo AttackBilbo
                         impossible Bilbo TakeSword if not BilboLives
                         AttackFrodo typically causes not FrodoLives if BilboHasSword
-                        AttackBilbo causes not BilboLives if FrodoHasSword";
-                       // observable not BilboLives after AttackBilbo "; // to zdanie prowadzi do sprzeczności w historyjce 
-                                                                        // nie ma stanu spełniajacego wszystkie value statements
+                        AttackBilbo causes not BilboLives if FrodoHasSword
+                        observable not BilboLives after AttackBilbo ";
+
             var history = Parsing.GetHistory(text);
             var story = new Story(history);
 
