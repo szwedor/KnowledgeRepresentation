@@ -60,5 +60,32 @@ namespace Stories.Tests
                 Assert.AreEqual(true, queryResult);
             }
         }
+
+        [Test]
+        public void NecessaryAccessibleTest3()
+        {
+            var queryText = @"necessary accessible BilboLives from BilboLives and BilboHasSword and not FrodoHasSword";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially FrodoLives and BilboLives and not FrodoHasSword and not BilboHasSword
+                        when Frodo TakeSword causes FrodoHasSword if not BilboHasSword
+                        when Bilbo TakeSword causes BilboHasSword if not FrodoHasSword
+                        impossible Frodo AttackFrodo
+                        impossible Frodo TakeSword if not FrodoLives
+                        impossible Bilbo AttackBilbo
+                        impossible Bilbo TakeSword if not BilboLives
+                        AttackFrodo typically causes not FrodoLives if BilboHasSword
+                        AttackBilbo causes not BilboLives if FrodoHasSword";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph);
+                Assert.AreEqual(true, queryResult);
+            }
+        }
     }
 }
