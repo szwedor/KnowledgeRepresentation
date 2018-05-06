@@ -26,7 +26,13 @@
 
         public static Vertex ShouldHaveEdges(this Vertex vertex, string actor, params AppState[] states)
         {
-             vertex.EdgesOutgoing.Where(p => p.Actor == actor).Select(p => p.To.State).Should().BeEquivalentTo(states);
+            vertex.EdgesOutgoing.Where(p => actor == null || p.Actor == actor).Select(p => p.To.State).Distinct().Should().BeEquivalentTo(states);
+            return vertex;
+        }
+
+        public static Vertex ShouldHaveEdges(this Vertex vertex, string actor, string action, params AppState[] states)
+        {
+            vertex.EdgesOutgoing.Where(p => (actor == null || p.Actor == actor) && p.Action == action).Select(p => p.To.State).Distinct().Should().BeEquivalentTo(states);
             return vertex;
         }
     };

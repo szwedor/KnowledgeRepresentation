@@ -94,8 +94,9 @@
                         impossible Bilbo AttackBilbo
                         impossible Bilbo TakeSword if not BilboLives
                         AttackFrodo typically causes not FrodoLives if BilboHasSword
-                        AttackBilbo causes not BilboLives if FrodoHasSword
-                        observable not BilboLives after AttackBilbo ";
+                        AttackBilbo causes not BilboLives if FrodoHasSword";
+                       // observable not BilboLives after AttackBilbo "; // to zdanie prowadzi do sprzeczności w historyjce 
+                                                                        // nie ma stanu spełniajacego wszystkie value statements
             var history = Parsing.GetHistory(text);
             var story = new Story(history);
 
@@ -143,10 +144,10 @@
                 .ShouldHaveEdges("Bilbo", q2);
 
             g.Vertexes.First(p => p.State == q1)
-                .ShouldHaveEdges("Frodo", q4,q1);//q1 musi byc bo  observable not BilboLives after AttackBilbo 
+                .ShouldHaveEdges("Frodo", "AttackBilbo", q4)
+                .ShouldHaveEdges("Frodo", "TakeSword", q1);
 
             g.Vertexes.First(p => p.State == q2)
-                .ShouldHaveEdges("Frodo", q6)
                 .ShouldHaveEdges("Bilbo", q2, q3);
         }
         
