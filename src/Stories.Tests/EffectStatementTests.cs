@@ -1,6 +1,6 @@
 ﻿namespace Stories.Tests
 {
-    using System;
+    using System.Linq;
     using FluentAssertions;
     using NUnit.Framework;
     using Stories.Parser.Conditions;
@@ -35,15 +35,23 @@
             history.NonInertial.Should().BeEmpty();
             history.Releases.Should().BeEmpty();
         }
-
+        private void ShouldHaveNontypicalActionwithTrueEffect(EffectStatement typical, EffectStatement nontypical)
+        {
+            typical.IsTypical.Should().BeTrue();
+            nontypical.IsTypical.Should().BeFalse();
+            typical.Action.Should().BeEquivalentTo(nontypical.Action);
+            typical.Agents.Should().BeEquivalentTo(nontypical.Agents);
+            typical.Condition.Should().BeEquivalentTo(nontypical.Condition);
+            typical.Effect.Should().BeEquivalentTo(nontypical.Effect);
+        }
 
         [Test]
         public void CausesStatement()
         {
             var history = $"Shoot {this.TypicallyString}causes {this.effectCondition}".GetHistory();
 
-            history.Effects.Count.Should().Be(1);
-            var effect = history.Effects[0];
+            history.Effects.Count.Should().Be(this.typically? 2 : 1);
+            var effect = history.Effects.First(p=>p.IsTypical == this.typically);
 
             effect.Action.Should().Be("Shoot");
             effect.Agents.Should().BeNull();
@@ -58,8 +66,9 @@
         public void CausesStatementWithPrecondition()
         {
             var history = $"Shoot {this.TypicallyString}causes {this.effectCondition} if {this.preCondition}".GetHistory();
-            history.Effects.Count.Should().Be(1);
-            var effect = history.Effects[0];
+
+            history.Effects.Count.Should().Be(this.typically ?  2 : 1);
+            var effect = history.Effects.First(p=>p.IsTypical == this.typically);
 
             effect.Action.Should().Be("Shoot");
             effect.Agents.Should().BeNull();
@@ -73,8 +82,9 @@
         public void CausesStatementWithPreconditionAndActor()
         {
             var history = $"when John Shoot {this.TypicallyString}causes {this.effectCondition} if {this.preCondition}".GetHistory();
-            history.Effects.Count.Should().Be(1);
-            var effect = history.Effects[0];
+
+            history.Effects.Count.Should().Be(this.typically ?  2 : 1);
+            var effect = history.Effects.First(p=>p.IsTypical == this.typically);
 
             effect.Action.Should().Be("Shoot");
             effect.Agents.Should().BeEquivalentTo("John");
@@ -88,8 +98,9 @@
         public void CausesStatementWithPreconditionAndActors()
         {
             var history = $"when John or Jeny Shoot {this.TypicallyString}causes {this.effectCondition} if {this.preCondition}".GetHistory();
-            history.Effects.Count.Should().Be(1);
-            var effect = history.Effects[0];
+
+            history.Effects.Count.Should().Be(this.typically ?  2 : 1);
+            var effect = history.Effects.First(p=>p.IsTypical == this.typically);
 
             effect.Action.Should().Be("Shoot");
             effect.Agents.Should().BeEquivalentTo("John","Jeny");
@@ -103,8 +114,9 @@
         public void CausesStatementWithActor()
         {
             var history = $"when John Shoot {this.TypicallyString}causes {this.effectCondition}".GetHistory();
-            history.Effects.Count.Should().Be(1);
-            var effect = history.Effects[0];
+
+            history.Effects.Count.Should().Be(this.typically ?  2 : 1);
+            var effect = history.Effects.First(p=>p.IsTypical == this.typically);
 
             effect.Action.Should().Be("Shoot");
             effect.Agents.Should().BeEquivalentTo("John");
@@ -118,8 +130,9 @@
         public void CausesStatementWithActors()
         {
             var history = $"when John or Smith Shoot {this.TypicallyString}causes {this.effectCondition}".GetHistory();
-            history.Effects.Count.Should().Be(1);
-            var effect = history.Effects[0];
+
+            history.Effects.Count.Should().Be(this.typically ?  2 : 1);
+            var effect = history.Effects.First(p=>p.IsTypical == this.typically);
 
             effect.Action.Should().Be("Shoot");
             effect.Agents.Should().BeEquivalentTo("John","Smith");

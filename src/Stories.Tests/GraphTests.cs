@@ -41,5 +41,68 @@ namespace Stories.Tests
             graph.Edges.Should().Contain(p => p.From.State.Equals(q3) && p.To.State.Equals(q3) && p.Action == "load" && p.IsTypical);
 
         }
+
+        [Test]
+        public void TypicallyWithCertainEffectTest()
+        {
+            var spaghetti = @"
+when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti
+when Michał ZrobSpaghetti causes tortilla if not spaghetti";
+
+            var history = Parsing.GetHistory(spaghetti);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story);
+
+            var q0 = story.States.First(p => !p.GetVariable("spaghetti") && !p.GetVariable("tortilla"));
+            var qTypical = story.States.First(p => p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
+            var qNonTypical = story.States.First(p => !p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
+            graph.Edges.Should().Contain(p => p.From.State.Equals(q0) && p.To.State.Equals(qTypical)
+            && p.Action == "ZrobSpaghetti" && p.Actor=="Michał" && p.IsTypical);
+            graph.Edges.Should().Contain(p => p.From.State.Equals(q0) && p.To.State.Equals(qNonTypical)
+            && p.Action == "ZrobSpaghetti" && p.Actor=="Michał"  && !p.IsTypical);
+         
+        }
+        [Test]
+        public void TypicallyWithCertainEffectWithoutActorTest()
+        {
+            var spaghetti = @"
+when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti
+ZrobSpaghetti causes tortilla if not spaghetti";
+
+            var history = Parsing.GetHistory(spaghetti);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story);
+
+            var q0 = story.States.First(p => !p.GetVariable("spaghetti") && !p.GetVariable("tortilla"));
+            var qTypical = story.States.First(p => p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
+            var qNonTypical = story.States.First(p => !p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
+            graph.Edges.Should().Contain(p => p.From.State.Equals(q0) && p.To.State.Equals(qTypical)
+            && p.Action == "ZrobSpaghetti" && p.Actor == "Michał" && p.IsTypical);
+            graph.Edges.Should().Contain(p => p.From.State.Equals(q0) && p.To.State.Equals(qNonTypical)
+            && p.Action == "ZrobSpaghetti" && p.Actor == "Michał" && !p.IsTypical);
+
+        }
+
+        [Test]
+        public void TypicallyEffectTest()
+        {
+            var spaghetti = @"
+when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti";
+
+            var history = Parsing.GetHistory(spaghetti);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story);
+
+            var q0 = story.States.First(p => !p.GetVariable("spaghetti"));
+            var qTypical = story.States.First(p => p.GetVariable("spaghetti"));
+            var qNonTypical = q0;
+
+            graph.Edges.Should().Contain(p => p.From.State.Equals(q0) && p.To.State.Equals(qTypical)
+            && p.Action == "ZrobSpaghetti" && p.Actor == "Michał" && p.IsTypical);
+            graph.Edges.Should().Contain(p => p.From.State.Equals(q0) && p.To.State.Equals(qNonTypical)
+            && p.Action == "ZrobSpaghetti" && p.Actor == "Michał" && !p.IsTypical);
+
+        }
+       
     }
 }

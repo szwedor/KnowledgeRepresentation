@@ -51,7 +51,9 @@ namespace Stories.Graph
                 {
                     var vertexTo = graph.Vertexes.Find(x => x.State.Equals(state));
                     if (graph.Edges.Any(p =>
-                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)))
+                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)
+                        && p.Actor==agent &&p.Action ==action))
+                        
                         continue;
                     Edge edge = new Edge(vertexFrom, vertexTo, true, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
@@ -63,10 +65,11 @@ namespace Stories.Graph
                 {
                     var vertexTo = graph.Vertexes.Find(x => x.State.Equals(state));
                     if (graph.Edges.Any(p =>
-                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)))
+                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)
+                        && p.Actor == agent && p.Action == action))
                         continue;
 
-                    Edge edge = new Edge(vertexFrom, vertexTo, false, action, agent);
+                        Edge edge = new Edge(vertexFrom, vertexTo, false, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);

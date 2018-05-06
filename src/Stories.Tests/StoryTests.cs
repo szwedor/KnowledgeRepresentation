@@ -139,11 +139,11 @@
 
             var g= Graph.Graph.CreateGraph(story);
             g.Vertexes.First(p => p.State == q0)
-                .ShouldHaveEdges("Frodo", q1)//q5
+                .ShouldHaveEdges("Frodo", q1)//q5 nie ma bo musi miec miecz
                 .ShouldHaveEdges("Bilbo", q2);
 
             g.Vertexes.First(p => p.State == q1)
-                .ShouldHaveEdges("Frodo", q4);
+                .ShouldHaveEdges("Frodo", q4,q1);//q1 musi byc bo  observable not BilboLives after AttackBilbo 
 
             g.Vertexes.First(p => p.State == q2)
                 .ShouldHaveEdges("Frodo", q6)

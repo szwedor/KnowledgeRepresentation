@@ -18,6 +18,16 @@ namespace Stories.Parser.Statements
             NonInertial = statements.OfType<NonInertialStatement>().ToList();
             Releases = statements.OfType<ReleaseStatement>().ToList();
             Values = statements.OfType<ValueStatement>().ToList();
+
+            foreach (var effect in Effects.Where(p => p.IsTypical).ToArray())
+                Effects.Add(new EffectStatement()
+                {
+                    Effect = new Conditions.ConditionConstant(true),
+                    Action = effect.Action,
+                    Agents = effect.Agents,
+                    Condition = effect.Condition,
+                    IsTypical = false
+                });
         }
     }
 }
