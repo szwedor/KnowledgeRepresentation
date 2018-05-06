@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graph.cs" />
+    <Compile Include="GraphExtensions.cs" />
     <Compile Include="Model\Edge.cs" />
     <Compile Include="Model\Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,6 +50,10 @@
     <ProjectReference Include="..\Stories.Execution\Stories.Execution.csproj">
       <Project>{c003c183-3cc1-4b2b-abde-b59182aadeee}</Project>
       <Name>Stories.Execution</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stories.Parser\Stories.Parser.csproj">
+      <Project>{91BEFFD3-B0F1-4B66-B7F4-AE6295D069F3}</Project>
+      <Name>Stories.Parser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
