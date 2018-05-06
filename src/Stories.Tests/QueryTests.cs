@@ -5,6 +5,7 @@ using Stories.Graph.Model;
 using Stories.Parser;
 using Stories.Parser.Conditions;
 using Stories.Parser.Statements.QueryStatements;
+using Stories.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Stories.Tests
     public class QueryTests
     {
         [Test]
-        public void NecessaryAccesibleTest()
+        public void NecessaryAccessibleTest()
         {
             var queryText = @"necessary accessible BilboLives and FrodoLives from BilboLives and not FrodoHasSword";
             var query = Parsing.GetQuery(queryText);
@@ -33,28 +34,11 @@ namespace Stories.Tests
             var story = new Story(history);
             var graph = Graph.Graph.CreateGraph(story);
 
-            var accesibleQuery = query as AccessibleQueryStatement;
-            var availableVertices = graph.FindVerticesSatisfyingCondition(accesibleQuery.StateFromCondition).ToList();
-            var availableDestinationVertices = graph.FindVerticesSatisfyingCondition(accesibleQuery.StateToCondition).ToList();
-            var verticesToCheck = availableVertices;
-
-            var queryResult = true;
-            var closedVertices = new List<Vertex>();
-            if (accesibleQuery.Sufficiency == Parser.Statements.Sufficiency.Necessary)
+            if (query is AccessibleQueryStatement accessibleQuery)
             {
-                do
-                {
-                    if (!verticesToCheck.All(v => availableDestinationVertices.Contains(v)))
-                    {
-                        queryResult = false;
-                        break;
-                    }
-                    closedVertices.AddRange(verticesToCheck);
-                    verticesToCheck = verticesToCheck.SelectMany(x => x.EdgesOutgoing.Select(y => y.To)).ToList();
-                } while (!verticesToCheck.All(v => closedVertices.Contains(v)));
-            }
-
-            Assert.AreEqual(false, queryResult);
+                var queryResult = accessibleQuery.Execute(graph);
+                Assert.AreEqual(false, queryResult);
+            }      
         }
     }
 }

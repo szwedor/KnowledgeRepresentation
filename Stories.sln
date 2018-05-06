@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stories.Tests", "src\Storie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Graph", "src\Stories.Graph\Stories.Graph.csproj", "{15A857A9-C205-4248-A147-F99AAA7CBDFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stories.Query", "Stories.Query\Stories.Query.csproj", "{15879962-F167-4096-8F40-51131F5FFD72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15A857A9-C205-4248-A147-F99AAA7CBDFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15879962-F167-4096-8F40-51131F5FFD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15879962-F167-4096-8F40-51131F5FFD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15879962-F167-4096-8F40-51131F5FFD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15879962-F167-4096-8F40-51131F5FFD72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

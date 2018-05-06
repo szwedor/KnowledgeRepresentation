@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Stories.Query\Stories.Query.csproj" />
     <ProjectReference Include="..\Stories.Execution\Stories.Execution.csproj" />
     <ProjectReference Include="..\Stories.Graph\Stories.Graph.csproj" />
     <ProjectReference Include="..\Stories.Parser\Stories.Parser.csproj" />
