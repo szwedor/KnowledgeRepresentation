@@ -26,7 +26,7 @@ namespace Stories.Tests
 
             var history = Parsing.GetHistory(text);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             if (query is AccessibleQueryStatement accessibleQuery)
             {
@@ -52,7 +52,7 @@ namespace Stories.Tests
 
             var history = Parsing.GetHistory(text);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             if (query is AccessibleQueryStatement accessibleQuery)
             {
@@ -79,7 +79,7 @@ namespace Stories.Tests
 
             var history = Parsing.GetHistory(text);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             if (query is AccessibleQueryStatement accessibleQuery)
             {
