@@ -22,7 +22,7 @@ namespace Stories.Tests
 
             var history = Parsing.GetHistory(yaleShootingProblem);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             var q0 = story.States.First(p => !p.GetVariable("loaded") && p.GetVariable("alive"));
             var q1 = story.States.First(p => p.GetVariable("loaded") && p.GetVariable("alive"));
@@ -51,7 +51,7 @@ when Michał ZrobSpaghetti causes tortilla if not spaghetti";
 
             var history = Parsing.GetHistory(spaghetti);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             var q0 = story.States.First(p => !p.GetVariable("spaghetti") && !p.GetVariable("tortilla"));
             var qTypical = story.States.First(p => p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
@@ -71,7 +71,7 @@ ZrobSpaghetti causes tortilla if not spaghetti";
 
             var history = Parsing.GetHistory(spaghetti);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             var q0 = story.States.First(p => !p.GetVariable("spaghetti") && !p.GetVariable("tortilla"));
             var qTypical = story.States.First(p => p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
@@ -91,7 +91,7 @@ when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti";
 
             var history = Parsing.GetHistory(spaghetti);
             var story = new Story(history);
-            var graph = Graph.Graph.CreateGraph(story);
+            var graph = Graph.Graph.CreateGraph(story, null);
 
             var q0 = story.States.First(p => !p.GetVariable("spaghetti"));
             var qTypical = story.States.First(p => p.GetVariable("spaghetti"));

@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using Stories.Execution;
 using Stories.Graph.Model;
+using Stories.Parser.Statements;
+using Stories.Parser.Statements.QueryStatements;
 
 namespace Stories.Graph
 {
@@ -18,7 +20,7 @@ namespace Stories.Graph
             this.Edges = new List<Edge>();
         }
 
-        public static Graph CreateGraph(Story story)
+        public static Graph CreateGraph(Story story, QueryStatement query)
         {
             Graph graph = new Graph();
             foreach (var state in story.States)
@@ -27,14 +29,23 @@ namespace Stories.Graph
             }
             foreach (var vertexFrom in graph.Vertexes)
             {
-                GetEdges(null, graph, story, vertexFrom);
                 if (story.Agents.Count > 0)
                 {
                     foreach (var agent in story.Agents)
                     {
                         GetEdges(agent, graph, story, vertexFrom);
                     }
-                }           
+                }
+
+                if (query != null && query is AgentInQueryStatement agentQuery && !story.Agents.Contains(agentQuery.Agent))
+                {
+                    GetEdges(agentQuery.Agent, graph, story, vertexFrom);
+                }
+
+                if (query == null && story.Agents.Count == 0)
+                {
+                    GetEdges(null, graph, story, vertexFrom);
+                }
                         
             }
             
@@ -46,14 +57,13 @@ namespace Stories.Graph
             foreach (var action in story.Actions)
             {
                 var resN = story.ResN(agent, action, vertexFrom.State);
-                var resMinus = story.ResMinus(agent, action, vertexFrom.State);
+                var resAb = story.ResAb(agent, action, vertexFrom.State);
                 foreach (var state in resN.ToArray())
                 {
                     var vertexTo = graph.Vertexes.Find(x => x.State.Equals(state));
                     if (graph.Edges.Any(p =>
                         p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexTo.State)
-                        && p.Actor==agent &&p.Action ==action))
-                        
+                        && p.Actor == agent && p.Action == action))
                         continue;
                     Edge edge = new Edge(vertexFrom, vertexTo, true, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
@@ -61,7 +71,7 @@ namespace Stories.Graph
                     graph.Edges.Add(edge);
                 }
 
-                foreach (var state in resMinus.ToArray())
+                foreach (var state in resAb.ToArray())
                 {
                     var vertexTo = graph.Vertexes.Find(x => x.State.Equals(state));
                     if (graph.Edges.Any(p =>
@@ -69,7 +79,7 @@ namespace Stories.Graph
                         && p.Actor == agent && p.Action == action))
                         continue;
 
-                        Edge edge = new Edge(vertexFrom, vertexTo, false, action, agent);
+                    Edge edge = new Edge(vertexFrom, vertexTo, false, action, agent);
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);

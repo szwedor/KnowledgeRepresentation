@@ -31,7 +31,7 @@
                         {
                             var history = Parsing.GetHistory(this.GetInput());
                             var story = new Story(history);
-                            var graph = Graph.CreateGraph(story);
+                            var graph = Graph.CreateGraph(story, null);
                             var serialized = JsonConvert.SerializeObject(
                                 new{history,story}, Formatting.Indented);
                             var keywords = 

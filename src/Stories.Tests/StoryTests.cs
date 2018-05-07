@@ -138,7 +138,7 @@
                      !p.GetVariable("FrodoHasSword") &&
                      p.GetVariable("BilboHasSword"));
 
-            var g= Graph.Graph.CreateGraph(story);
+            var g= Graph.Graph.CreateGraph(story, null);
             g.Vertexes.First(p => p.State == q0)
                 .ShouldHaveEdges("Frodo", q1)//q5 nie ma bo musi miec miecz
                 .ShouldHaveEdges("Bilbo", q2);
