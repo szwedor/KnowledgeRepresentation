@@ -150,6 +150,21 @@
             g.Vertexes.First(p => p.State == q2)
                 .ShouldHaveEdges("Bilbo", q2, q3);
         }
+
+        [Test]
+        public void SpaghettiAndTortillaTest()
+        {
+            var spaghettiAndTortilla = @"
+                initially not spaghetti and not tortilla
+                ZrobTortille causes tortilla if not tortilla
+                when Jan ZrobSpaghetti causes spaghetti if not spaghetti
+                when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti
+                impossible Michał ZjedzSpaghetti
+                ZjedzSpaghetti causes not spaghetti if spaghetti
+                ZjedzTortille causes not tortilla if tortilla
+                ";
+
+        }
         
     }
 }
