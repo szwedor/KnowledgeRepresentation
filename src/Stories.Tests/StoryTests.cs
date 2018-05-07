@@ -164,6 +164,64 @@
                 ZjedzTortille causes not tortilla if tortilla
                 ";
 
+            var history = Parsing.GetHistory(spaghettiAndTortilla);
+            var story = new Story(history);
+
+            var q0 = story.States.First(p => !p.GetVariable("spaghetti") && !p.GetVariable("tortilla"));
+            var q1 = story.States.First(p => !p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
+            var q2 = story.States.First(p => p.GetVariable("spaghetti") && !p.GetVariable("tortilla"));
+            var q3 = story.States.First(p => p.GetVariable("spaghetti") && p.GetVariable("tortilla"));
+
+            var g = Graph.Graph.CreateGraph(story, null);
+            //agenci
+            string jan = "Jan";
+            string michał = "Michał";
+            //akcje
+            string zjedzSpaghetti = "ZjedzSpaghetti";
+            string zjedzTortille = "ZjedzTortille";
+            string zrobSpaghetti = "ZrobSpaghetti";
+            string zrobTortille = "ZrobTortille";
+
+            g.Vertexes.First(p => p.State == q0)
+                .ShouldHaveEdges(jan, zrobTortille, q1)
+                .ShouldHaveEdges(michał, zrobTortille, q1)
+                .ShouldHaveEdges(jan, zrobSpaghetti, q2)
+                .ShouldHaveEdges(michał, zrobSpaghetti, q0, q2)
+                .ShouldHaveEdges(jan, zjedzSpaghetti)
+                .ShouldHaveEdges(michał, zjedzSpaghetti)
+                .ShouldHaveEdges(jan, zjedzTortille)
+                .ShouldHaveEdges(michał, zjedzTortille);
+
+            g.Vertexes.First(p => p.State == q1)
+                .ShouldHaveEdges(jan, zrobTortille)
+                .ShouldHaveEdges(michał, zrobTortille)
+                .ShouldHaveEdges(jan, zrobSpaghetti, q3)
+                .ShouldHaveEdges(michał, zrobSpaghetti, q1, q3)
+                .ShouldHaveEdges(jan, zjedzSpaghetti)
+                .ShouldHaveEdges(michał, zjedzSpaghetti)
+                .ShouldHaveEdges(jan, zjedzTortille, q0)
+                .ShouldHaveEdges(michał, zjedzTortille, q0);
+
+            g.Vertexes.First(p => p.State == q2)
+                .ShouldHaveEdges(jan, zrobTortille, q3)
+                .ShouldHaveEdges(michał, zrobTortille, q3)
+                .ShouldHaveEdges(jan, zrobSpaghetti)
+                .ShouldHaveEdges(michał, zrobSpaghetti)
+                .ShouldHaveEdges(jan, zjedzSpaghetti, q0)
+                .ShouldHaveEdges(michał, zjedzSpaghetti)
+                .ShouldHaveEdges(jan, zjedzTortille)
+                .ShouldHaveEdges(michał, zjedzTortille);
+                ;
+
+            g.Vertexes.First(p => p.State == q3)
+                .ShouldHaveEdges(jan, zrobTortille)
+                .ShouldHaveEdges(michał, zrobTortille)
+                .ShouldHaveEdges(jan, zrobSpaghetti)
+                .ShouldHaveEdges(michał, zrobSpaghetti)
+                .ShouldHaveEdges(jan, zjedzSpaghetti, q1)
+                .ShouldHaveEdges(michał, zjedzSpaghetti)
+                .ShouldHaveEdges(jan, zjedzTortille, q2)
+                .ShouldHaveEdges(michał, zjedzTortille, q2);
         }
         
     }
