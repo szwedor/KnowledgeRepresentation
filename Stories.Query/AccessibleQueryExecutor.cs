@@ -11,7 +11,7 @@ namespace Stories.Query
 {
     public static class AccessibleQueryExecutor
     {
-        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph, Story story)
+        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph)
         {
             if (graph == null)
             {
@@ -24,7 +24,7 @@ namespace Stories.Query
             switch (query.Sufficiency)
             {
                 case Sufficiency.Necessary:
-                    return ExecuteNecessarySufficiency(startVertices, endVertices, story);
+                    return ExecuteNecessarySufficiency(startVertices, endVertices);
                 case Sufficiency.Possibly:
                     break;
                 case Sufficiency.Typically:
@@ -35,7 +35,7 @@ namespace Stories.Query
             return false;
         }
 
-        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, IEnumerable<Vertex> endVertices, HistoryStatement history)
+        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, IEnumerable<Vertex> endVertices)
         {
             // TODO do uwzględnienia zdania  "y after xyz"
             if (endVertices.Count() == 0 || startVertices.Count() == 0)
@@ -51,7 +51,7 @@ namespace Stories.Query
                 var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.Equals(y) ? 0 : 1));
                 var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { sVertex } };
                 int programLength = 0;
-                var possibleValueStatements = history.Values;
+              //  var possibleValueStatements = history.Values;
                 do
                 {
                     // po kolei sprawdzamy grupy wierzchołków, do których prowadzi (aktor, akcja)
