@@ -1,4 +1,5 @@
-﻿using Stories.Graph;
+﻿using Stories.Execution;
+using Stories.Graph;
 using Stories.Graph.Model;
 using Stories.Parser.Statements;
 using Stories.Parser.Statements.QueryStatements;
@@ -10,7 +11,7 @@ namespace Stories.Query
 {
     public static class AccessibleQueryExecutor
     {
-        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph)
+        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph, Story story)
         {
             if (graph == null)
             {
@@ -23,7 +24,7 @@ namespace Stories.Query
             switch (query.Sufficiency)
             {
                 case Sufficiency.Necessary:
-                    return ExecuteNecessarySufficiency(startVertices, endVertices);
+                    return ExecuteNecessarySufficiency(startVertices, endVertices, story);
                 case Sufficiency.Possibly:
                     break;
                 case Sufficiency.Typically:
@@ -34,7 +35,7 @@ namespace Stories.Query
             return false;
         }
 
-        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, IEnumerable<Vertex> endVertices)
+        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, IEnumerable<Vertex> endVertices, HistoryStatement history)
         {
             // TODO do uwzględnienia zdania  "y after xyz"
             if (endVertices.Count() == 0 || startVertices.Count() == 0)
@@ -49,7 +50,8 @@ namespace Stories.Query
             {
                 var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.Equals(y) ? 0 : 1));
                 var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { sVertex } };
-
+                int programLength = 0;
+                var possibleValueStatements = history.Values;
                 do
                 {
                     // po kolei sprawdzamy grupy wierzchołków, do których prowadzi (aktor, akcja)
@@ -59,13 +61,45 @@ namespace Stories.Query
                         verticesCompleted++;
                         break;
                     }
-                    
+                    // TODO: Czy w tym miejscu właściwe jest dorzucanie wierzchołków do closedVertices jeśli później verticesToCheck obetniemy o valueStatements?
                     closedVertices.UnionWith(verticesToCheck.SelectMany(x => x).Distinct());
 
                     // grupujemy krawędzie po aktorach i akcjach
                     var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).Distinct().SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor }).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     verticesToCheck = edgesGroupedByActorAction.Select(x => x.Select(y=>y.To).ToList()).ToList();
+
+                    // TODO odblokowac po sprawdzeniu poprawnosci bez uwzgledniania valueStatements
+                    //////////////////////
+                    //// wyliczamy możliwe teraz i w przyszłości valueStatements
+                    //possibleValueStatements = possibleValueStatements.Where(x => edgesGroupedByActorAction.Any(
+                    //        y => y.Key.Action == x.Actions[programLength].Action 
+                    //        && y.Key.Actor == x.Actions[programLength].Agent)
+                    //    ).ToList();
+                    //programLength++;
+
+                    //// wyznaczamy valueStatements dla których aktualnie spełniamy program
+                    //var valuesStatementToApply = possibleValueStatements.Where(x => x.Actions.Count == programLength).ToList();
+                    //if (valuesStatementToApply.Count > 0)
+                    //{
+                       
+                    //      var anyChangesInVerticesToCheck =  !valuesStatementToApply.All( // verticesToCheck == verticesToCheck po nałożeniu wszystkich valueStatements
+                    //            x=> verticesToCheck.All( // vertivesToCheck == verticesToCheck po nałożeniu ograniczeń z Condition
+                    //                y => y.All(z => y.FindVerticesSatisfyingCondition(x.Condition).Contains(z) // y == y po nałożeniu ograniczeń z Condition
+                    //            ))
+                    //        );
+                    //    // TODO co zrobić jeśli nie wszystkei wyznaczone stany mogą iść dalej??
+                    //    // czy to oznacza, ze dla danej drogi nie możemy uzyskać efektu??
+                    //    // a może należy obciąć verticesToCheck o właściwe stany i procesować dalej? - TA ODPOWIEDZ JEST CHYBA PRAWDZIWA
+
+                    //    // obciecie verticesToCheck o stany niespelniajace ValueStatements
+                    //    valuesStatementToApply.ForEach(
+                    //        x =>
+                    //        {
+                    //            verticesToCheck = verticesToCheck.Select(
+                    //                y => y.FindVerticesSatisfyingCondition(x.Condition).ToList()).ToList();
+                    //        });
+                    //}
 
                     // sprawdzamy, czy wszystkie wierzchołki do rozważenia były już rozważane
                 } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
