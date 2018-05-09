@@ -1,6 +1,7 @@
 ﻿using Stories.Execution;
 using Stories.Graph;
 using Stories.Graph.Model;
+using Stories.Parser.Conditions;
 using Stories.Parser.Statements;
 using Stories.Parser.Statements.QueryStatements;
 using System;
@@ -11,7 +12,7 @@ namespace Stories.Query
 {
     public static class AccessibleQueryExecutor
     {
-        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph)
+        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
         {
             if (graph == null)
             {
@@ -19,26 +20,26 @@ namespace Stories.Query
             }
 
             var startVertices = graph.FindVerticesSatisfyingCondition(query.StateFromCondition).ToList();
-            var endVertices = graph.FindVerticesSatisfyingCondition(query.StateToCondition).ToList();
+            startVertices = startVertices.ApplyInitiallyValueStatements(history).ToList();
 
             switch (query.Sufficiency)
             {
                 case Sufficiency.Necessary:
-                    return ExecuteNecessarySufficiency(startVertices, endVertices);
+                    return ExecuteNecessarySufficiency(startVertices, query.StateToCondition);
                 case Sufficiency.Possibly:
                     break;
                 case Sufficiency.Typically:
-                    return ExecuteTypicallySufficiency(startVertices, endVertices);
+                    return ExecuteTypicallySufficiency(startVertices, query.StateToCondition);
                 default:
                     throw new InvalidOperationException();
             }
             return false;
         }
 
-        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, IEnumerable<Vertex> endVertices)
+        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
         {
             // TODO do uwzględnienia zdania  "y after xyz"
-            if (endVertices.Count() == 0 || startVertices.Count() == 0)
+            if (startVertices.Count() == 0)
             {
                 return false;
             }
@@ -56,7 +57,7 @@ namespace Stories.Query
                 {
                     // po kolei sprawdzamy grupy wierzchołków, do których prowadzi (aktor, akcja)
                     // jeśli dla jakiejś grupy wierzchołków, do której prowadzi (aktor, akcja) wszystkie stany spełniają warunek końcowy to wejdź w if'a
-                    if (verticesToCheck.Any(x => x.All(y => endVertices.Contains(y))))
+                    if (verticesToCheck.Any(x => x.All(y => y.State.EvaluateCondition(endCondition))))//endVertices.Contains(y))))
                     {
                         verticesCompleted++;
                         break;
@@ -113,7 +114,7 @@ namespace Stories.Query
             return queryResult;
         }
 
-        private static bool ExecuteTypicallySufficiency(IEnumerable<Vertex> startVertices, IEnumerable<Vertex> endVertices)
+        private static bool ExecuteTypicallySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
         {
             throw new NotImplementedException();
             //var queryResult = true;

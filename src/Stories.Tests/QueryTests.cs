@@ -30,7 +30,7 @@ namespace Stories.Tests
 
             if (query is AccessibleQueryStatement accessibleQuery)
             {
-                var queryResult = accessibleQuery.Execute(graph);
+                var queryResult = accessibleQuery.Execute(graph, history);
                 Assert.AreEqual(false, queryResult);
             }      
         }
@@ -56,7 +56,7 @@ namespace Stories.Tests
 
             if (query is AccessibleQueryStatement accessibleQuery)
             {
-                var queryResult = accessibleQuery.Execute(graph);
+                var queryResult = accessibleQuery.Execute(graph, history);
                 Assert.AreEqual(true, queryResult);
             }
         }
@@ -83,8 +83,8 @@ namespace Stories.Tests
 
             if (query is AccessibleQueryStatement accessibleQuery)
             {
-                var queryResult = accessibleQuery.Execute(graph);
-                Assert.AreEqual(true, queryResult);
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(false, queryResult);
             }
         }
     }
