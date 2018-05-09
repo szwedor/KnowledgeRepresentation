@@ -19,17 +19,16 @@ namespace Stories.Graph
             return vertices.Where(v => v.State.EvaluateCondition(condition));
         }
 
-        public static IEnumerable<Vertex> ApplyInitiallyValueStatements(this IEnumerable<Vertex> startVertices, HistoryStatement history)
+        public static IEnumerable<Vertex> ApplyValueStatements(this IEnumerable<Vertex> startVertices, IEnumerable<ValueStatement> valueStatements)
         {
-            //value statements
-            var initiallyValue = history.Values.Where(x => x.Actions.Count == 0);
-            //apply initially x
-            foreach (var val in initiallyValue.Where(x => x.IsObservable == false))
+            //apply value statements
+            foreach (var val in valueStatements.Where(x => x.IsObservable == false))
             {
                 startVertices = startVertices.FindVerticesSatisfyingCondition(val.Condition);
             }
-            //apply observable x
-            startVertices = startVertices.Concat(initiallyValue.Where(x => x.IsObservable == true)
+            //apply observable value statements
+            // to jest bez sensu, observable bez condition nie jest w stanie ani obciąć, ani rozszerzyć zbioru stanów
+            startVertices = startVertices.Concat(valueStatements.Where(x => x.IsObservable == true)
                 .SelectMany(x => startVertices.FindVerticesSatisfyingCondition(x.Condition))).Distinct();
 
             return startVertices;

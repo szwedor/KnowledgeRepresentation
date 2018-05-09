@@ -20,12 +20,12 @@ namespace Stories.Query
             }
 
             var startVertices = graph.FindVerticesSatisfyingCondition(query.StateFromCondition).ToList();
-            startVertices = startVertices.ApplyInitiallyValueStatements(history).ToList();
+            startVertices = startVertices.ApplyValueStatements(history.Values.Where(x => x.Actions.Count == 0)).ToList();
 
             switch (query.Sufficiency)
             {
                 case Sufficiency.Necessary:
-                    return ExecuteNecessarySufficiency(startVertices, query.StateToCondition);
+                    return ExecuteNecessarySufficiency(startVertices, query.StateToCondition, history);
                 case Sufficiency.Possibly:
                     break;
                 case Sufficiency.Typically:
@@ -36,7 +36,7 @@ namespace Stories.Query
             return false;
         }
 
-        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
+        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition, HistoryStatement history)
         {
             // TODO do uwzględnienia zdania  "y after xyz"
             if (startVertices.Count() == 0)
@@ -52,7 +52,7 @@ namespace Stories.Query
                 var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.Equals(y) ? 0 : 1));
                 var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { sVertex } };
                 int programLength = 0;
-              //  var possibleValueStatements = history.Values;
+                var possibleValueStatements = history.Values.Where(x=>x.Actions.Count>0);
                 do
                 {
                     // po kolei sprawdzamy grupy wierzchołków, do których prowadzi (aktor, akcja)
@@ -72,35 +72,35 @@ namespace Stories.Query
 
                     // TODO odblokowac po sprawdzeniu poprawnosci bez uwzgledniania valueStatements
                     //////////////////////
-                    //// wyliczamy możliwe teraz i w przyszłości valueStatements
-                    //possibleValueStatements = possibleValueStatements.Where(x => edgesGroupedByActorAction.Any(
-                    //        y => y.Key.Action == x.Actions[programLength].Action 
-                    //        && y.Key.Actor == x.Actions[programLength].Agent)
-                    //    ).ToList();
-                    //programLength++;
+                    // wyliczamy możliwe teraz i w przyszłości valueStatements
+                    possibleValueStatements = possibleValueStatements.Where(x => edgesGroupedByActorAction.Any(
+                            y => y.Key.Action == x.Actions[programLength].Action
+                            && y.Key.Actor == x.Actions[programLength].Agent)
+                        ).ToList();
+                    programLength++;
 
-                    //// wyznaczamy valueStatements dla których aktualnie spełniamy program
-                    //var valuesStatementToApply = possibleValueStatements.Where(x => x.Actions.Count == programLength).ToList();
-                    //if (valuesStatementToApply.Count > 0)
-                    //{
-                       
-                    //      var anyChangesInVerticesToCheck =  !valuesStatementToApply.All( // verticesToCheck == verticesToCheck po nałożeniu wszystkich valueStatements
-                    //            x=> verticesToCheck.All( // vertivesToCheck == verticesToCheck po nałożeniu ograniczeń z Condition
-                    //                y => y.All(z => y.FindVerticesSatisfyingCondition(x.Condition).Contains(z) // y == y po nałożeniu ograniczeń z Condition
-                    //            ))
-                    //        );
-                    //    // TODO co zrobić jeśli nie wszystkei wyznaczone stany mogą iść dalej??
-                    //    // czy to oznacza, ze dla danej drogi nie możemy uzyskać efektu??
-                    //    // a może należy obciąć verticesToCheck o właściwe stany i procesować dalej? - TA ODPOWIEDZ JEST CHYBA PRAWDZIWA
+                    // wyznaczamy valueStatements dla których aktualnie spełniamy program
+                    var valuesStatementToApply = possibleValueStatements.Where(x => x.Actions.Count == programLength).ToList();
+                    if (valuesStatementToApply.Count > 0)
+                    {
+                        //////var anyChangesInVerticesToCheck = 
+                        //////var anyChangesInVerticesToCheck = !valuesStatementToApply.All( // verticesToCheck == verticesToCheck po nałożeniu wszystkich valueStatements
+                        //////      x => verticesToCheck.All( // vertivesToCheck == verticesToCheck po nałożeniu ograniczeń z Condition
+                        //////          y => y.All(z => y.FindVerticesSatisfyingCondition(x.Condition).Contains(z) // y == y po nałożeniu ograniczeń z Condition
+                        //////      ))
+                        //////  );
+                        // TODO co zrobić jeśli nie wszystkei wyznaczone stany mogą iść dalej??
+                        // czy to oznacza, ze dla danej drogi nie możemy uzyskać efektu??
+                        // a może należy obciąć verticesToCheck o właściwe stany i procesować dalej? - TA ODPOWIEDZ JEST CHYBA PRAWDZIWA
 
-                    //    // obciecie verticesToCheck o stany niespelniajace ValueStatements
-                    //    valuesStatementToApply.ForEach(
-                    //        x =>
-                    //        {
-                    //            verticesToCheck = verticesToCheck.Select(
-                    //                y => y.FindVerticesSatisfyingCondition(x.Condition).ToList()).ToList();
-                    //        });
-                    //}
+                        // obciecie verticesToCheck o stany niespelniajace ValueStatements
+                        //valuesStatementToApply.ForEach(
+                        //    x =>
+                        //    {
+                        //        verticesToCheck = verticesToCheck.Select(
+                        //            y => y.FindVerticesSatisfyingCondition(x.Condition).ToList()).ToList();
+                        //    });
+                    }
 
                     // sprawdzamy, czy wszystkie wierzchołki do rozważenia były już rozważane
                 } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
