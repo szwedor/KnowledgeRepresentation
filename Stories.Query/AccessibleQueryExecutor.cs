@@ -122,20 +122,24 @@ namespace Stories.Query
         }
         #endregion
 
-        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
+        private static bool ExecuteNecessarySufficiency(IList<Vertex> startVertices, ConditionExpression endCondition)
         {
             if (startVertices.Count() == 0)
             {
                 return false;
             }
 
-            var queryResult = true;
             int verticesCompleted = 0;
 
-            foreach (var sVertex in startVertices)
+            for (int m = 0; m < startVertices.Count; m++)// (var sVertex in startVertices)
             {
+                if(verticesCompleted < m)
+                {
+                    return false;
+                }
+
                 var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Equals(y.State) ? 0 : 1));
-                var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { sVertex } };
+                var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { startVertices[m] } };
                 do
                 {
                     // sprawdzamy czy wszystkie wierzchołki, do których możemy dojść przy pomocy (akcja, aktor) spełniają warunek końcowy
@@ -156,12 +160,7 @@ namespace Stories.Query
                 } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
             }
 
-            if (verticesCompleted != startVertices.Count())
-            {
-                queryResult = false;
-            }
-
-            return queryResult;
+            return true;
         }
 
 
@@ -195,16 +194,16 @@ namespace Stories.Query
                 {
                     // grupujemy po długości trasy i w ramach tras o jednej długości szukamy tej o najmniejszej liczbie abnormalnych przejść
                     var groupedByLength = verticesToCheck.Select(x => x.GroupBy(y => y.Length)).ToList();
-                    if (groupedByLength.Any(x=>x.Any(y=>y.OrderBy(z=>z.Abnormal).First().Vertex.State.EvaluateCondition(endCondition))))
+                    if (groupedByLength.Any(x => x.Any(y => y.OrderBy(z => z.Abnormal).First().Vertex.State.EvaluateCondition(endCondition))))
                     {
                         verticesCompleted++;
                         break;
                     }
 
-                    closedVertices.UnionWith(verticesToCheck.SelectMany(x => x.Select(y=>y.Vertex)));
+                    closedVertices.UnionWith(verticesToCheck.SelectMany(x => x.Select(y => y.Vertex)));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x=>x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     // liczymy długość trasy jaką się dostaliśmy oraz licznę abnormalnych przejść
                     verticesToCheck = edgesGroupedByActorAction.Select(
