@@ -194,8 +194,8 @@ namespace Stories.Query
                 do
                 {
                     // grupujemy po długości trasy i w ramach tras o jednej długości szukamy tej o najmniejszej liczbie abnormalnych przejść
-                    var aaa = verticesToCheck.Select(x => x.GroupBy(y => y.Length));
-                    if (aaa.Any(x=>x.Any(y=>y.OrderBy(z=>z.Abnormal).First().Vertex.State.EvaluateCondition(endCondition))))
+                    var groupedByLength = verticesToCheck.Select(x => x.GroupBy(y => y.Length)).ToList();
+                    if (groupedByLength.Any(x=>x.Any(y=>y.OrderBy(z=>z.Abnormal).First().Vertex.State.EvaluateCondition(endCondition))))
                     {
                         verticesCompleted++;
                         break;
