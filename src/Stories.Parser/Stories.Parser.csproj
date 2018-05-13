@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Conditions\ConditionConstant.cs" />
     <Compile Include="Conditions\ConditionExpression.cs" />
+    <Compile Include="Conditions\ConditionExtensionMethods.cs" />
     <Compile Include="Conditions\ConditionNegation.cs" />
     <Compile Include="Conditions\ConditionOperation.cs" />
     <Compile Include="Conditions\ConditionsParsing.cs" />

@@ -31,7 +31,7 @@ namespace Stories.Tests
             if (query is AccessibleQueryStatement accessibleQuery)
             {
                 var queryResult = accessibleQuery.Execute(graph, history);
-                Assert.AreEqual(false, queryResult);
+                Assert.AreEqual(true, queryResult);
             }      
         }
 
