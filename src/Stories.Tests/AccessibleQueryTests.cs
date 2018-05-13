@@ -89,7 +89,7 @@ namespace Stories.Tests
         }
 
         [Test]
-        public void TypicallyAccessibleTest4()
+        public void TypicallyAccessibleTest()
         {
             var queryText = @"typically accessible not FrodoLives from BilboHasSword";
             var queryText2 = @"typically accessible FrodoLives from BilboHasSword";
@@ -151,7 +151,7 @@ namespace Stories.Tests
         }
 
         [Test]
-        public void TypicallyAccessibleTest5()
+        public void TypicallyAccessibleTest2()
         {
             var queryText = @"typically accessible BilboHasSword from not BilboHasSword";
             var query = Parsing.GetQuery(queryText);
@@ -174,6 +174,93 @@ namespace Stories.Tests
             {
                 var queryResult = accessibleQuery.Execute(graph, history);
                 Assert.AreEqual(false, queryResult);
+            }
+        }
+
+        [Test]
+        public void NecessaryAccessibleTest6()
+        {
+            var queryText = @"necessary accessible not FrodoLives from FrodoHasSword";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially FrodoLives and BilboLives and FrodoHasSword
+                        when Frodo TakeSword causes FrodoHasSword
+                        when Bilbo TakeSword causes true
+                        when Bilbo TakeSword causes BilboHasSword if not FrodoHasSword
+                        not FrodoHasSword  after Bilbo TakeSword
+                        impossible Frodo AttackFrodo
+                        impossible Frodo TakeSword if not FrodoLives
+                        impossible Bilbo AttackBilbo
+                        impossible Bilbo TakeSword if not BilboLives
+                        AttackFrodo causes not FrodoLives if BilboHasSword
+                        AttackBilbo causes not BilboLives if FrodoHasSword";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(true, queryResult);
+            }
+        }
+
+        [Test]
+        public void NecessaryAccessibleTest7()
+        {
+            var queryText = @"necessary accessible not FrodoLives from FrodoHasSword";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially FrodoLives and BilboLives and FrodoHasSword
+                        when Frodo TakeSword causes FrodoHasSword
+                        when Bilbo TakeSword causes true
+                        when Bilbo TakeSword causes BilboHasSword if not FrodoHasSword
+                        not FrodoHasSword  after Bilbo TakeSword
+                        impossible Frodo AttackFrodo
+                        impossible Frodo TakeSword if not FrodoLives
+                        impossible Bilbo AttackBilbo
+                        impossible Bilbo TakeSword if not BilboLives
+                        AttackFrodo typically causes not FrodoLives if BilboHasSword
+                        AttackBilbo causes not BilboLives if FrodoHasSword";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(false, queryResult);
+            }
+        }
+
+        [Test]
+        public void TypicallyAccessibleTest3()
+        {
+            var queryText = @"typically accessible not FrodoLives from FrodoHasSword";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially FrodoLives and BilboLives and FrodoHasSword
+                        when Frodo TakeSword causes FrodoHasSword
+                        when Bilbo TakeSword causes true
+                        when Bilbo TakeSword causes BilboHasSword if not FrodoHasSword
+                        not FrodoHasSword  after Bilbo TakeSword
+                        impossible Frodo AttackFrodo
+                        impossible Frodo TakeSword if not FrodoLives
+                        impossible Bilbo AttackBilbo
+                        impossible Bilbo TakeSword if not BilboLives
+                        AttackFrodo typically causes not FrodoLives if BilboHasSword
+                        AttackBilbo causes not BilboLives if FrodoHasSword";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(true, queryResult);
             }
         }
     }
