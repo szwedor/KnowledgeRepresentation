@@ -93,12 +93,16 @@ namespace Stories.Query
                 // krawędzie spełniajace warunek ostatniej pary (actor, action) z value staatement
                 valuePaths = valuePaths.Where(y => y.Action == val.Actions[val.Actions.Count - 1].Action && y.Actor == val.Actions[val.Actions.Count - 1].Agent);
 
-                foreach (var edge in valuePaths)
+                var edgeList = valuePaths.ToList();
+                for (int i = 0; i < edgeList.Count; i++)
                 {
                     // znalezienie wierzchołka, do którego przeniesiemy się po zaaplikowaniu value statements
-                    var vertexState = edge.To.State.Values.ToDictionary(x => x.Key, x => x.Value);
-                    val.Condition.ExtractFluentsValues().Select(x => vertexState[x.Key] = x.Value);
-                    var vertexEvaluatingValueStatement = graph.Vertexes.Where(v => v.State.Values.Equals(vertexState)).ToList();
+                    var vertexState = edgeList[i].To.State.Values.ToDictionary(x => x.Key, x => x.Value);
+                    foreach (var fluent in val.Condition.ExtractFluentsValues())
+                    {
+                        vertexState[fluent.Key] = fluent.Value;
+                    }
+                    var vertexEvaluatingValueStatement = graph.Vertexes.Where(v => v.State.Values.All(x => vertexState[x.Key] == x.Value)).ToList();
                     if (vertexEvaluatingValueStatement.Count > 1)
                     {
                         throw new InvalidOperationException("vertexEvaluatingValueStatement length is grater than 1.");
@@ -106,14 +110,14 @@ namespace Stories.Query
 
                     // sprawdzić czy wszystkie drogi prowadzące do wierzchołka spełniają value statement
                     // TODO
-                    if (edge.To.EdgesIncoming.All(x => valuePaths.Contains(x)) && val.IsObservable == false)
+                    if (edgeList[i].To.EdgesIncoming.All(x => valuePaths.Contains(x)) && val.IsObservable == false)
                     {
-                        edge.To = vertexEvaluatingValueStatement.First();
+                        edgeList[i].To = vertexEvaluatingValueStatement.First();
                     }
                     else
                     {
                         vertexEvaluatingValueStatement.ForEach(
-                                x => edge.From.EdgesOutgoing.Add(new Edge(edge.From, x, edge.IsTypical, edge.Action, edge.Actor))
+                                x => edgeList[i].From.EdgesOutgoing.Add(new Edge(edgeList[i].From, x, edgeList[i].IsTypical, edgeList[i].Action, edgeList[i].Actor))
                                 );
                     }
                 }
@@ -131,14 +135,14 @@ namespace Stories.Query
 
             int verticesCompleted = 0;
 
-            for (int m = 0; m < startVertices.Count; m++)// (var sVertex in startVertices)
+            for (int m = 0; m < startVertices.Count; m++)
             {
-                if(verticesCompleted < m)
+                if (verticesCompleted < m)
                 {
                     return false;
                 }
 
-                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Equals(y.State) ? 0 : 1));
+                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Values.All(z => y.State.Values[z.Key] == z.Value) ? 0 : 1));
                 var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { startVertices[m] } };
                 do
                 {
@@ -183,7 +187,7 @@ namespace Stories.Query
 
             foreach (var sVertex in startVertices)
             {
-                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Equals(y.State) ? 0 : 1));
+                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Values.All(z => y.State.Values[z.Key] == z.Value) ? 0 : 1));
                 var verticesToCheck = new List<List<AbnormalLengthPath>>
                 { new List<AbnormalLengthPath>{
                     new AbnormalLengthPath{Vertex = sVertex, Abnormal = 0, Length = 0 }
