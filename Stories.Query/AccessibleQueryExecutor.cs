@@ -1,5 +1,4 @@
-﻿using Stories.Execution;
-using Stories.Graph;
+﻿using Stories.Graph;
 using Stories.Graph.Model;
 using Stories.Parser.Conditions;
 using Stories.Parser.Statements;
@@ -19,8 +18,8 @@ namespace Stories.Query
                 throw new ArgumentNullException(nameof(graph));
             }
 
-            var startVertices = graph.FindVerticesSatisfyingCondition(query.StateFromCondition).ToList();
-            startVertices = startVertices.ApplyInitiallyValueStatements(history).ToList();
+            var startVertices = graph.Vertexes.FindVerticesSatisfyingCondition(query.StateFromCondition).ToList();
+            startVertices = BuildGraph(startVertices, graph, history).ToList();
 
             switch (query.Sufficiency)
             {
@@ -36,9 +35,148 @@ namespace Stories.Query
             return false;
         }
 
-        private static bool ExecuteNecessarySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
+        #region BuildGraph
+        private static IEnumerable<Vertex> BuildGraph(IEnumerable<Vertex> startVertices, Graph.Graph graph, HistoryStatement history)
         {
-            // TODO do uwzględnienia zdania  "y after xyz"
+            var vertices = startVertices;
+
+            //apply initially value statements
+            foreach (var val in history.Values.Where(x => x.Actions.Count == 0))
+            {
+                vertices = vertices.FindVerticesSatisfyingCondition(val.Condition).ToList();
+            }
+
+            vertices = DropUnreachableEdges(vertices);
+
+            // zaaplikowanie value statements
+            vertices = ApplyNotInitiallyValueStatements(graph, history, vertices);
+            return vertices;
+        }
+
+        private static IEnumerable<Vertex> DropUnreachableEdges(IEnumerable<Vertex> vertices)
+        {
+
+            // określenie wierzchołków, do których da sie dotrzeć
+            var reachableVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Equals(y.State) ? 0 : 1));
+            IEnumerable<Vertex> verticesToCheck = vertices;
+            do
+            {
+                reachableVertices.UnionWith(verticesToCheck);
+                verticesToCheck = verticesToCheck.SelectMany(x => x.EdgesOutgoing.Select(y => y.To)).Except(reachableVertices).ToList();
+
+            } while (verticesToCheck.Count() != 0);
+
+            // obcięcie krawędzie wchodzących do tych, którymi faktycznie możemy wejść do wierzchołka w tym query
+            foreach (var vertex in reachableVertices)
+            {
+                vertex.EdgesIncoming = vertex.EdgesIncoming.Where(x => reachableVertices.Select(y => y.State).Contains(x.From.State)).ToList();
+            }
+
+            return vertices;
+        }
+
+        private static IEnumerable<Vertex> ApplyNotInitiallyValueStatements(Graph.Graph graph, HistoryStatement history, IEnumerable<Vertex> vertices)
+        {
+            foreach (var val in history.Values.Where(x => x.Actions.Count != 0))
+            {
+                var valuePaths = vertices.SelectMany(x => x.EdgesOutgoing);
+                for (int i = 0; i < val.Actions.Count - 1; i++)
+                {
+                    // wybranie wszystkich krawędzi odpowiadajacych danej parze (actor, action) z value staatement
+                    valuePaths = valuePaths.Where(y => y.Action == val.Actions[i].Action && y.Actor == val.Actions[i].Agent).Select(x => x.To)
+                        .SelectMany(x => x.EdgesOutgoing);
+                    if (valuePaths.Count() == 0)
+                    {
+                        break;
+                    }
+                }
+                // krawędzie spełniajace warunek ostatniej pary (actor, action) z value staatement
+                valuePaths = valuePaths.Where(y => y.Action == val.Actions[val.Actions.Count - 1].Action && y.Actor == val.Actions[val.Actions.Count - 1].Agent);
+
+                var edgeList = valuePaths.ToList();
+                for (int i = 0; i < edgeList.Count; i++)
+                {
+                    // znalezienie wierzchołka, do którego przeniesiemy się po zaaplikowaniu value statements
+                    var vertexState = edgeList[i].To.State.Values.ToDictionary(x => x.Key, x => x.Value);
+                    foreach (var fluent in val.Condition.ExtractFluentsValues())
+                    {
+                        vertexState[fluent.Key] = fluent.Value;
+                    }
+                    var vertexEvaluatingValueStatement = graph.Vertexes.Where(v => v.State.Values.All(x => vertexState[x.Key] == x.Value)).ToList();
+                    if (vertexEvaluatingValueStatement.Count > 1)
+                    {
+                        throw new InvalidOperationException("vertexEvaluatingValueStatement length is grater than 1.");
+                    }
+
+                    // sprawdzić czy wszystkie drogi prowadzące do wierzchołka spełniają value statement
+                    // TODO
+                    if (edgeList[i].To.EdgesIncoming.All(x => valuePaths.Contains(x)) && val.IsObservable == false)
+                    {
+                        edgeList[i].To = vertexEvaluatingValueStatement.First();
+                    }
+                    else
+                    {
+                        vertexEvaluatingValueStatement.ForEach(
+                                x => edgeList[i].From.EdgesOutgoing.Add(new Edge(edgeList[i].From, x, edgeList[i].IsTypical, edgeList[i].Action, edgeList[i].Actor))
+                                );
+                    }
+                }
+            }
+            return vertices;
+        }
+        #endregion
+
+        private static bool ExecuteNecessarySufficiency(IList<Vertex> startVertices, ConditionExpression endCondition)
+        {
+            if (startVertices.Count() == 0)
+            {
+                return false;
+            }
+
+            int verticesCompleted = 0;
+
+            for (int m = 0; m < startVertices.Count; m++)
+            {
+                if (verticesCompleted < m)
+                {
+                    return false;
+                }
+
+                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Values.All(z => y.State.Values[z.Key] == z.Value) ? 0 : 1));
+                var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { startVertices[m] } };
+                do
+                {
+                    // sprawdzamy czy wszystkie wierzchołki, do których możemy dojść przy pomocy (akcja, aktor) spełniają warunek końcowy
+                    if (verticesToCheck.Any(x => x.All(y => y.State.EvaluateCondition(endCondition))))
+                    {
+                        verticesCompleted++;
+                        break;
+                    }
+
+                    closedVertices.UnionWith(verticesToCheck.SelectMany(x => x));
+
+                    // grupujemy krawędzie po aktorach i akcjach
+                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).Distinct().SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor }).ToList();
+                    // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
+                    verticesToCheck = edgesGroupedByActorAction.Select(x => x.Select(y => y.To).ToList()).ToList();
+
+                    // sprawdzamy, czy wszystkie wierzchołki do rozważenia były już rozważane
+                } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
+            }
+
+            return true;
+        }
+
+
+        internal class AbnormalLengthPath
+        {
+            public int Abnormal { get; set; }
+            public int Length { get; set; }
+            public Vertex Vertex { get; set; }
+        }
+
+        private static bool ExecuteTypicallySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
+        {
             if (startVertices.Count() == 0)
             {
                 return false;
@@ -49,61 +187,35 @@ namespace Stories.Query
 
             foreach (var sVertex in startVertices)
             {
-                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.Equals(y) ? 0 : 1));
-                var verticesToCheck = new List<List<Vertex>>() { new List<Vertex> { sVertex } };
-                int programLength = 0;
-              //  var possibleValueStatements = history.Values;
+                var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.State.Values.All(z => y.State.Values[z.Key] == z.Value) ? 0 : 1));
+                var verticesToCheck = new List<List<AbnormalLengthPath>>
+                { new List<AbnormalLengthPath>{
+                    new AbnormalLengthPath{Vertex = sVertex, Abnormal = 0, Length = 0 }
+                }
+                };
+
                 do
                 {
-                    // po kolei sprawdzamy grupy wierzchołków, do których prowadzi (aktor, akcja)
-                    // jeśli dla jakiejś grupy wierzchołków, do której prowadzi (aktor, akcja) wszystkie stany spełniają warunek końcowy to wejdź w if'a
-                    if (verticesToCheck.Any(x => x.All(y => y.State.EvaluateCondition(endCondition))))//endVertices.Contains(y))))
+                    // grupujemy po długości trasy i w ramach tras o jednej długości szukamy tej o najmniejszej liczbie abnormalnych przejść
+                    var groupedByLength = verticesToCheck.Select(x => x.GroupBy(y => y.Length)).ToList();
+                    if (groupedByLength.Any(x => x.Any(y => y.OrderBy(z => z.Abnormal).First().Vertex.State.EvaluateCondition(endCondition))))
                     {
                         verticesCompleted++;
                         break;
                     }
-                    // TODO: Czy w tym miejscu właściwe jest dorzucanie wierzchołków do closedVertices jeśli później verticesToCheck obetniemy o valueStatements?
-                    closedVertices.UnionWith(verticesToCheck.SelectMany(x => x).Distinct());
+
+                    closedVertices.UnionWith(verticesToCheck.SelectMany(x => x.Select(y => y.Vertex)));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).Distinct().SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor }).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
-                    verticesToCheck = edgesGroupedByActorAction.Select(x => x.Select(y=>y.To).ToList()).ToList();
-
-                    // TODO odblokowac po sprawdzeniu poprawnosci bez uwzgledniania valueStatements
-                    //////////////////////
-                    //// wyliczamy możliwe teraz i w przyszłości valueStatements
-                    //possibleValueStatements = possibleValueStatements.Where(x => edgesGroupedByActorAction.Any(
-                    //        y => y.Key.Action == x.Actions[programLength].Action 
-                    //        && y.Key.Actor == x.Actions[programLength].Agent)
-                    //    ).ToList();
-                    //programLength++;
-
-                    //// wyznaczamy valueStatements dla których aktualnie spełniamy program
-                    //var valuesStatementToApply = possibleValueStatements.Where(x => x.Actions.Count == programLength).ToList();
-                    //if (valuesStatementToApply.Count > 0)
-                    //{
-                       
-                    //      var anyChangesInVerticesToCheck =  !valuesStatementToApply.All( // verticesToCheck == verticesToCheck po nałożeniu wszystkich valueStatements
-                    //            x=> verticesToCheck.All( // vertivesToCheck == verticesToCheck po nałożeniu ograniczeń z Condition
-                    //                y => y.All(z => y.FindVerticesSatisfyingCondition(x.Condition).Contains(z) // y == y po nałożeniu ograniczeń z Condition
-                    //            ))
-                    //        );
-                    //    // TODO co zrobić jeśli nie wszystkei wyznaczone stany mogą iść dalej??
-                    //    // czy to oznacza, ze dla danej drogi nie możemy uzyskać efektu??
-                    //    // a może należy obciąć verticesToCheck o właściwe stany i procesować dalej? - TA ODPOWIEDZ JEST CHYBA PRAWDZIWA
-
-                    //    // obciecie verticesToCheck o stany niespelniajace ValueStatements
-                    //    valuesStatementToApply.ForEach(
-                    //        x =>
-                    //        {
-                    //            verticesToCheck = verticesToCheck.Select(
-                    //                y => y.FindVerticesSatisfyingCondition(x.Condition).ToList()).ToList();
-                    //        });
-                    //}
+                    // liczymy długość trasy jaką się dostaliśmy oraz licznę abnormalnych przejść
+                    verticesToCheck = edgesGroupedByActorAction.Select(
+                        y => y.Select(x => new AbnormalLengthPath { Vertex = x.Value.To, Abnormal = x.Key.Abnormal + Convert.ToInt32(!x.Value.IsTypical), Length = x.Key.Length + 1 }
+                        ).ToList()).ToList();
 
                     // sprawdzamy, czy wszystkie wierzchołki do rozważenia były już rozważane
-                } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
+                } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v.Vertex)));
             }
 
             if (verticesCompleted != startVertices.Count())
@@ -112,35 +224,6 @@ namespace Stories.Query
             }
 
             return queryResult;
-        }
-
-        private static bool ExecuteTypicallySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
-        {
-            throw new NotImplementedException();
-            //var queryResult = true;
-            //var verticesToCheck = startVertices;
-            //var closedVertices = new SortedSet<Vertex>(Comparer<Vertex>.Create((x, y) => x.Equals(y) ? 0 : 1));
-            //do
-            //{
-            //    if (!verticesToCheck.Any(v => endVertices.Contains(v)))
-            //    {
-            //        queryResult = false;
-            //        break;
-            //    }
-            //    closedVertices.UnionWith(verticesToCheck);
-            //    var typicalVertices = verticesToCheck.SelectMany(x => x.EdgesOutgoing.Where(y => y.IsTypical).Select(y => y.To)).Distinct().ToList();
-            //    if (typicalVertices.Count > 0)
-            //    {
-            //        verticesToCheck = typicalVertices.Except(closedVertices).ToList();
-            //    }
-            //    else
-            //    {
-            //        verticesToCheck = verticesToCheck.SelectMany(x => x.EdgesOutgoing.Select(y => y.To)).Distinct().Except(closedVertices).ToList();
-            //    }
-
-            //} while (!verticesToCheck.All(v => closedVertices.Contains(v)));
-
-            //return queryResult;
         }
     }
 }

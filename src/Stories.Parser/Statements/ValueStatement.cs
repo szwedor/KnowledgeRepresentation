@@ -7,7 +7,12 @@ namespace Stories.Parser.Statements
     {
         public string Action { get; set; }
         public string Agent { get; set; }
-    }
+
+		public override bool Equals(object obj)
+		{
+			return Action == ((ActionWithExecutor)obj).Action && Agent == ((ActionWithExecutor)obj).Agent;
+		}
+	}
     
     public class ValueStatement : Statement
     {
