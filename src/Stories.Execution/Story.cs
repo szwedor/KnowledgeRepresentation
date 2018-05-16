@@ -161,5 +161,12 @@ namespace Stories.Execution
             set.ExceptWith(ResN(agent, action, state));
             return set;
         }
+
+        public bool IsActionPossible(string agent, string action, AppState state)
+        {
+            var possibility = this.history.Effects.Select(p => p).Where(p => p.Effect is ConditionConstant &&
+                !state.EvaluateCondition(p.Effect) && state.EvaluateCondition(p.Condition) && p.Action == action && (p.Agents == null || p.Agents.Contains(agent)));
+            return !possibility.Any();
+        }
     }
 }

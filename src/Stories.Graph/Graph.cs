@@ -85,6 +85,7 @@ namespace Stories.Graph
         {
             foreach (var action in story.Actions)
             {
+                bool hasState = false;
                 var resN = story.ResN(agent, action, vertexFrom.State);
                 var resAb = story.ResAb(agent, action, vertexFrom.State);
                 foreach (var state in resN.ToArray())
@@ -98,6 +99,7 @@ namespace Stories.Graph
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);
+                    hasState = true;
                 }
 
                 foreach (var state in resAb.ToArray())
@@ -112,6 +114,20 @@ namespace Stories.Graph
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);
+                    hasState = true;
+                }
+
+                if (!hasState && story.IsActionPossible(agent, action, vertexFrom.State))
+                {
+                    if (!graph.Edges.Any(p =>
+                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexFrom.State)
+                        && p.Actor == agent && p.Action == action))
+                    {
+                        Edge edge = new Edge(vertexFrom, vertexFrom, false, action, agent);
+                        vertexFrom.EdgesOutgoing.Add(edge);
+                        vertexFrom.EdgesIncoming.Add(edge);
+                        graph.Edges.Add(edge);
+                    }
                 }
             }
         }
