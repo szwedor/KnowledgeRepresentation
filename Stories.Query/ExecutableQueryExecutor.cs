@@ -35,8 +35,6 @@ namespace Stories.Query
 					return GetInitialStates().Select(x => ExecuteNecessarySufficiency(0, x)).All(x => x == true);
 				case Sufficiency.Possibly:
 					return GetInitialStates().Select(x => ExecutePossibleSufficiency(0, x)).Where(x => x == true).Any();
-				case Sufficiency.Typically:
-					break;
 				default:
 					throw new InvalidOperationException();
 			}
@@ -55,13 +53,19 @@ namespace Stories.Query
 				return false;
 			}
 
-			if (GetMatchingEdges(vertex, currentActionIndex).Any(x => ExecutePossibleSufficiency(currentActionIndex + 1, x.To))) return true;
-			if (GetMatchingValueStatements(currentActionIndex).Any(x => ExecutePossibleSufficiency(currentActionIndex + 1, ApplyValueStatement(vertex, x)))) return true;
+			if (GetMatchingEdges(vertex, currentActionIndex).Any(x => ExecutePossibleSufficiency(currentActionIndex + 1, x.To)))
+			{
+				return true;
+			}
+			if (GetMatchingValueStatements(currentActionIndex, actions).Any(x => ExecutePossibleSufficiency(currentActionIndex + 1, ApplyValueStatement(vertex, x))))
+			{
+				return true;
+			}
 
 			return false;
 		}
 
-		private static bool ExecuteNecessarySufficiency(int currentActionIndex, Vertex vertex)
+		private static bool ExecuteNecessarySufficiency(int currentActionIndex, Vertex vertex, List<ActionWithExecutor> actionsWithExecutors = null)
 		{
 			if (currentActionIndex == actions.Count())
 			{
@@ -73,8 +77,54 @@ namespace Stories.Query
 				return true;
 			}
 
-			if (!GetMatchingEdges(vertex, currentActionIndex).All(x => ExecutePossibleSufficiency(currentActionIndex + 1, x.To))) return false;
-			if (!GetMatchingValueStatements(currentActionIndex).All(x => ExecutePossibleSufficiency(currentActionIndex + 1, ApplyValueStatement(vertex, x)))) return false;
+			if(actionsWithExecutors == null)
+			{
+				actionsWithExecutors = ExecutableQueryExecutor.actions.Select(x => (ActionWithExecutor)x.Clone()).ToList();
+			}
+
+			if (actionsWithExecutors[currentActionIndex].Agent != null)
+			{
+				var matchingEdges = GetMatchingEdges(vertex, currentActionIndex, actionsWithExecutors);
+				if (matchingEdges.Count() == 0)
+				{
+					return false;
+				}
+
+				if (matchingEdges.Any(x => !ExecuteNecessarySufficiency(currentActionIndex + 1, x.To, actionsWithExecutors)))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				bool anyActorSatisfies = false;
+				foreach(var a in vertex.EdgesOutgoing.Where(x => x.Action == actionsWithExecutors[currentActionIndex].Action).Select(x => x.Actor).Distinct())
+				{
+					List<ActionWithExecutor> actionsCopy = actionsWithExecutors.Select(x => (ActionWithExecutor)x.Clone()).ToList();
+					actionsCopy[currentActionIndex].Agent = a;
+					var matchingEdges = GetMatchingEdges(vertex, currentActionIndex, actionsCopy);
+					if (matchingEdges.Count() == 0)
+					{
+						continue;
+					}
+
+					if(matchingEdges.All(x => ExecuteNecessarySufficiency(currentActionIndex + 1, x.To, actionsCopy)))
+					{
+						anyActorSatisfies = true;
+						break;
+					}
+				}	
+				
+				if(!anyActorSatisfies)
+				{
+					return false;
+				}
+			}
+
+			if (GetMatchingValueStatements(currentActionIndex, actionsWithExecutors).Any(x => !ExecuteNecessarySufficiency(currentActionIndex + 1, ApplyValueStatement(vertex, x))))
+			{
+				return false;
+			}
 
 			return true;
 		}
@@ -107,20 +157,34 @@ namespace Stories.Query
 			return vertexEvaluatingValueStatement.FirstOrDefault();
 		}
 
-		private static IEnumerable<Edge> GetMatchingEdges(Vertex vertex, int currentActionIndex)
+		private static IEnumerable<Edge> GetMatchingEdges(Vertex vertex, int currentActionIndex, List<ActionWithExecutor> actionsWithExecutors = null)
 		{
-			return vertex.EdgesOutgoing.Where(x => x.Action == actions[currentActionIndex].Action && x.Actor == actions[currentActionIndex].Agent);
+			actionsWithExecutors = actionsWithExecutors ?? actions;
+			return vertex.EdgesOutgoing.Where(x => (x.Action == actionsWithExecutors[currentActionIndex].Action) && (actionsWithExecutors[currentActionIndex].Agent == null || x.Actor == actionsWithExecutors[currentActionIndex].Agent));
 		}
 
-		private static List<ValueStatement> GetMatchingValueStatements(int currentActionIndex)
+		private static List<ValueStatement> GetMatchingValueStatements(int currentActionIndex, List<ActionWithExecutor> actionsWithUsedExecutors)
 		{
 			List<ValueStatement> valueStatements = new List<ValueStatement>();
 			for (int i = 0; i <= currentActionIndex; i++)
 			{
-				valueStatements.AddRange(history.Values.Where(x => x.Actions.Count() > 0 && (x.Actions.SequenceEqual(actions.Take(currentActionIndex + 1).Skip(i)))));
+				valueStatements.AddRange(history.Values.Where(x => x.Actions.Count() > 0 && (x.Actions.SequenceEqual(actionsWithUsedExecutors.Take(currentActionIndex + 1).Skip(i), new ActionWithExecutorEqualityComparer()))));
 			}
 
 			return valueStatements;
+		}
+
+		internal class ActionWithExecutorEqualityComparer : IEqualityComparer<ActionWithExecutor>
+		{
+			public bool Equals(ActionWithExecutor x, ActionWithExecutor y)
+			{
+				return x.Action == y.Action && (x.Agent == y.Agent || x.Agent == null);
+			}
+
+			public int GetHashCode(ActionWithExecutor obj)
+			{
+				return obj.GetHashCode();
+			}
 		}
 	}
 }

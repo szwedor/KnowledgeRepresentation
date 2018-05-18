@@ -62,7 +62,7 @@ namespace Stories.Graph
                     }
                 }
           
-                foreach (var actor in queryActors)
+                foreach (var actor in queryActors.Distinct())
                 {
                     if (!story.Agents.Contains(actor))
                     {
