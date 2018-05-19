@@ -123,7 +123,7 @@ namespace Stories.Graph
                         p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexFrom.State)
                         && p.Actor == agent && p.Action == action))
                     {
-                        Edge edge = new Edge(vertexFrom, vertexFrom, false, action, agent);
+                        Edge edge = new Edge(vertexFrom, vertexFrom, true, action, agent);
                         vertexFrom.EdgesOutgoing.Add(edge);
                         vertexFrom.EdgesIncoming.Add(edge);
                         graph.Edges.Add(edge);
