@@ -214,7 +214,6 @@ namespace Stories.Tests
 
             var text = @"initially FrodoLives and BilboLives and FrodoHasSword
                         when Frodo TakeSword causes FrodoHasSword
-                        when Bilbo TakeSword causes true
                         when Bilbo TakeSword causes BilboHasSword if not FrodoHasSword
                         not FrodoHasSword  after Bilbo TakeSword
                         impossible Frodo AttackFrodo
@@ -244,6 +243,7 @@ namespace Stories.Tests
             var text = @"initially FrodoLives and BilboLives and FrodoHasSword
                         when Frodo TakeSword causes FrodoHasSword
                         when Bilbo TakeSword causes BilboHasSword if not FrodoHasSword
+                        not FrodoHasSword  after Bilbo TakeSword
                         impossible Frodo AttackFrodo
                         impossible Frodo TakeSword if not FrodoLives
                         impossible Bilbo AttackBilbo

@@ -117,8 +117,18 @@ namespace Stories.Query
                     else
                     {
                         vertexEvaluatingValueStatement.ForEach(
-                                x => edgeList[i].From.EdgesOutgoing.Add(new Edge(edgeList[i].From, x, edgeList[i].IsTypical, edgeList[i].Action, edgeList[i].Actor))
-                                );
+                                x => {
+                                    var actionEdge = edgeList[i].From.EdgesOutgoing.FirstOrDefault(
+                                        y => y.IsTypical == edgeList[i].IsTypical && edgeList[i].Action == y.Action && edgeList[i].Actor == y.Actor);
+                                    if (actionEdge == null)
+                                    {
+                                        edgeList[i].From.EdgesOutgoing.Add(new Edge(edgeList[i].From, x, edgeList[i].IsTypical, edgeList[i].Action, edgeList[i].Actor));
+                                    }
+                                    else
+                                    {
+                                        actionEdge.To = x;
+                                    }
+                                });
                     }
                 }
             }
@@ -156,7 +166,7 @@ namespace Stories.Query
                     closedVertices.UnionWith(verticesToCheck.SelectMany(x => x));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).Distinct().SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor }).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.Select(z=>z.SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor })).SelectMany(x=>x).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     verticesToCheck = edgesGroupedByActorAction.Select(x => x.Select(y => y.To).ToList()).ToList();
 
@@ -207,7 +217,10 @@ namespace Stories.Query
                     closedVertices.UnionWith(verticesToCheck.SelectMany(x => x.Select(y => y.Vertex)));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.Select(
+                      z => z.SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }))
+                      .SelectMany(x => x).ToList();
+                    //var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     // liczymy długość trasy jaką się dostaliśmy oraz licznę abnormalnych przejść
                     verticesToCheck = edgesGroupedByActorAction.Select(
