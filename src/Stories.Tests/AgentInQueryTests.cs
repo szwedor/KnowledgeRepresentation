@@ -3,9 +3,10 @@ using Stories.Execution;
 using Stories.Parser;
 using Stories.Parser.Statements.QueryStatements;
 using Stories.Query;
-using System;
-using System.Collections.Generic;
+using FluentAssertions;
+using System.Diagnostics;
 using System.Text;
+using System;
 
 namespace Stories.Tests
 {
@@ -37,7 +38,7 @@ namespace Stories.Tests
             if (query is AgentInQueryStatement accessibleQuery)
             {
                 var queryResult = accessibleQuery.Execute(graph, story, history);
-                Assert.AreEqual(this.answer, queryResult);
+                queryResult.Should().Be(answer, queryText + Environment.NewLine + text);
             }
         }
     }

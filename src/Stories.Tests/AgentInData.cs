@@ -8,12 +8,17 @@ namespace Stories.Tests
     {
         public static readonly List<object[]> Data = new List<object[]>
         {
-
+            new object[] { @"necessary John in cut",
+                @"initially AdamAlive
+                  when John cry causes cried
+                  when Izaak moo causes mow
+                  impossible Adam cut
+                  cut causes not Tree if Tree", false },
             new object[] { @"necessary John in cut",
                 @"initially AdamAlive
                   when John cry causes cried
                   impossible Adam cut
-                  cut causes not Tree if Tree", false },
+                  cut causes not Tree if Tree", true },
             new object[] { @"necessary John in cut",
                 @"initially AdamAlive
                   impossible Adam cut

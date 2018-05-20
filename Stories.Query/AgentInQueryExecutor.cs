@@ -28,7 +28,7 @@ namespace Stories.Query
             {
                 vertices = vertices.FindVerticesSatisfyingCondition(val.Condition).ToList();
             }
-            var validation = new int[query.Actions.Count];
+            var validation = new int[query.Actions.Count+1];
             vertices.ForEach(p => Search(p, query, validation, query.Actions.Count));
 
             if (query.Sufficiency == Sufficiency.Necessary)
@@ -53,13 +53,13 @@ namespace Stories.Query
             return false;
         }
 
-        private static bool Search(Vertex vertex, AgentInQueryStatement query, int[] validation, int lvl)
+        private static int Search(Vertex vertex, AgentInQueryStatement query, int[] validation, int lvl)
         {
             if (lvl == 0)
             {
                 // scieżka była zdefiniowana
-                validation[0]++;
-                return true;
+                validation[query.Actions.Count]++;
+                return 1;
             }
             lvl--;
             //wszystkie krawędzie z obecnego wierzchołka o danej akcji
@@ -70,7 +70,7 @@ namespace Stories.Query
             {
                 //jesli w query akcja ma aktora to zwracamy czy ktorakolwiek sciezka ma koniec
                 return actions.Where(p => p.Actor == query.Actions[lvl].Agent)
-                     .Any(p => Search(p.To, query, validation, lvl));
+                     .Sum(p => Search(p.To, query, validation, lvl));
             }
             else
             {
@@ -78,16 +78,17 @@ namespace Stories.Query
                 {
                     // w query nie ma aktora dla danej akcji i w grafie 
                     //jest tylko przejscie dla naszego agenta
-                    if (Search(actions[0].To, query, validation, lvl))
+                    var paths = Search(actions[0].To, query, validation, lvl);
+                    if (paths>0)
                     {
-                        validation[lvl]++;
-                        return true;
+                        validation[lvl]+=paths;
+                        return paths;
                     }
                 }
                 else return actions.Where(p => p.Actor == query.Actions[lvl].Agent)
-                   .Any(p => Search(p.To, query, validation, lvl));
+                   .Sum(p => Search(p.To, query, validation, lvl));
             }
-            return false;
+            return 0;
         }
     }
 }
