@@ -3,10 +3,97 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <h1>Klauzula Causes</h1>
-    <p>Klauzula efektu</p>
-    <h2>Przykłady</h2>
-    <p>Tu będą jakieś przykłady</p>
+    <h1>Instrukcja efektu</h1>
+    <p align="center">
+        <b>when</b> <i>&omega;</i><sub>1</sub> <b>or</b> ... <i>&omega;</i><sub>n</sub> <i>A</i> <b>causes</b> &alpha; <b>if</b> &pi;
+        <br />
+        gdzie n &ge; 1
+    </p>
+    <p>
+        Jeżeli akcja <i>A</i> jest wywołana przez któregokolwiek z agentów
+        <i>&omega;</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> w stanie, który spełnia formułę &pi;, stan wynikowy spełnia formułę &alpha;.
+    </p>
+
+    <p align="center">
+        <b>when</b> <i>&omega;</i><sub>1</sub> <b>or</b> ... <b>or</b> <i>&omega;</i><sub>n</sub> <i>A</i> <b>causes</b> &alpha;
+        <br />
+        gdzie n &ge; 1
+    </p>
+    <p>
+        Zapis równoważny z powyższym, jeżeli &pi; &equiv; <b>true</b>. Jeżeli akcja <i>A</i> jest wywołana przez któregokolwiek z agentów <i>&omega;</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub>, stan wynikowy spełnia formułę &alpha;.
+    </p>
+
+    <p align="center">
+        <i>A</i> <b>causes</b> &alpha; <b>if</b> &pi;
+    </p>
+    <p>
+        Jeżeli skcja <i>A</i> jest wywołana przez dowolnego agenta w stanie, który spełnia formułę &pi;, stan wynikowy spełnia formułę &alpha;. Jest to zapis pierwszej instrukcji, jeżeli akcja jest wywoływana przez dowolnego aggenta.
+    </p>
+
+    <p align="center">
+        <i>A</i> <b>causes</b> &alpha;
+    </p>
+    <p>
+        Zapis równoważny z powyższm, jeżeli &phi; &equiv; <b>true</b>. Jeżeli akcja <i>A</i> jest wywołana, stan wynikowy spełnia formułę &alpha;.
+    </p>
+
+    <p align="center">
+        <b>impossible</b> <i>&omega;</i><sub>1</sub> <b>or</b> ... <b>or</b> <i>&omega;</i><sub>n</sub> <i>A</i> <b>if</b> &phi;
+        <br />
+        gdzie n &ge; 1
+    </p>
+    <p>
+        Zapis równoważny z pierwszym, jeżeli &alpha; &equiv; <b>false</b>. Akcja <i>A</i> nie jest wykonywalna przez żadnego z agentów <i>&omega;</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub>, w stanie, który spełnia formułę &alpha;.
+    </p>
+
+    <p align="center">
+        <b>impossible</b> <i>&omega;</i><sub>1</sub> <b>or</b> ... <b>or</b> <i>&omega;</i><sub>n</sub> <i>A</i>
+        <br />
+        gdzie n &ge; 1
+    </p>
+    <p>
+        Zapis równoważny z powyzszym, jeżeli &pi; &equiv; <b>true</b>. Akcja <i>A</i> nie jest wykonywalna przez żadnego z agentów <i>&omega;</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub>.
+    </p>
+
+    <p align="center">
+        <b>impossible</b>  <i>A</i> <b>if</b> &pi;
+    </p>
+    <p>
+        Akcja A nie jest wykonywalna przez żadnego agenta w stanie, ktróry spełnia formułę &pi;.
+    </p>
+
+    <p align="center">
+        <b>when</b> <i>&omega;</i><sub>1</sub> <b>or</b> ... <b>or</b> <i>&omega;</i><sub>n</sub> <i>A</i> <b>typically causes</b> &alpha; <b>if</b> &pi;
+        <br />
+        gdzie n &ge; 1
+    </p>
+    <p>
+        Jeżeli akcja <i>A</i> jest wywołana przez któregokolwiek z agentów <i>&omega;</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> w stanie, który spełnia formułę &pi;, stan wynikowy z reguły powinien spełniać formułę &alpha;.
+        Efekt &alpha; jest <b>preferowany</b> w odróżnieniu do efektów niedeterministycznych, gdzie żaden wynik nie jest preferowany.
+    </p>
+
+    <p align="center">
+        <b>when</b> <i>&omega;</i><sub>1</sub> <b>or</b> ... <b>or</b> <i>&omega;</i><sub>n</sub> <i>A</i> <b>typically causes</b> &alpha;
+        <br />
+        gdzie n &ge; 1
+    </p>
+    <p>
+        Zapis równoważny z powyższym, jeżeli &pi; &equiv; <b>true</b>. Jeżeli akcja <i>A</i> jest wywoływana przez któregokolwiek z agentów <i>&omega;</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub>, stan wynikowy z reguły powinien spełniać formułę &alpha;.
+    </p>
+
+    <p align="center">
+        <i>A</i> <b>typically causes</b> &alpha; <b>if</b> &pi;
+    </p>
+    <p>
+        Jeżeli akcja <i>A</i> jest wywołana przez dowolnego agenta w stanie, który spełnia formułę &pi;, stan wynikowy powinien spełniać formułę &alpha;.
+    </p>
+
+    <p align="center">
+        <i>A</i> <b>typically causes</b> &alpha;
+    </p>
+    <p>
+        Zapis równoważny z powyższym, jeżeli &pi; &equiv; <b>true</b>. Jeżeli akcja <i>A</i> jest wywołana, stan wynikowy powinien spełniać formułę &alpha;.
+    </p>
 </body>
 
 </html>

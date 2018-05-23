@@ -16,7 +16,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
-                        <TextBlock Text="{Binding InformationName}"/>
+                        <TextBlock Text="{Binding InformationName}" TextWrapping="Wrap" MaxWidth="{Binding ElementName=EntriesPanel, Path=ActualWidth}"/>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

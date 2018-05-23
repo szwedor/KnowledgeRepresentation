@@ -69,14 +69,14 @@ namespace Stories.Information
         [InformationDefinition]
         private static readonly InformationEntry AfterEntry = new InformationEntry()
         {
-            InformationName = "Instrukcja wartości: After",
+            InformationName = "Instrukcja wartości: after",
             HtmlDescription = Properties.Resources.After
         };
 
         [InformationDefinition]
         private static readonly InformationEntry CausesEntry = new InformationEntry()
         {
-            InformationName = "Instrukcja efektu: Causes",
+            InformationName = "Instrukcja efektu: causes, impossible, typically",
             HtmlDescription = Properties.Resources.Causes
         }; 
     }
