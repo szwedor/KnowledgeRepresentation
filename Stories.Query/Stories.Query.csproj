@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessibleQueryExecutor.cs" />
+    <Compile Include="AfterQueryExecutor.cs" />
     <Compile Include="AgentInQueryExecutor.cs" />
     <Compile Include="ExecutableQueryExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
