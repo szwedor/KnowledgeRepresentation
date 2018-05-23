@@ -121,5 +121,16 @@
                 this.textEditor.ResetHighlighting();
             this.addedHighlighting = false;
         }
+
+        private void SaveFileToEditClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void InformationButtonClick(object sender, RoutedEventArgs e)
+        {
+            var informationDialog = new InformationWindow();
+            informationDialog.ShowDialog();
+        }
     }
 }

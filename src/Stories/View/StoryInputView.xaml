@@ -80,7 +80,12 @@
                         ¶
                         </TextBlock>
                     </CheckBox>
-
+                    <Separator />
+                    <Button Click="InformationButtonClick">
+                        <iconPacks:PackIconMaterial Kind="Information"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
                 </ToolBar>
                 <avalonedit:TextEditor Name="textEditor" TextChanged="TextEditor_OnTextChanged"
                                    FontFamily="Consolas"

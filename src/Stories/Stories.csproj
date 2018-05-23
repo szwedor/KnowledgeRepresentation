@@ -78,6 +78,15 @@
     </ApplicationDefinition>
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="HighlightingHelper.cs" />
+    <Compile Include="Information\InformationDefinition.cs" />
+    <Compile Include="Information\InformationEntry.cs" />
+    <Compile Include="Information\InformationControl.xaml.cs">
+      <DependentUpon>InformationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Information\InformationsDefinitions.cs" />
+    <Compile Include="Information\InformationWindow.xaml.cs">
+      <DependentUpon>InformationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -88,6 +97,14 @@
     <Compile Include="View\StoryInputView.xaml.cs">
       <DependentUpon>StoryInputView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Information\InformationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Information\InformationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +166,14 @@
     <Content Include="Resources\AdaSyntaxt.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\After.html" />
+    <Content Include="Resources\Causes.html" />
+    <Content Include="Resources\GraphicalInterface.html" />
+    <Content Include="Resources\Introduction.html" />
+    <Content Include="Resources\LanguageDefinition.html" />
+    <Content Include="Resources\KeyWords.html" />
+    <Content Include="Resources\LogicFormulas.html" />
+    <Content Include="Resources\Syntax.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
