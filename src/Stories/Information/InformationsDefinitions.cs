@@ -78,6 +78,34 @@ namespace Stories.Information
         {
             InformationName = "Instrukcja efektu: causes, impossible, typically",
             HtmlDescription = Properties.Resources.Causes
-        }; 
+        };
+
+        [InformationDefinition]
+        private static readonly InformationEntry ReleasesEntry = new InformationEntry()
+        {
+            InformationName = "Instrukcja uwolnienia: releases",
+            HtmlDescription = Properties.Resources.Releases
+        };
+
+        [InformationDefinition]
+        private static readonly InformationEntry AlwaysEntry = new InformationEntry()
+        {
+            InformationName = "Instrukcja ograniczenia: always",
+            HtmlDescription = Properties.Resources.Always
+        };
+
+        [InformationDefinition]
+        private static readonly InformationEntry FluentEntry = new InformationEntry()
+        {
+            InformationName = "Instrukcja opisu fluentu",
+            HtmlDescription = Properties.Resources.FluentDescription
+        };
+
+        [InformationDefinition]
+        private static readonly InformationEntry QuerySyntaxEntry = new InformationEntry()
+        {
+            InformationName = "Język kwerend",
+            HtmlDescription = Properties.Resources.QuerySyntax
+        };
     }
 }

@@ -167,12 +167,16 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\After.html" />
+    <Content Include="Resources\Always.html" />
     <Content Include="Resources\Causes.html" />
+    <Content Include="Resources\FluentDescription.html" />
     <Content Include="Resources\GraphicalInterface.html" />
     <Content Include="Resources\Introduction.html" />
     <Content Include="Resources\LanguageDefinition.html" />
     <Content Include="Resources\KeyWords.html" />
     <Content Include="Resources\LogicFormulas.html" />
+    <Content Include="Resources\QuerySyntax.html" />
+    <Content Include="Resources\Releases.html" />
     <Content Include="Resources\Syntax.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

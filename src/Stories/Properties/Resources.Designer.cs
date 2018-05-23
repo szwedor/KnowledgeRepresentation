@@ -89,19 +89,47 @@ namespace Stories.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///
-        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;html lang=&quot;pl&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///&lt;head&gt;
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
-        ///    &lt;title&gt;&lt;/title&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///
-        ///&lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///    &lt;h1&gt;Instrukcja wartości&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &amp;alpha; &lt;b&gt;after&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;, ..., &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt;
+        ///        &lt;br /&gt;
+        ///        gdzie &lt;i&gt;n&lt;/i&gt;&amp;ge;1
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Formuła &amp;alpha; jest &lt;b&gt;zawsze&lt;/b&gt; prawdziwa po wykonaniu sekwencji akcji &lt;i&gt;A&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; przez ageneta &lt;i&gt;&amp;omega;&lt;/ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string After {
             get {
                 return ResourceManager.GetString("After", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja ograniczenia&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;always&lt;/b&gt; &amp;alpha;
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Każdy stan musi spełniać formułę &amp;alpha;.
+        ///    &lt;/p&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string Always {
+            get {
+                return ResourceManager.GetString("Always", resourceCulture);
             }
         }
         
@@ -111,17 +139,43 @@ namespace Stories.Properties {
         ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///    &lt;h1&gt;Klauzula Causes&lt;/h1&gt;
-        ///    &lt;p&gt;Klauzula efektu&lt;/p&gt;
-        ///    &lt;h2&gt;Przykłady&lt;/h2&gt;
-        ///    &lt;p&gt;Tu będą jakieś przykłady&lt;/p&gt;
-        ///&lt;/body&gt;
-        ///
-        ///&lt;/html&gt;.
+        ///    &lt;h1&gt;Instrukcja efektu&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;when&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;or&lt;/b&gt; ... &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt; &lt;b&gt;causes&lt;/b&gt; &amp;alpha; &lt;b&gt;if&lt;/b&gt; &amp;pi;
+        ///        &lt;br /&gt;
+        ///        gdzie n &amp;ge; 1
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Jeżeli akcja &lt;i&gt;A&lt;/i&gt; jest wywołana przez któregokolwiek z agentów
+        ///        &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;, ..., &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; w stanie, który spełnia formułę &amp;pi;, stan wynikowy spełn [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Causes {
             get {
                 return ResourceManager.GetString("Causes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja opisu fluentu&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;noninertial&lt;/b&gt; &lt;i&gt;f&lt;/i&gt;;
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Oznaczenie fluentu &lt;i&gt;f&lt;/i&gt; jako nieinercjalnego.
+        ///    &lt;/p&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string FluentDescription {
+            get {
+                return ResourceManager.GetString("FluentDescription", resourceCulture);
             }
         }
         
@@ -159,7 +213,7 @@ namespace Stories.Properties {
         ///    &lt;h1&gt;Wstęp&lt;/h1&gt;
         ///    &lt;p&gt;
         ///        Niniejszy podręcznik zawiera opis użyteczności aplikacji i wyciąg najważniejszych informacji 
-        ///        z pełnej dokumentacji teoretycznej projektu zawartej w dokumencie &quot;documentation.pdf&quot;.
+        ///        z pełnej dokumentacji teoretycznej.
         ///    &lt;/p&gt;
         ///&lt;/body&gt;
         ///
@@ -237,6 +291,46 @@ namespace Stories.Properties {
         internal static string LogicFormulas {
             get {
                 return ResourceManager.GetString("LogicFormulas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string QuerySyntax {
+            get {
+                return ResourceManager.GetString("QuerySyntax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja uwolnienia&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;when&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;or&lt;/b&gt; ... &lt;b&gt;or&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt; &lt;b&gt;releases&lt;/b&gt; &lt;SPAN STYLE=&quot;text-decoration:overline&quot;&gt;&lt;i&gt;f&lt;/i&gt;&lt;/SPAN&gt; &lt;b&gt;if&lt;/b&gt; &amp;pi;
+        ///&lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Wykonanie akcji &lt;i&gt;A&lt;/i&gt; przez któregokolwiek z agentów &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;or&lt;/b&gt; ... &lt;i&gt;&amp;omega [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Releases {
+            get {
+                return ResourceManager.GetString("Releases", resourceCulture);
             }
         }
         

@@ -124,8 +124,14 @@
   <data name="After" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\After.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Always" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Always.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Causes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Causes.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FluentDescription" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FluentDescription.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="GraphicalInterface" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GraphicalInterface.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -141,6 +147,12 @@
   </data>
   <data name="LogicFormulas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LogicFormulas.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="QuerySyntax" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QuerySyntax.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Releases" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Releases.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Syntax" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Syntax.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
