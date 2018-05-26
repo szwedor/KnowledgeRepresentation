@@ -45,6 +45,7 @@
                             var queryTexts = queryText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
                              .Select(p => p.Trim());
                           
+
                             var history = Parsing.GetHistory(storyText);
                             var story = new Story(history);
                             var keywords = 
@@ -66,11 +67,14 @@
                                 SaveOutput((storyText, qt, result));
                             }
                         });
-                        this.IsProcessing = false;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                      //  MessageBox.Show("Processing failed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(ex.Message,"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        this.IsProcessing = false;
                     }
                 });
         }

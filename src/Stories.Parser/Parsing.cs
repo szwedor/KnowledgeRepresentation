@@ -1,6 +1,7 @@
 ﻿using Sprache;
 using Stories.Parser.Parsers;
 using Stories.Parser.Statements;
+using System;
 
 namespace Stories.Parser
 {
@@ -8,12 +9,23 @@ namespace Stories.Parser
     {
         public static HistoryStatement GetHistory(string history)
         {
-            return HistoryParser.History.Parse(history);
+            try { return HistoryParser.History.Parse(history); }
+            catch (Exception)
+            {
+                throw new Exception("Parsing history error");
+            }
         }
 
         public static QueryStatement GetQuery(string query)
         {
-            return QueryParser.Query.Parse(query);
+            try
+            {
+                return QueryParser.Query.Parse(query);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Parsing query error");
+            }
         }
     }
 }

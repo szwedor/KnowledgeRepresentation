@@ -30,7 +30,7 @@ namespace Stories.Query
                 vertices = vertices.FindVerticesSatisfyingCondition(val.Condition).ToList();
             }
             var validation = new int[query.Actions.Count+1];
-            vertices.ForEach(p => Search(p, query, validation, query.Actions.Count));
+            vertices.ForEach(p => Search(p, query, validation, query.Actions.Count,query.Sufficiency));
 
             if (query.Sufficiency == Sufficiency.Necessary)
             {
@@ -54,7 +54,7 @@ namespace Stories.Query
             return false;
         }
 
-        private static int Search(Vertex vertex, AgentInQueryStatement query, int[] validation, int lvl)
+        private static int Search(Vertex vertex, AgentInQueryStatement query, int[] validation, int lvl,Sufficiency sufficiency)
         {
             if (lvl == 0)
             {
@@ -71,7 +71,7 @@ namespace Stories.Query
             {
                 //jesli w query akcja ma aktora to zwracamy czy ktorakolwiek sciezka ma koniec
                 return actions.Where(p => p.Actor == query.Actions[lvl].Agent)
-                     .Sum(p => Search(p.To, query, validation, lvl));
+                     .Sum(p => Search(p.To, query, validation, lvl, sufficiency));
             }
             else
             {
@@ -79,15 +79,19 @@ namespace Stories.Query
                 {
                     // w query nie ma aktora dla danej akcji i w grafie 
                     //jest tylko przejscie dla naszego agenta
-                    var paths = Search(actions[0].To, query, validation, lvl);
-                    if (paths>0)
+                    var paths = Search(actions[0].To, query, validation, lvl, sufficiency);
+                    if (paths > 0)
                     {
-                        validation[lvl]+=paths;
+                        validation[lvl] += paths;
                         return paths;
                     }
                 }
-                else return actions.Where(p => p.Actor == query.Actions[lvl].Agent)
-                   .Sum(p => Search(p.To, query, validation, lvl));
+                else {
+                   var succesful = actions.Sum(p => Search(p.To, query, validation, lvl,sufficiency));
+                    if(sufficiency == Sufficiency.Possibly)
+                        validation[lvl] += succesful;
+                    return succesful;
+                }
             }
             return 0;
         }
