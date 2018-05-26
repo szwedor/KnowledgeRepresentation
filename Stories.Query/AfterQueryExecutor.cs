@@ -37,7 +37,9 @@ namespace Stories.Query
             {
                 var possibleFinalVertices = FollowProgram(query.Actions, startVertex, 0);
 
-                if (!possibleFinalVertices.All(v => v.State.EvaluateCondition(query.StateToCondition)))
+                if (possibleFinalVertices.Count==0 || 
+                    possibleFinalVertices==null || 
+                    !possibleFinalVertices.All(v => v.State.EvaluateCondition(query.StateToCondition)))
                     return false;
             }
             return true;
@@ -66,7 +68,9 @@ namespace Stories.Query
             {
                 var possibleFinalVertices = FollowProgramTypically(query.Actions, startVertex, 0);
 
-                if (!possibleFinalVertices.All(v => v.State.EvaluateCondition(query.StateToCondition)))
+                if (possibleFinalVertices.Count == 0 ||
+                    possibleFinalVertices == null || 
+                    !possibleFinalVertices.All(v => v.State.EvaluateCondition(query.StateToCondition)))
                     return false;
             }
             return true;

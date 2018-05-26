@@ -88,5 +88,57 @@ namespace Stories.Tests
                 Assert.AreEqual(true, queryResult);
             }
         }
+
+        [Test]
+        public void NecessaryAfterLight()
+        {
+            var queryText = @"necessary light after toggle2, toggle1 from not light";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"noninertial light
+                        initially not light
+                        always light iff (switch1 iff switch2)
+                        toggle1 causes switch1 if not switch1
+                        toggle1 causes not switch1 if switch1
+                        toggle2 causes switch2 if not switch2
+                        toggle2 causes not switch2 if switch2
+                        impossible toggle1 if light";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AfterQueryStatement afterQuery)
+            {
+                var queryResult = afterQuery.Execute(graph, history);
+                Assert.AreEqual(false, queryResult);
+            }
+        }
+
+        [Test]
+        public void PossiblyAfterLight()
+        {
+            var queryText = @"possibly light after toggle2, toggle1 from not light";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"noninertial light
+                        initially not light
+                        always light iff (switch1 iff switch2)
+                        toggle1 causes switch1 if not switch1
+                        toggle1 causes not switch1 if switch1
+                        toggle2 causes switch2 if not switch2
+                        toggle2 causes not switch2 if switch2
+                        impossible toggle1 if light";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AfterQueryStatement afterQuery)
+            {
+                var queryResult = afterQuery.Execute(graph, history);
+                Assert.AreEqual(false, queryResult);
+            }
+        }
     }
 }
