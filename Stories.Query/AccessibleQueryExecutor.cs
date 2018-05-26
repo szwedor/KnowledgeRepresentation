@@ -174,6 +174,11 @@ namespace Stories.Query
                 } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
             }
 
+            if (verticesCompleted < startVertices.Count)
+            {
+                return false;
+            }
+
             return true;
         }
 
