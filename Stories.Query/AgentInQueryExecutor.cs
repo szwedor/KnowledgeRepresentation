@@ -20,8 +20,8 @@ namespace Stories.Query
                 throw new ArgumentNullException(nameof(graph));
             }
             // czy występuje jawnie w ścieżce
-            if (query.Actions.Any(p => p.Agent == query.Agent))
-                return true;
+            //if (query.Actions.Any(p => p.Agent == query.Agent))
+            //    return true;
 
             // poszukiwanie krawędzi null, którą tylko on może spełnić z warunków początkowych
             var vertices = graph.Vertexes.ToList();
@@ -69,9 +69,15 @@ namespace Stories.Query
 
             if (query.Actions[lvl].Agent != null)
             {
-                //jesli w query akcja ma aktora to zwracamy czy ktorakolwiek sciezka ma koniec
-                return actions.Where(p => p.Actor == query.Actions[lvl].Agent)
+                    //jesli w query akcja ma aktora to zwracamy czy ktorakolwiek sciezka ma koniec
+                 var sucessful =  actions.Where(p => p.Actor == query.Actions[lvl].Agent)
                      .Sum(p => Search(p.To, query, validation, lvl, sufficiency));
+
+                if (query.Actions[lvl].Agent == query.Agent)
+                {
+                    validation[lvl] += sucessful;
+                    return sucessful;
+                }
             }
             else
             {
