@@ -111,6 +111,7 @@ namespace Stories.Execution
                 .Select(p=>p.Label).ToList();
 
             var releasesFluent = history.Releases
+                .Where(p=> p.Action ==action)
                 .Where(p => p.Agents == null || p.Agents.Contains(agent))
                 .Where(p => state.EvaluateCondition(p.Condition))
                 .Select(p => p.Fluent).ToList();
@@ -140,7 +141,7 @@ namespace Stories.Execution
                 effects = effects.Where(p => p.IsTypical).ToList();
 
             if (!effects.Any())
-                return new HashSet<AppState>(States);
+                return new HashSet<AppState>(States.Intersect(Res0(agent, action, state)));
 
             var states = States
                 .Where(p => effects.All(c => p.EvaluateCondition(c.Effect)))
