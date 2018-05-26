@@ -61,6 +61,36 @@ namespace Stories.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;ADAQ&quot;
+        ///                  xmlns=&quot;http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008&quot;&gt;
+        ///
+        ///    &lt;!-- This is the main ruleset. --&gt;
+        ///    &lt;RuleSet&gt;
+        ///
+        ///
+        ///      &lt;Keywords fontWeight=&quot;bold&quot; foreground=&quot;Blue&quot;&gt;
+        ///
+        ///        &lt;Word&gt;executable&lt;/Word&gt;
+        ///        &lt;Word&gt;from&lt;/Word&gt;
+        ///        &lt;Word&gt;accessible&lt;/Word&gt;
+        ///                &lt;Word&gt;in&lt;/Word&gt;
+        ///                  &lt;Word&gt;necessary&lt;/Word&gt;
+        ///                  &lt;Word&gt;possibly&lt;/Word&gt;
+        ///      
+        ///      
+        ///      
+        ///      
+        ///      
+        ///    &lt;/Keywords&gt;
+        ///      &lt;Keywo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AdaQSyntaxt {
+            get {
+                return ResourceManager.GetString("AdaQSyntaxt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;ADA&quot;
         ///                  xmlns=&quot;http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008&quot;&gt;
         ///

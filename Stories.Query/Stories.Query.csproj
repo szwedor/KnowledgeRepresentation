@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StructureMap, Version=4.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.6.1\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessibleQueryExecutor.cs" />
+    <Compile Include="AfterQueryExecutor.cs" />
+    <Compile Include="AgentInQueryExecutor.cs" />
+    <Compile Include="DI.cs" />
+    <Compile Include="ExecutableQueryExecutor.cs" />
+    <Compile Include="ExecutorExtensions.cs" />
+    <Compile Include="IExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +65,9 @@
       <Project>{91beffd3-b0f1-4b66-b7f4-ae6295d069f3}</Project>
       <Name>Stories.Parser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

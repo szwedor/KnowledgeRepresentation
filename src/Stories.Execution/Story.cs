@@ -50,7 +50,7 @@ namespace Stories.Execution
             var values = history.Values.SelectMany(v => v.Actions).Select(a => a.Agent);
             var effects = history.Effects.SelectMany(e => e.Agents ?? new List<string>());
 
-            return effects.Where(a => !string.IsNullOrEmpty(a)).Distinct().ToList();
+            return values.Concat(effects).Where(a => !string.IsNullOrEmpty(a)).Distinct().ToList();
         }
 
         private List<string> getAllFluents()
@@ -98,7 +98,8 @@ namespace Stories.Execution
                 .Where(p=>p.Action == action)
                 .Where(p => p.Agents == null || p.Agents.Contains(agent))
                 .Where(p => state.EvaluateCondition(p.Condition)).ToList();
-            if (!effects.Any()) return new HashSet<AppState>();
+            if (!effects.Any()) return new HashSet<AppState>(States);
+           // var ifFalse = 
             var states = States.Where(p => effects.All(c => p.EvaluateCondition(c.Effect)));
             return new HashSet<AppState>(states);
         }
@@ -110,6 +111,7 @@ namespace Stories.Execution
                 .Select(p=>p.Label).ToList();
 
             var releasesFluent = history.Releases
+                .Where(p=> p.Action ==action)
                 .Where(p => p.Agents == null || p.Agents.Contains(agent))
                 .Where(p => state.EvaluateCondition(p.Condition))
                 .Select(p => p.Fluent).ToList();
@@ -139,7 +141,7 @@ namespace Stories.Execution
                 effects = effects.Where(p => p.IsTypical).ToList();
 
             if (!effects.Any())
-                return new HashSet<AppState>();
+                return new HashSet<AppState>(States.Intersect(Res0(agent, action, state)));
 
             var states = States
                 .Where(p => effects.All(c => p.EvaluateCondition(c.Effect)))
@@ -160,6 +162,13 @@ namespace Stories.Execution
             var set = ResMinus(agent, action, state);
             set.ExceptWith(ResN(agent, action, state));
             return set;
+        }
+
+        public bool IsActionPossible(string agent, string action, AppState state)
+        {
+            var possibility = this.history.Effects.Select(p => p).Where(p => p.Effect is ConditionConstant &&
+                !state.EvaluateCondition(p.Effect) && state.EvaluateCondition(p.Condition) && p.Action == action && (p.Agents == null || p.Agents.Contains(agent)));
+            return !possibility.Any();
         }
     }
 }

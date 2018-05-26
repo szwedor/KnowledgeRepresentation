@@ -73,7 +73,14 @@ namespace Stories.Execution
 
         public bool GetVariable(string label)
         {
-            return values[label];
+            try
+            {
+                return values[label];
+            }
+            catch (Exception)
+            {
+                throw new Exception("fluent does not exist in the story");
+            }
         }
 
         public bool EvaluateCondition(ConditionExpression expression)

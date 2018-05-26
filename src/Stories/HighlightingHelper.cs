@@ -17,26 +17,37 @@ namespace Stories
 
     public static class HighlightingHelper
     {
-        private static IHighlightingDefinition basicDefinition;
-        private static HighlightingRule[] basicRules;
+        private static IHighlightingDefinition[] basicDefinition;
+        private static HighlightingRule[][] basicRules;
         static HighlightingHelper()
         {
+            basicDefinition = new IHighlightingDefinition[2];
+            basicRules = new HighlightingRule[2][];
+
             using (var reader = new XmlTextReader(new StringReader(Properties.Resources.AdaSyntaxt)))
             {
-                basicDefinition = HighlightingLoader.Load(reader,
+                basicDefinition[0] = HighlightingLoader.Load(reader,
                     HighlightingManager.Instance);
 
-                basicRules = basicDefinition.MainRuleSet.Rules.ToArray();
+                basicRules[0] = basicDefinition[0].MainRuleSet.Rules.ToArray();
+            }
+            using (var reader = new XmlTextReader(new StringReader(Properties.Resources.AdaQSyntaxt)))
+            {
+                basicDefinition[1] = HighlightingLoader.Load(reader,
+                    HighlightingManager.Instance);
+
+                basicRules[1] = basicDefinition[1].MainRuleSet.Rules.ToArray();
             }
         }
 
-        internal static void ResetHighlighting(this TextEditor editor)
+        internal static void ResetHighlighting(this TextEditor editor,bool query)
         {
-            editor.SyntaxHighlighting = basicDefinition;
-            basicDefinition.MainRuleSet.Rules.Clear();
-            Array.ForEach(basicRules,
+            var i = query ? 1 : 0;
+            editor.SyntaxHighlighting = basicDefinition[i];
+            basicDefinition[i].MainRuleSet.Rules.Clear();
+            Array.ForEach(basicRules[i],
                 rule=>
-                basicDefinition.MainRuleSet.Rules.Add(rule));
+                basicDefinition[i].MainRuleSet.Rules.Add(rule));
             editor.RefreshHighlighting();
         }
 

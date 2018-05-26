@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace Stories.Query
 {
-    public static class AccessibleQueryExecutor
+    public class AccessibleQueryExecutor : Executor<AccessibleQueryStatement>
     {
-        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
+        public override bool Execute(AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
         {
             if (graph == null)
             {
@@ -26,7 +26,7 @@ namespace Stories.Query
                 case Sufficiency.Necessary:
                     return ExecuteNecessarySufficiency(startVertices, query.StateToCondition);
                 case Sufficiency.Possibly:
-                    break;
+                    return ExecutePossiblySufficiency(startVertices, query.StateToCondition);
                 case Sufficiency.Typically:
                     return ExecuteTypicallySufficiency(startVertices, query.StateToCondition);
                 default:
@@ -50,6 +50,9 @@ namespace Stories.Query
 
             // zaaplikowanie value statements
             vertices = ApplyNotInitiallyValueStatements(graph, history, vertices);
+
+            //zaaplikowanie zdan releases
+            vertices = ApplyReleasesStatements(graph, history, vertices);
             return vertices;
         }
 
@@ -117,8 +120,41 @@ namespace Stories.Query
                     else
                     {
                         vertexEvaluatingValueStatement.ForEach(
-                                x => edgeList[i].From.EdgesOutgoing.Add(new Edge(edgeList[i].From, x, edgeList[i].IsTypical, edgeList[i].Action, edgeList[i].Actor))
-                                );
+                                x =>
+                                {
+                                    var actionEdge = edgeList[i].From.EdgesOutgoing.FirstOrDefault(
+                                        y => y.IsTypical == edgeList[i].IsTypical && edgeList[i].Action == y.Action && edgeList[i].Actor == y.Actor);
+                                    if (actionEdge == null)
+                                    {
+                                        edgeList[i].From.EdgesOutgoing.Add(new Edge(edgeList[i].From, x, edgeList[i].IsTypical, edgeList[i].Action, edgeList[i].Actor));
+                                    }
+                                    else
+                                    {
+                                        actionEdge.To = x;
+                                    }
+                                });
+                    }
+                }
+            }
+            return vertices;
+        }
+
+        private static IEnumerable<Vertex> ApplyReleasesStatements(Graph.Graph graph, HistoryStatement history, IEnumerable<Vertex> vertices)
+        {
+            foreach (var release in history.Releases)
+            {
+                var edges = vertices.SelectMany(x => x.EdgesOutgoing.Where(y => y.Action == release.Action &&
+                    (release.Agents == null || release.Agents.Contains(y.Actor)))).ToList();
+
+                for(int i=0;i<edges.Count;i++)
+                {
+                    var edge = edges[i];
+                    if (edge.From.State.EvaluateCondition(release.Condition))
+                    {
+                        var state = edge.To.State.Values.ToDictionary(x => x.Key, x => x.Value);
+                        state[release.Fluent] = !state[release.Fluent];
+                        var vertex = graph.Vertexes.FirstOrDefault(v => v.State.Values.All(x => state[x.Key] == x.Value));
+                        edge.From.EdgesOutgoing.Add(new Edge(edge.From, vertex, edge.IsTypical, edge.Action, edge.Actor));
                     }
                 }
             }
@@ -156,12 +192,17 @@ namespace Stories.Query
                     closedVertices.UnionWith(verticesToCheck.SelectMany(x => x));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).Distinct().SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor }).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.Select(z => z.SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor })).SelectMany(x => x).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     verticesToCheck = edgesGroupedByActorAction.Select(x => x.Select(y => y.To).ToList()).ToList();
 
                     // sprawdzamy, czy wszystkie wierzchołki do rozważenia były już rozważane
                 } while (!verticesToCheck.SelectMany(x => x.ToList()).All(v => closedVertices.Contains(v)));
+            }
+
+            if (verticesCompleted < startVertices.Count)
+            {
+                return false;
             }
 
             return true;
@@ -207,7 +248,10 @@ namespace Stories.Query
                     closedVertices.UnionWith(verticesToCheck.SelectMany(x => x.Select(y => y.Vertex)));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.Select(
+                      z => z.SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }))
+                      .SelectMany(x => x).ToList();
+                    //var edgesGroupedByActorAction = verticesToCheck.SelectMany(x => x).SelectMany(x => x.Vertex.EdgesOutgoing.Select(y => new KeyValuePair<AbnormalLengthPath, Edge>(x, y))).GroupBy(y => new { y.Value.Action, y.Value.Actor }).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     // liczymy długość trasy jaką się dostaliśmy oraz licznę abnormalnych przejść
                     verticesToCheck = edgesGroupedByActorAction.Select(
@@ -224,6 +268,35 @@ namespace Stories.Query
             }
 
             return queryResult;
+        }
+
+        private static bool ExecutePossiblySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
+        {
+            List<Vertex> visited;
+            foreach (var startingState in startVertices)
+            {
+                visited = new List<Vertex>();
+                var found = SearchBST(startingState, visited, endCondition);
+                if (found)
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool SearchBST(Vertex from, List<Vertex> visited, ConditionExpression end)
+        {
+            if (from.State.EvaluateCondition(end))
+                return true;
+            if (visited.Contains(from))
+                return false;
+            visited.Add(from);
+            foreach (var edge in from.EdgesOutgoing)
+            {
+                var found = SearchBST(edge.To, visited, end);
+                if (found)
+                    return true;
+            }
+            return false;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Stories.Execution;
 using Stories.Graph.Model;
@@ -22,33 +23,61 @@ namespace Stories.Graph
 
         public static Graph CreateGraph(Story story, QueryStatement query)
         {
+            List<string> actors = new List<string>();
+            if (query is AfterQueryStatement afterQuery)
+            {
+                actors = afterQuery.Actions.Select(p => p.Agent).ToList();
+            }
+
+            if (query is ExecutableQueryStatement executableQuery)
+            {
+                actors = executableQuery.Actions.Select(p => p.Agent).ToList();                
+            }
+
+            if (query is AgentInQueryStatement agentInQuery)
+            {
+                actors = agentInQuery.Actions.Select(p => p.Agent).Where(p=>p!=null).ToList();
+                if(!string.IsNullOrEmpty(agentInQuery.Agent) && !actors.Contains(agentInQuery.Agent))
+                    actors.Add(agentInQuery.Agent);               
+            }
+            return Graph.CreateGraph(story, actors);
+        }
+
+        private static Graph CreateGraph(Story story, List<string> queryActors)
+        {
             Graph graph = new Graph();
             foreach (var state in story.States)
             {
                 graph.Vertexes.Add(new Vertex(state));
             }
+            bool hasAnyActor = false;
             foreach (var vertexFrom in graph.Vertexes)
             {
                 if (story.Agents.Count > 0)
                 {
+                    hasAnyActor = true;
                     foreach (var agent in story.Agents)
                     {
                         GetEdges(agent, graph, story, vertexFrom);
                     }
                 }
-
-                if (query != null && query is AgentInQueryStatement agentQuery && !story.Agents.Contains(agentQuery.Agent))
+          
+                foreach (var actor in queryActors.Distinct())
                 {
-                    GetEdges(agentQuery.Agent, graph, story, vertexFrom);
+                    if (!story.Agents.Contains(actor))
+                    {
+                        GetEdges(actor, graph, story, vertexFrom);
+                        hasAnyActor = true;
+                    }
                 }
 
-                if (query == null && story.Agents.Count == 0)
+                if (!hasAnyActor)
                 {
                     GetEdges(null, graph, story, vertexFrom);
                 }
-                        
+
             }
-            
+
             return graph;
         }
 
@@ -56,6 +85,7 @@ namespace Stories.Graph
         {
             foreach (var action in story.Actions)
             {
+                bool hasState = false;
                 var resN = story.ResN(agent, action, vertexFrom.State);
                 var resAb = story.ResAb(agent, action, vertexFrom.State);
                 foreach (var state in resN.ToArray())
@@ -69,6 +99,7 @@ namespace Stories.Graph
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);
+                    hasState = true;
                 }
 
                 foreach (var state in resAb.ToArray())
@@ -83,6 +114,20 @@ namespace Stories.Graph
                     vertexFrom.EdgesOutgoing.Add(edge);
                     vertexTo.EdgesIncoming.Add(edge);
                     graph.Edges.Add(edge);
+                    hasState = true;
+                }
+
+                if (!hasState && story.IsActionPossible(agent, action, vertexFrom.State))
+                {
+                    if (!graph.Edges.Any(p =>
+                        p.From.State.Equals(vertexFrom.State) && p.To.State.Equals(vertexFrom.State)
+                        && p.Actor == agent && p.Action == action))
+                    {
+                        Edge edge = new Edge(vertexFrom, vertexFrom, true, action, agent);
+                        vertexFrom.EdgesOutgoing.Add(edge);
+                        vertexFrom.EdgesIncoming.Add(edge);
+                        graph.Edges.Add(edge);
+                    }
                 }
             }
         }
@@ -97,9 +142,9 @@ namespace Stories.Graph
 
             foreach (var edge in Edges)
             {
-                sb.AppendLine("From " + edge.From.State.Values.Select(p => $"[{p.Key}:{p.Value}]") 
-                                      + "To " + edge.To.State.Values.Select(p => $"[{p.Key}:{p.Value}]")
-                                      + "Action " +edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
+                sb.AppendLine("From " + edge.From.State.ToString() 
+                                      + "To " + edge.To.State.ToString()
+                                      + "Action " + edge.Actor + " " + edge.Action + "Typically " + edge.IsTypical);
             }
             return sb.ToString();
         }
