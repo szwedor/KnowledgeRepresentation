@@ -50,7 +50,7 @@ namespace Stories.Execution
             var values = history.Values.SelectMany(v => v.Actions).Select(a => a.Agent);
             var effects = history.Effects.SelectMany(e => e.Agents ?? new List<string>());
 
-            return effects.Where(a => !string.IsNullOrEmpty(a)).Distinct().ToList();
+            return values.Concat(effects).Where(a => !string.IsNullOrEmpty(a)).Distinct().ToList();
         }
 
         private List<string> getAllFluents()
