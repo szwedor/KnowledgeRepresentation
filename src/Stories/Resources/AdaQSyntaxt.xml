@@ -1,0 +1,36 @@
+<SyntaxDefinition name="ADAQ"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+
+    <!-- This is the main ruleset. -->
+    <RuleSet>
+
+
+      <Keywords fontWeight="bold" foreground="Blue">
+
+        <Word>executable</Word>
+        <Word>from</Word>
+        <Word>accessible</Word>
+                <Word>in</Word>
+                  <Word>necessary</Word>
+                  <Word>possibly</Word>
+      
+      
+      
+      
+      
+    </Keywords>
+      <Keywords fontWeight="bold" foreground="Green">
+        <Word>iff</Word>
+        <Word>and</Word>
+        <Word>or</Word>
+        <Word>then</Word>
+        <Word>not</Word>
+      </Keywords>
+      <Keywords fontWeight="bold" foreground="Red">
+        <Word>true</Word>
+        <Word>false</Word>
+      </Keywords>
+
+
+    </RuleSet>
+</SyntaxDefinition>

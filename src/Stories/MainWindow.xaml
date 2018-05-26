@@ -9,7 +9,7 @@
         xmlns:viewModel="clr-namespace:Stories.ViewModel"
         mc:Ignorable="d"
         DataContext="{DynamicResource StoriesViewModel}"
-        Title="MainWindow" Height="350" Width="525" >
+        Title="MainWindow" Height="350" Width="800" >
 
     <mah:MetroWindow.Resources>
         <viewModel:StoriesViewModel x:Key="StoriesViewModel" />
@@ -23,9 +23,6 @@
         </Grid.RowDefinitions>
         <Button Command="{Binding ProcessCommand}">
             ></Button>
-        <TextBox Name="QueryTextBox" Text="Type query here..." Grid.Row="2"></TextBox>
-        <Button Grid.Row="3" Content="Make query" Click="Button_Click">
-            </Button>
         <view:StoryInputView  Grid.Row="1"/>
     </Grid>
 </mah:MetroWindow>

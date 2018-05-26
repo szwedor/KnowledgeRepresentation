@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace Stories.Query
 {
-    public static class AccessibleQueryExecutor
+    public class AccessibleQueryExecutor : Executor<AccessibleQueryStatement>
     {
-        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
+        public override bool Execute(AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
         {
             if (graph == null)
             {

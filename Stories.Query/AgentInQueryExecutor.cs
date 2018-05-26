@@ -1,6 +1,7 @@
 ﻿using Stories.Execution;
 using Stories.Graph;
 using Stories.Graph.Model;
+using Stories.Parser;
 using Stories.Parser.Statements;
 using Stories.Parser.Statements.QueryStatements;
 using System;
@@ -10,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Stories.Query
 {
-    public static class AgentInQueryExecutor
+    public class AgentInQueryExecutor: Executor<AgentInQueryStatement>
     {
-        public static bool Execute(this AgentInQueryStatement query, Stories.Graph.Graph graph, Stories.Execution.Story story, HistoryStatement history)
+        public override bool Execute(AgentInQueryStatement query, Stories.Graph.Graph graph,  HistoryStatement history)
         {
             if (graph == null)
             {

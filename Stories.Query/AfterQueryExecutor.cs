@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace Stories.Query
 {
-    public static class AfterQueryExecutor
+    public class AfterQueryExecutor:Executor<AfterQueryStatement>
     {
-        public static bool Execute(this AfterQueryStatement query, Graph.Graph graph, HistoryStatement history)
+        public override bool Execute(AfterQueryStatement query, Graph.Graph graph, HistoryStatement history)
         {
             if (graph == null)
             {

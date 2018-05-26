@@ -37,7 +37,8 @@ namespace Stories.Tests
 
             if (query is AgentInQueryStatement accessibleQuery)
             {
-                var queryResult = accessibleQuery.Execute(graph, story, history);
+                var executor = new AgentInQueryExecutor();
+                var queryResult = executor.Execute(query,graph, history);
                 queryResult.Should().Be(answer, queryText + Environment.NewLine + text);
             }
         }

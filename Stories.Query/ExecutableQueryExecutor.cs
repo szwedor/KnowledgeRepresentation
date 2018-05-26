@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace Stories.Query
 {
-	public static class ExecutableQueryExecutor
+	public class ExecutableQueryExecutor:Executor<ExecutableQueryStatement>
 	{
 		private static List<ActionWithExecutor> actions;
 		private static HistoryStatement history;
 		private static Graph.Graph graph;
 
-		public static bool Execute(this ExecutableQueryStatement query, Graph.Graph graph, HistoryStatement history)
+		public override bool Execute(ExecutableQueryStatement query, Graph.Graph graph, HistoryStatement history)
 		{
 			if (graph == null)
 			{
