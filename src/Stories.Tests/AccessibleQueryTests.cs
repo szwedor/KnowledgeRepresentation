@@ -317,5 +317,24 @@ namespace Stories.Tests
                 Assert.AreEqual(false, queryResult);
             }
         }
+        [Test]
+        public void RealseseTest1()
+        {
+            var queryText = @"possibly accessible not loaded from loaded";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially loaded
+                shoot releases loaded";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(true, queryResult);
+            }
+        }
     }
 }
