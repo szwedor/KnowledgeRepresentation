@@ -50,6 +50,9 @@ namespace Stories.Query
 
             // zaaplikowanie value statements
             vertices = ApplyNotInitiallyValueStatements(graph, history, vertices);
+
+            //zaaplikowanie zdan releases
+            vertices = ApplyReleasesStatements(graph, history, vertices);
             return vertices;
         }
 
@@ -117,7 +120,8 @@ namespace Stories.Query
                     else
                     {
                         vertexEvaluatingValueStatement.ForEach(
-                                x => {
+                                x =>
+                                {
                                     var actionEdge = edgeList[i].From.EdgesOutgoing.FirstOrDefault(
                                         y => y.IsTypical == edgeList[i].IsTypical && edgeList[i].Action == y.Action && edgeList[i].Actor == y.Actor);
                                     if (actionEdge == null)
@@ -129,6 +133,28 @@ namespace Stories.Query
                                         actionEdge.To = x;
                                     }
                                 });
+                    }
+                }
+            }
+            return vertices;
+        }
+
+        private static IEnumerable<Vertex> ApplyReleasesStatements(Graph.Graph graph, HistoryStatement history, IEnumerable<Vertex> vertices)
+        {
+            foreach (var release in history.Releases)
+            {
+                var edges = vertices.SelectMany(x => x.EdgesOutgoing.Where(y => y.Action == release.Action &&
+                    (release.Agents == null || release.Agents.Contains(y.Actor)))).ToList();
+
+                for(int i=0;i<edges.Count;i++)
+                {
+                    var edge = edges[i];
+                    if (edge.From.State.EvaluateCondition(release.Condition))
+                    {
+                        var state = edge.To.State.Values.ToDictionary(x => x.Key, x => x.Value);
+                        state[release.Fluent] = !state[release.Fluent];
+                        var vertex = graph.Vertexes.FirstOrDefault(v => v.State.Values.All(x => state[x.Key] == x.Value));
+                        edge.From.EdgesOutgoing.Add(new Edge(edge.From, vertex, edge.IsTypical, edge.Action, edge.Actor));
                     }
                 }
             }
@@ -166,7 +192,7 @@ namespace Stories.Query
                     closedVertices.UnionWith(verticesToCheck.SelectMany(x => x));
 
                     // grupujemy krawędzie po aktorach i akcjach
-                    var edgesGroupedByActorAction = verticesToCheck.Select(z=>z.SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor })).SelectMany(x=>x).ToList();
+                    var edgesGroupedByActorAction = verticesToCheck.Select(z => z.SelectMany(x => x.EdgesOutgoing).GroupBy(y => new { y.Action, y.Actor })).SelectMany(x => x).ToList();
                     // jedna pozycja w liście to zbiór wierzchołków, do których możemy się dostać po wykonaniu (aktor, akcja)
                     verticesToCheck = edgesGroupedByActorAction.Select(x => x.Select(y => y.To).ToList()).ToList();
 
