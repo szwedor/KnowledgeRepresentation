@@ -139,7 +139,13 @@
                 this.queryEditor.ResetHighlighting(true);}
             this.addedHighlighting = false;
         }
-      
 
+    
+
+        private void InformationButtonClick(object sender, RoutedEventArgs e)
+        {
+            var informationDialog = new InformationWindow();
+            informationDialog.ShowDialog();
+        }
     }
 }
