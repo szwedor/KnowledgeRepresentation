@@ -36,6 +36,49 @@ namespace Stories.Tests
         }
 
         [Test]
+        public void NecessaryAccessibleTestIssue27()
+        {
+            var queryText = @"necessary accessible open from hasCard";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially not open
+                        insertCard typically causes open
+                        impossible insertCard if not hasCard";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(false, queryResult);
+            }
+        }
+
+        [Test]
+        public void NecessaryAccessibleTestIssue29()
+        {
+            var queryText = @"necessary accessible open from not open";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially not open
+                        hasCard after Jim spawnCard
+                        insertCard causes open
+                        impossible insertCard if not hasCard";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+            if (query is AccessibleQueryStatement accessibleQuery)
+            {
+                var queryResult = accessibleQuery.Execute(graph, history);
+                Assert.AreEqual(true, queryResult);
+            }
+        }
+
+        [Test]
         public void NecessaryAccessibleTest2()
         {
             var queryText = @"necessary accessible BilboLives from BilboLives and not FrodoHasSword";
