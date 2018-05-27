@@ -154,7 +154,10 @@ namespace Stories.Query
                         var state = edge.To.State.Values.ToDictionary(x => x.Key, x => x.Value);
                         state[release.Fluent] = !state[release.Fluent];
                         var vertex = graph.Vertexes.FirstOrDefault(v => v.State.Values.All(x => state[x.Key] == x.Value));
-                        edge.From.EdgesOutgoing.Add(new Edge(edge.From, vertex, edge.IsTypical, edge.Action, edge.Actor));
+                        if(vertex != null)
+                        {
+                            edge.From.EdgesOutgoing.Add(new Edge(edge.From, vertex, edge.IsTypical, edge.Action, edge.Actor));
+                        }
                     }
                 }
             }
