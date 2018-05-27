@@ -17,6 +17,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid>
@@ -27,8 +28,11 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" Background="LightCyan">
                 <ToolBar DockPanel.Dock="Top">
+                    <Button Click="NewClick" DataContext="{Binding ElementName=storyEditor}">
+                        <iconPacks:PackIconMaterial Kind="FileDocument"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
                     <Button Click="OpenClick" DataContext="{Binding ElementName=storyEditor}">
-                        <iconPacks:PackIconMaterial Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <iconPacks:PackIconMaterial Kind="Folder" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>
                     <Button Click="SaveClick" DataContext="{Binding ElementName=storyEditor}">
                         <iconPacks:PackIconMaterial Kind="ContentSave" VerticalAlignment="Center"
@@ -104,8 +108,11 @@
             <DockPanel Grid.Row="2"
                    Background="LightCyan">
                 <ToolBar DockPanel.Dock="Top">
+                    <Button Click="NewClick" DataContext="{Binding ElementName=queryEditor}">
+                        <iconPacks:PackIconMaterial Kind="FileDocument"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
                     <Button Click="OpenClick" DataContext="{Binding ElementName=queryEditor}">
-                        <iconPacks:PackIconMaterial Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <iconPacks:PackIconMaterial Kind="Folder" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>
                     <Button Click="SaveClick" DataContext="{Binding ElementName=queryEditor}">
                         <iconPacks:PackIconMaterial Kind="ContentSave" VerticalAlignment="Center"
@@ -169,7 +176,10 @@
                                    FontSize="10pt" />
             </DockPanel>
         </Grid>
-        <TreeView Grid.Column="1" HorizontalAlignment="Stretch" Name="box">
+        <GridSplitter Grid.Column="1"
+                      Width="5"
+                      HorizontalAlignment="Stretch" />
+        <TreeView Grid.Column="2" HorizontalAlignment="Stretch" Name="box">
             <TreeView.InputBindings>
                 <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyListItem}" />
             </TreeView.InputBindings>

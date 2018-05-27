@@ -20,7 +20,7 @@
     public partial class StoryInputView : UserControl
     {
         private Dictionary<string, string> fileNames = new Dictionary<string, string>();
-
+        private Dictionary<string, TextEditor> editors = new Dictionary<string, TextEditor>();
         private bool addedHighlighting;
         public StoryInputView()
         {
@@ -42,12 +42,14 @@
 
             this.storyEditor.ResetHighlighting(false);
             this.queryEditor.ResetHighlighting(true);
+            editors.Add(storyEditor.Name,storyEditor);
+            editors.Add(queryEditor.Name, queryEditor);
         }
 
         private void OpenClick(object sender, RoutedEventArgs e)
         {
             if (sender is Button b && b.DataContext is TextEditor te)
-            { var dlg = new OpenFileDialog { CheckFileExists = true };
+            { var dlg = new OpenFileDialog { CheckFileExists = true, DefaultExt = ".txt" };
                 if (dlg.ShowDialog() ?? false)
                 {
                     var length = new FileInfo(dlg.FileName).Length;
@@ -59,7 +61,7 @@
                     }
 
                     fileNames[te.Name] = dlg.FileName;
-                    this.storyEditor.Load(fileNames[te.Name]);
+                    this.editors[te.Name].Load(fileNames[te.Name]);
                 }
             }
         }
@@ -69,7 +71,7 @@
             if (sender is Button b && b.DataContext is TextEditor te)
             {
                 if (fileNames.TryGetValue(te.Name, out string value))
-                    this.storyEditor.Save(value);
+                    editors[te.Name].Save(value);
                 else
                 {
                     var dlg = new SaveFileDialog
@@ -78,14 +80,28 @@
                     };
 
                     if (dlg.ShowDialog() ?? false)
+                    {
                         fileNames[te.Name] = dlg.FileName;
+                        editors[te.Name].Save(dlg.FileName);
+                    }
                     else
                         return;
                 }
 
             }
         }
-
+        private void NewClick(object sender, EventArgs e)
+        {
+            if (sender is Button b && b.DataContext is TextEditor te)
+            {
+                fileNames.Remove(te.Name);
+               
+                this.Dispatcher.Invoke(() =>
+                {
+                    editors[te.Name].Text = "";
+                });
+            }
+        }
 
         private new void DataContextChanged(object s, DependencyPropertyChangedEventArgs e)
         {
