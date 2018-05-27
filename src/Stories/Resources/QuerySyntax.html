@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Język kwerend</h1>
+    <p>
+        Dla dziedziny akcji D możeny definiować zapytania zwane kwerendami.
+    </p>
+    <h2>Syntaktyka</h2>
+    <p>
+        We wszystkich kwerendach podanie agenta wykonujacego daną akcję nie jest wymagane.
+        Jeżeli agent nie zostanie podany, akcja jest wykonywana przez któregokolwiek agenta.
+    </p>
+
+    <p align="center">
+        <b>necessary executable</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub>
+    </p>
+    <p>
+        Program działań ((<i>A</i><sub>1</sub>, &omega;<sub>1</sub>), ..., (<i>A</i><sub>n</sub>, &omega;<sub>n</sub>)) jest wykonywalny zawsze.
+    </p>
+
+    <p align="center">
+        <b>possibly executable</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub>
+    </p>
+    <p>
+        Program działań ((<i>A</i><sub>1</sub>, &omega;<sub>1</sub>), ..., (<i>A</i><sub>n</sub>, &omega;<sub>n</sub>)) jest wykonywalny kiedykolwiek.
+    </p>
+
+    <p align="center">
+        <b>necessary</b> &gamma; <b>after</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub> <b>from</b> &pi;
+    </p>
+    <p>
+        Wykonanie programu działań ((<i>A</i><sub>1</sub>, &omega;<sub>1</sub>), ..., (<i>A</i><sub>n</sub>, &omega;<sub>n</sub>))
+        z dowolnego stanu spełniającego warunek &pi; zawsze prowadzi do stanu spełniającego warunek &gamma;.
+    </p>
+
+    <p align="center">
+        <b>possibly</b> &gamma; <b>after</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub> <b>from</b> &pi;
+    </p>
+    <p>
+        Wykonanie programu działań ((<i>A</i><sub>1</sub>, &omega;<sub>1</sub>), ..., (<i>A</i><sub>n</sub>, &omega;<sub>n</sub>))
+        z dowolnego stanu spełniającego warunek &pi; kiedykolwiek prowadzi do stanu spełniającego warunek &gamma;.
+    </p>
+
+    <p align="center">
+        <b>typically</b> &gamma; <b>after</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub> <b>from</b> &pi;
+    </p>
+    <p>
+        Wykonanie programu działań ((<i>A</i><sub>1</sub>, &omega;<sub>1</sub>), ..., (<i>A</i><sub>n</sub>, &omega;<sub>n</sub>))
+        z dowolnego stanu spełniającego warunek &pi; na ogół prowadzi do stanu spełniającego warunek &gamma;.
+    </p>
+
+    <p align="center">
+        <b>necessary accessible</b> &gamma; from &pi;
+    </p>
+    <p>
+        Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek &pi;
+        zawsze prowadzi do stanu spełniającego warunek &gamma;.
+    </p>
+
+    <p align="center">
+        <b>possibly accessible</b> &gamma; from &pi;
+    </p>
+    <p>
+        Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek &pi;
+        kiedykolwiek prowadzi do stanu spełniającego warunek &gamma;.
+    </p>
+
+    <p align="center">
+        <b>typically accessible</b> &gamma; from &pi;
+    </p>
+    <p>
+        Wykonanie dowolnego programu działań z dowolnego stanu spełniającego warunek &pi;
+        na ogół prowadzi do stanu spełniającego warunek &gamma;.
+    </p>
+
+    <p align="center">
+        <b>necessary</b> <i>&omega;</i> <b>in</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub>
+    </p>
+    <p>
+        Wykonawca <i>&omega;</i> jest zawsze zaangażowany w realizację programu działań ((<i>A</i><sub>1</sub>, <i>&omega;</i><sub>1</sub>), ..., (<i>A</i><sub>n</sub>, <i>&omega;</i><sub>n</sub>)).
+    </p>
+
+    <p align="center">
+        <b>possibly</b> <i>&omega;</i> <b>in</b> <i>&omega;</i><sub>1</sub> <i>A</i><sub>1</sub>, ..., <i>&omega;</i><sub>n</sub> <i>A</i><sub>n</sub>
+    </p>
+    <p>
+        Wykonawca <i>&omega;</i> jest kiedykolwiek zaangażowany w realizację programu działań ((<i>A</i><sub>1</sub>, <i>&omega;</i><sub>1</sub>), ..., (<i>A</i><sub>n</sub>, <i>&omega;</i><sub>n</sub>)).
+    </p>
+
+
+</body>
+</html>

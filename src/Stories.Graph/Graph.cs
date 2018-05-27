@@ -36,7 +36,7 @@ namespace Stories.Graph
 
             if (query is AgentInQueryStatement agentInQuery)
             {
-                actors = agentInQuery.Actions.Select(p => p.Agent).ToList();
+                actors = agentInQuery.Actions.Select(p => p.Agent).Where(p=>p!=null).ToList();
                 if(!string.IsNullOrEmpty(agentInQuery.Agent) && !actors.Contains(agentInQuery.Agent))
                     actors.Add(agentInQuery.Agent);               
             }

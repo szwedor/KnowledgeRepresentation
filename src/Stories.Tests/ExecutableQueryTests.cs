@@ -443,17 +443,58 @@ namespace Stories.Tests
 			}
 		}
 
-		[Test]
-		public void PossibllyExecutableTest9()
-		{
-			var queryText = @"possibly executable John load, shoot, John shoot";
-			var query = Parsing.GetQuery(queryText);
+        [Test]
+        public void PossibllyExecutableTest9()
+        {
+            var queryText = @"possibly executable John load, shoot, John shoot";
+            var query = Parsing.GetQuery(queryText);
 
-			var text = @"initially alive and not loaded
+            var text = @"initially alive and not loaded
 						 load causes loaded
 						 impossible shoot if not loaded
 						 impossible Bob shoot
 					     observable not loaded and not alive after John shoot";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, query);
+
+            if (query is ExecutableQueryStatement executableQuery)
+            {
+                var queryResult = executableQuery.Execute(graph, history);
+                Assert.AreEqual(true, queryResult);
+            }
+        }
+        [Test]
+        public void ReleasesTest()
+        {
+            var queryText = @"possibly executable rel, test";
+            var query = Parsing.GetQuery(queryText);
+
+            var text = @"initially not loaded
+                rel releases loaded
+                impossible test if not loaded";
+
+            var history = Parsing.GetHistory(text);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, query);
+
+            if (query is ExecutableQueryStatement executableQuery)
+            {
+                var queryResult = executableQuery.Execute(graph, history);
+                Assert.AreEqual(true, queryResult);
+            }
+        }
+
+		[Test]
+		public void NecessaryExecutableTest11()
+		{
+			var queryText = @"necessary executable rel, test";
+			var query = Parsing.GetQuery(queryText);
+
+			var text = @"initially not loaded
+						 loaded after rel
+						 impossible test if not loaded";
 
 			var history = Parsing.GetHistory(text);
 			var story = new Story(history);
@@ -463,6 +504,76 @@ namespace Stories.Tests
 			{
 				var queryResult = executableQuery.Execute(graph, history);
 				Assert.AreEqual(true, queryResult);
+			}
+		}
+
+		[Test]
+		public void PossiblyExecutableTest11()
+		{
+			var queryText = @"possibly executable load, shoot, shoot";
+			var query = Parsing.GetQuery(queryText);
+
+			var text = @"initially alive and not loaded
+						 load causes loaded
+						 impossible shoot if not loaded
+						 not loaded after shoot";
+
+			var history = Parsing.GetHistory(text);
+			var story = new Story(history);
+			var graph = Graph.Graph.CreateGraph(story, query);
+
+			if (query is ExecutableQueryStatement executableQuery)
+			{
+				var queryResult = executableQuery.Execute(graph, history);
+				Assert.AreEqual(false, queryResult);
+			}
+		}
+
+		[Test]
+		public void PossiblyExecutableTest12()
+		{
+			var queryText = @"possibly executable load, John shoot, shoot";
+			var query = Parsing.GetQuery(queryText);
+
+			var text = @"initially alive and not loaded
+						 when Bob load causes loaded
+						 impossible shoot if not loaded
+						 impossible Eric shoot
+						 not loaded after Bob shoot
+						 when John shoot releases loaded";
+
+			var history = Parsing.GetHistory(text);
+			var story = new Story(history);
+			var graph = Graph.Graph.CreateGraph(story, query);
+
+			if (query is ExecutableQueryStatement executableQuery)
+			{
+				var queryResult = executableQuery.Execute(graph, history);
+				Assert.AreEqual(true, queryResult);
+			}
+		}
+
+		[Test]
+		public void NecessaryExecutableTest12()
+		{
+			var queryText = @"necessary executable load, John shoot, shoot";
+			var query = Parsing.GetQuery(queryText);
+
+			var text = @"initially alive and not loaded
+						 when Bob load causes loaded
+						 impossible shoot if not loaded
+						 impossible Eric shoot
+						 not loaded after Bob shoot
+						 when John shoot releases loaded";
+
+			var history = Parsing.GetHistory(text);
+			var story = new Story(history);
+			var graph = Graph.Graph.CreateGraph(story, query);
+
+			if (query is ExecutableQueryStatement executableQuery)
+			{
+				var queryResult = executableQuery.Execute(graph, history);
+				Assert.AreEqual(false, queryResult);
 			}
 		}
 	}

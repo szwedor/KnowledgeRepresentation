@@ -14,7 +14,8 @@ namespace Stories.Parser.Parsers.QueryParsers
              select new AgentInQueryStatement
              {
                  Sufficiency = sufficiency,
-                 Actions = actions.ToList()
+                 Actions = actions.ToList(),
+                 Agent = agent
              }
             ).Token();
     }

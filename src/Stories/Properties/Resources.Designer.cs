@@ -61,25 +61,325 @@ namespace Stories.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;C#&quot;
+        ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;ADAQ&quot;
         ///                  xmlns=&quot;http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008&quot;&gt;
-        ///    &lt;Color name=&quot;Comment&quot; foreground=&quot;Green&quot; /&gt;
-        ///    &lt;Color name=&quot;String&quot; foreground=&quot;Blue&quot; /&gt;
         ///
         ///    &lt;!-- This is the main ruleset. --&gt;
         ///    &lt;RuleSet&gt;
-        ///        &lt;Span color=&quot;Comment&quot; begin=&quot;//&quot; /&gt;
-        ///        &lt;Span color=&quot;Comment&quot; multiline=&quot;true&quot; begin=&quot;/\*&quot; end=&quot;\*/&quot; /&gt;
         ///
-        ///        &lt;Span color=&quot;String&quot;&gt;
-        ///            &lt;Begin&gt;&quot;&lt;/Begin&gt;
-        ///            &lt;End&gt;&quot;&lt;/End&gt;
-        ///            &lt;RuleSet&gt;
-        ///               [rest of string was truncated]&quot;;.
+        ///
+        ///      &lt;Keywords fontWeight=&quot;bold&quot; foreground=&quot;Blue&quot;&gt;
+        ///
+        ///        &lt;Word&gt;executable&lt;/Word&gt;
+        ///        &lt;Word&gt;from&lt;/Word&gt;
+        ///        &lt;Word&gt;accessible&lt;/Word&gt;
+        ///                &lt;Word&gt;in&lt;/Word&gt;
+        ///                  &lt;Word&gt;necessary&lt;/Word&gt;
+        ///                  &lt;Word&gt;possibly&lt;/Word&gt;
+        ///      
+        ///      
+        ///      
+        ///      
+        ///      
+        ///    &lt;/Keywords&gt;
+        ///      &lt;Keywo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AdaQSyntaxt {
+            get {
+                return ResourceManager.GetString("AdaQSyntaxt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;ADA&quot;
+        ///                  xmlns=&quot;http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008&quot;&gt;
+        ///
+        ///    &lt;!-- This is the main ruleset. --&gt;
+        ///    &lt;RuleSet&gt;
+        ///
+        ///
+        ///      &lt;Keywords fontWeight=&quot;bold&quot; foreground=&quot;Blue&quot;&gt;
+        ///        &lt;Word&gt;initially&lt;/Word&gt;
+        ///        &lt;Word&gt;always&lt;/Word&gt;
+        ///        &lt;Word&gt;observable&lt;/Word&gt;
+        ///        &lt;Word&gt;releases&lt;/Word&gt;
+        ///        &lt;Word&gt;noninertial&lt;/Word&gt;
+        ///        &lt;Word&gt;after&lt;/Word&gt;
+        ///        &lt;Word&gt;when&lt;/Word&gt;
+        ///        &lt;Word&gt;causes&lt;/Word&gt;
+        ///        &lt;Word&gt;impossible&lt;/Word&gt;
+        ///      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AdaSyntaxt {
             get {
                 return ResourceManager.GetString("AdaSyntaxt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;pl&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja wartości&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &amp;alpha; &lt;b&gt;after&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;, ..., &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt;
+        ///        &lt;br /&gt;
+        ///        gdzie &lt;i&gt;n&lt;/i&gt;&amp;ge;1
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Formuła &amp;alpha; jest &lt;b&gt;zawsze&lt;/b&gt; prawdziwa po wykonaniu sekwencji akcji &lt;i&gt;A&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; przez ageneta &lt;i&gt;&amp;omega;&lt;/ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string After {
+            get {
+                return ResourceManager.GetString("After", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja ograniczenia&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;always&lt;/b&gt; &amp;alpha;
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Każdy stan musi spełniać formułę &amp;alpha;.
+        ///    &lt;/p&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string Always {
+            get {
+                return ResourceManager.GetString("Always", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja efektu&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;when&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;or&lt;/b&gt; ... &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt; &lt;b&gt;causes&lt;/b&gt; &amp;alpha; &lt;b&gt;if&lt;/b&gt; &amp;pi;
+        ///        &lt;br /&gt;
+        ///        gdzie n &amp;ge; 1
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Jeżeli akcja &lt;i&gt;A&lt;/i&gt; jest wywołana przez któregokolwiek z agentów
+        ///        &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt;, ..., &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; w stanie, który spełnia formułę &amp;pi;, stan wynikowy spełn [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Causes {
+            get {
+                return ResourceManager.GetString("Causes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja opisu fluentu&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;noninertial&lt;/b&gt; &lt;i&gt;f&lt;/i&gt;;
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Oznaczenie fluentu &lt;i&gt;f&lt;/i&gt; jako nieinercjalnego.
+        ///    &lt;/p&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string FluentDescription {
+            get {
+                return ResourceManager.GetString("FluentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Graficzny interfejs użytkownika&lt;/h1&gt;
+        ///    &lt;p&gt;
+        ///        Interfejs użytkownika składa się z trzech głównych części:
+        ///        &lt;ul&gt;
+        ///            &lt;li&gt;części służacej do wprowadzania historyjki,&lt;/li&gt;
+        ///            &lt;li&gt;części pokazującej graf stanów zbudowany na podstawie historii w formacie JSON,&lt;/li&gt;
+        ///            &lt;li&gt;części służącej do wprowadzania zapytań.&lt;/li&gt;
+        ///        &lt;/ul&gt;
+        ///    &lt;/p&gt;
+        ///
+        ///    &lt;h2&gt;Część służąca do wprowadzania historyjki&lt;/h2&gt;
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GraphicalInterface {
+            get {
+                return ResourceManager.GetString("GraphicalInterface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Wstęp&lt;/h1&gt;
+        ///    &lt;p&gt;
+        ///        Niniejszy podręcznik zawiera opis użyteczności aplikacji i wyciąg najważniejszych informacji 
+        ///        z pełnej dokumentacji teoretycznej.
+        ///    &lt;/p&gt;
+        ///&lt;/body&gt;
+        ///
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string Introduction {
+            get {
+                return ResourceManager.GetString("Introduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Słowa kluczowe dostępne w programie&lt;/h1&gt;
+        ///    &lt;p&gt;Sekcja zawiera wszystkie słowa kluczowe zarerwowane przez język akcji.&lt;/p&gt;
+        ///    &lt;h2&gt;Słowa kluczowe instrukcji&lt;/h2&gt;
+        ///    &lt;p&gt;
+        ///        &lt;ul&gt;
+        ///            &lt;li&gt;&lt;b&gt;initially&lt;/b&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;always&lt;/b&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;observable&lt;/b&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;after&lt;/b&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;when&lt;/b&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;causes&lt;/b&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;impossible&lt;/b&gt;&lt;/ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string KeyWords {
+            get {
+                return ResourceManager.GetString("KeyWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Opis języka akcji&lt;/h1&gt;
+        ///    &lt;p&gt;
+        ///        Język akcji został zaprojektowany dla klasy sytemów dynamicznych spełniających następujące warunki:
+        ///        &lt;ol&gt;
+        ///            &lt;li&gt;Prawo inercji&lt;/li&gt;
+        ///            &lt;li&gt;Niedeterminizm i sekwencyjność działań&lt;/li&gt;
+        ///            &lt;li&gt;Pełna informacja o wszystkich akcjach i wszystkich skutkach bezpośrednich&lt;/li&gt;
+        ///            &lt;li&gt;Z każdą akcją związany jest:
+        ///                &lt;ul&gt;
+        ///                    &lt;li&gt;wa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LanguageDefinition {
+            get {
+                return ResourceManager.GetString("LanguageDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Formuły logiczne&lt;/h1&gt;
+        ///    &lt;p&gt;
+        ///        Poszczególnym operacjom z konstrukcji formuł odpowiadają następujące zapisy:
+        ///        &lt;ul&gt;
+        ///            &lt;li&gt;&lt;i&gt;f&lt;/i&gt; - identyfikator zgodny z syntaktyką&lt;/li&gt;
+        ///            &lt;li&gt;&lt;b&gt;not&lt;/b&gt; &amp;alpha; - negacja logiczna formuły &amp;alpha;&lt;/li&gt;
+        ///            &lt;li&gt;&amp;alpha;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;and&lt;/b&gt; &amp;alpha;&lt;sub&gt;2&lt;/sub&gt; - koniunkcja logiczna formuł &amp;alpha;&lt;sub&gt;1&lt;/sub&gt; i &amp;alpha;&lt;sub&gt;2&lt;/sub&gt;&lt;/li&gt;
+        ///            &lt;li&gt;&amp;alpha;&lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LogicFormulas {
+            get {
+                return ResourceManager.GetString("LogicFormulas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string QuerySyntax {
+            get {
+                return ResourceManager.GetString("QuerySyntax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///
+        ///&lt;html lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Instrukcja uwolnienia&lt;/h1&gt;
+        ///    &lt;p align=&quot;center&quot;&gt;
+        ///        &lt;b&gt;when&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;or&lt;/b&gt; ... &lt;b&gt;or&lt;/b&gt; &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;n&lt;/sub&gt; &lt;i&gt;A&lt;/i&gt; &lt;b&gt;releases&lt;/b&gt; &lt;SPAN STYLE=&quot;text-decoration:overline&quot;&gt;&lt;i&gt;f&lt;/i&gt;&lt;/SPAN&gt; &lt;b&gt;if&lt;/b&gt; &amp;pi;
+        ///&lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Wykonanie akcji &lt;i&gt;A&lt;/i&gt; przez któregokolwiek z agentów &lt;i&gt;&amp;omega;&lt;/i&gt;&lt;sub&gt;1&lt;/sub&gt; &lt;b&gt;or&lt;/b&gt; ... &lt;i&gt;&amp;omega [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Releases {
+            get {
+                return ResourceManager.GetString("Releases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;h1&gt;Syntaktyka&lt;/h1&gt;
+        ///    &lt;p&gt;
+        ///        Identyfikatorem jest nazwa akcji, agenta lub fluentu. Identyfikator składa się z ciągu dużych i małych liter alfabetu łacińskiego, cyfr oraz znaku podkreślenia (_).
+        ///        Dodatkowo identyfikator nie może być żadnym ze słów kluczowych. W przypadku identyfikatorów wielkość liter ma znaczenie, to znaczy, że przykładowo akcje &lt;i&gt;shoot&lt;/i&gt; i &lt;i&gt;Shoot&lt;/i&gt; są dwiema różnymi akcjami.
+        ///    &lt;/p&gt;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Syntax {
+            get {
+                return ResourceManager.GetString("Syntax", resourceCulture);
             }
         }
     }

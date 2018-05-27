@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace Stories.Query
 {
-    public static class AccessibleQueryExecutor
+    public class AccessibleQueryExecutor : Executor<AccessibleQueryStatement>
     {
-        public static bool Execute(this AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
+        public override bool Execute(AccessibleQueryStatement query, Graph.Graph graph, HistoryStatement history)
         {
             if (graph == null)
             {
@@ -26,7 +26,7 @@ namespace Stories.Query
                 case Sufficiency.Necessary:
                     return ExecuteNecessarySufficiency(startVertices, query.StateToCondition);
                 case Sufficiency.Possibly:
-                    break;
+                    return ExecutePossiblySufficiency(startVertices, query.StateToCondition);
                 case Sufficiency.Typically:
                     return ExecuteTypicallySufficiency(startVertices, query.StateToCondition);
                 default:
@@ -271,6 +271,35 @@ namespace Stories.Query
             }
 
             return queryResult;
+        }
+
+        private static bool ExecutePossiblySufficiency(IEnumerable<Vertex> startVertices, ConditionExpression endCondition)
+        {
+            List<Vertex> visited;
+            foreach (var startingState in startVertices)
+            {
+                visited = new List<Vertex>();
+                var found = SearchBST(startingState, visited, endCondition);
+                if (found)
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool SearchBST(Vertex from, List<Vertex> visited, ConditionExpression end)
+        {
+            if (from.State.EvaluateCondition(end))
+                return true;
+            if (visited.Contains(from))
+                return false;
+            visited.Add(from);
+            foreach (var edge in from.EdgesOutgoing)
+            {
+                var found = SearchBST(edge.To, visited, end);
+                if (found)
+                    return true;
+            }
+            return false;
         }
     }
 }

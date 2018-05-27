@@ -1,0 +1,40 @@
+﻿<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Opis języka akcji</h1>
+    <p>
+        Język akcji został zaprojektowany dla klasy sytemów dynamicznych spełniających następujące warunki:
+        <ol>
+            <li>Prawo inercji</li>
+            <li>Niedeterminizm i sekwencyjność działań</li>
+            <li>Pełna informacja o wszystkich akcjach i wszystkich skutkach bezpośrednich</li>
+            <li>Z każdą akcją związany jest:
+                <ul>
+                    <li>warunek początkowy (ew. <i>true</i>)</li>
+                    <li>efekt akcji</li>
+                    <li>jej wykonawca</li>
+                </ul>
+            </li>
+            <li>Skutki akcji:
+                <ul>
+                    <li>pewne - zawsze występują po zakończeniu akcji</li>
+                    <li>domyślne - preferowane, zachodzą po zakończeniu akcji,
+                    o ile nie jest wiadomym, że nie wystepują</li>
+                </ul>
+            </li>
+            <li>Efekty akcji zależą od stanu, w którym akcja się zaczyna oraz od jej wykonawcy</li>
+            <li>W pewnych stanach akcje mogą być niewykonalne przez pewnych (wszystkich) wykonawców</li>
+        </ol>
+        Język akcji spełniający dane warunki może być odpytywany poprzez odpowiedni język kwerend, który zapewnia uzyskanie odpowiedzi: prawda (true) bądź fałsz (false) na następujące pytania:
+        <ol>
+            <li>Czy podany program działań jest wykonywalny zawsze/kiedykolwiek?</li>
+            <li>Czy wykonanie podanego programu działań z dowolnego stanu spełniającego warunek &pi; prowadzi zawsze/kiedykolwiek/na ogół do stanu spełniającego warunek celu &gamma;?</li>
+            <li>Czy z dowolnego stanu spełniającego warunek &pi; cel &gamma; jest osiągany zawsze/kiedykolwiek/na ogół?</li>
+            <li>Czy wskazany wykonawca jest zaangażowany w realizację programu zawsze/kiedykolwiek?</li>
+        </ol>
+    </p>
+</body>
+
+</html>

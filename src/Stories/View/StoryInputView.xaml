@@ -9,12 +9,16 @@
              xmlns:view="clr-namespace:Stories.View"
              xmlns:vs="clr-namespace:Stories.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800">
+      d:DesignHeight="450" d:DesignWidth="600">
 
     <UserControl.Resources>
         <vs:StoriesViewModel x:Key="StoriesViewModel" />
     </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -23,10 +27,10 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" Background="LightCyan">
                 <ToolBar DockPanel.Dock="Top">
-                    <Button Click="OpenFileToEditClick">
+                    <Button Click="OpenClick" DataContext="{Binding ElementName=storyEditor}">
                         <iconPacks:PackIconMaterial Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Button>
-                    <Button Click="SaveFileToEditClick">
+                    <Button Click="SaveClick" DataContext="{Binding ElementName=storyEditor}">
                         <iconPacks:PackIconMaterial Kind="ContentSave" VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" />
                     </Button>
@@ -63,26 +67,31 @@
                                                 HorizontalAlignment="Center" />
                     </Button>
                     <Separator />
-                    <CheckBox IsChecked="{Binding ElementName=textEditor,Path=WordWrap}">
+                    <CheckBox IsChecked="{Binding ElementName=storyEditor,Path=WordWrap}">
                         <iconPacks:PackIconMaterial Kind="Wrap"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" />
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ElementName=textEditor,Path=ShowLineNumbers}">
+                    <CheckBox IsChecked="{Binding ElementName=storyEditor,Path=ShowLineNumbers}">
                         <TextBlock Width="16"
                                TextAlignment="Center">
                         #
                         </TextBlock>
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ElementName=textEditor,Path=Options.ShowEndOfLine}">
+                    <CheckBox IsChecked="{Binding ElementName=storyEditor,Path=Options.ShowEndOfLine}">
                         <TextBlock Width="16"
                                TextAlignment="Center">
                         ¶
                         </TextBlock>
                     </CheckBox>
-
+                    <Separator />
+                    <Button Click="InformationButtonClick">
+                        <iconPacks:PackIconMaterial Kind="Information"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
                 </ToolBar>
-                <avalonedit:TextEditor Name="textEditor" TextChanged="TextEditor_OnTextChanged"
+                <avalonedit:TextEditor Name="storyEditor" TextChanged="TextEditor_OnTextChanged"
                                    FontFamily="Consolas"
                                    FontSize="10pt"
                                    DataContextChanged="DataContextChanged">
@@ -95,35 +104,77 @@
             <DockPanel Grid.Row="2"
                    Background="LightCyan">
                 <ToolBar DockPanel.Dock="Top">
-                    <Button Click="SaveResultClick">
-                        <iconPacks:PackIconMaterial Kind="ContentSave"
+                    <Button Click="OpenClick" DataContext="{Binding ElementName=queryEditor}">
+                        <iconPacks:PackIconMaterial Kind="File" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Click="SaveClick" DataContext="{Binding ElementName=queryEditor}">
+                        <iconPacks:PackIconMaterial Kind="ContentSave" VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
+                    <Separator />
+                    <Button Command="Cut">
+                        <iconPacks:PackIconMaterial Kind="BoxCutter"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Command="Copy">
+                        <iconPacks:PackIconMaterial Kind="ContentCopy"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Command="Paste">
+                        <iconPacks:PackIconMaterial Kind="ContentPaste"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Command="Delete">
+                        <iconPacks:PackIconMaterial Kind="Delete"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" />
                     </Button>
                     <Separator />
-                    <CheckBox IsChecked="{Binding ElementName=textOutput,Path=WordWrap}">
+                    <Button Command="Undo">
+                        <iconPacks:PackIconMaterial Kind="Undo"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Command="Redo">
+                        <iconPacks:PackIconMaterial Kind="Redo"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center" />
+                    </Button>
+                    <Separator />
+                    <CheckBox IsChecked="{Binding ElementName=queryEditor,Path=WordWrap}">
                         <iconPacks:PackIconMaterial Kind="Wrap"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center" />
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ElementName=textOutput,Path=ShowLineNumbers}">
+                    <CheckBox IsChecked="{Binding ElementName=queryEditor,Path=ShowLineNumbers}">
                         <TextBlock Width="16"
                                TextAlignment="Center">
                         #
                         </TextBlock>
                     </CheckBox>
-                    <CheckBox IsChecked="{Binding ElementName=textOutput,Path=Options.ShowEndOfLine}">
+                    <CheckBox IsChecked="{Binding ElementName=queryEditor,Path=Options.ShowEndOfLine}">
                         <TextBlock Width="16"
                                TextAlignment="Center">
                         ¶
                         </TextBlock>
                     </CheckBox>
+                    <Separator />
+                  
                 </ToolBar>
-                <avalonedit:TextEditor Name="textOutput"
-                                   IsReadOnly="True"
+                <avalonedit:TextEditor Name="queryEditor" TextChanged="TextEditor_OnTextChanged"
                                    FontFamily="Consolas"
                                    FontSize="10pt" />
             </DockPanel>
         </Grid>
+        <TreeView Grid.Column="1" HorizontalAlignment="Stretch" Name="box">
+            <TreeView.InputBindings>
+                <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyListItem}" />
+            </TreeView.InputBindings>
+          
+           
+        </TreeView>
     </Grid>
 </UserControl>
