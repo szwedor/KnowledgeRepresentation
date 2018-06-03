@@ -93,10 +93,11 @@ namespace Stories.Query
                     }
                 }
                 else {
-                   var succesful = actions.Sum(p => Search(p.To, query, validation, lvl,sufficiency));
+                   var succesful = actions.Select(p=>new { s = Search(p.To, query, validation, lvl, sufficiency) ,p}).ToArray();
+                    var sum = succesful.Where(p => p.p.Actor == query.Agent).Select(p => p.s).Sum();
                     if(sufficiency == Sufficiency.Possibly)
-                        validation[lvl] += succesful;
-                    return succesful;
+                        validation[lvl] += sum;
+                    return sum;
                 }
             }
             return 0;

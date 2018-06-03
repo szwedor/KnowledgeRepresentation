@@ -6,6 +6,15 @@ namespace Stories.Tests
 {
     public static class AgentInData
     {
+        public static string mechanicstory=@"initially JestPaliwo and not Zepsuty
+when Rozwazny Kieruje causes not JestPaliwo if not Zepsuty
+impossible Kieruje if Zepsuty
+impossible Mechanik Kieruje
+when Mechanik Naprawia typically causes not Zepsuty if Zepsuty
+observable Zepsuty after Nierozwazny Kieruje
+when Nierozwazny Kieruje causes not JestPaliwo if not Zepsuty
+JestPaliwo after Rozwazny Tankuje
+JestPaliwo after Nierozwazny Tankuje";
         public static readonly List<object[]> Data = new List<object[]>
         {
             new object[] { @"necessary John in cut",
@@ -36,6 +45,18 @@ namespace Stories.Tests
             new object[] { @"necessary Adam in cut",//possible but no effect
                 @"initially AdamAlive and not TreeUp 
                   when Adam cut causes not Tree if not Tree",true },
+            new object[]{"possibly Rozwazny in Mechanik Naprawia",mechanicstory,false
+            },
+            new object[]{ "possibly Mechanik in Nierozwazny Kieruje",mechanicstory,false
+            },
+            new object[]{ "possibly Mechanik in Kieruje",mechanicstory,false
+            },
+            new object[]{"possibly Rozwazny in Rozwazny Kieruje",mechanicstory,true
+            },
+            new object[]{ "necessary Rozwazny in Rozwazny Kieruje",mechanicstory,true
+            },
+            new object[]{ "necessary Rozwazny in Nierozwazny Kieruje",mechanicstory,false
+            }
         };
         }
 }
