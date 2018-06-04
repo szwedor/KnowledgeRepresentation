@@ -56,7 +56,77 @@ JestPaliwo after Nierozwazny Tankuje";
             new object[]{ "necessary Rozwazny in Rozwazny Kieruje",mechanicstory,true
             },
             new object[]{ "necessary Rozwazny in Nierozwazny Kieruje",mechanicstory,false
-            }
+            },
+            new object[]
+            {
+                @"necessary John in unload, load",
+                @"unload causes not loaded
+             load causes loaded
+            impossible load if loaded",true
+            },
+            new object[]
+            {
+                @"necessary John in unload, load, load",
+                @"unload causes not loaded
+             load causes loaded
+            impossible load if loaded",false
+            },
+            new object[]
+            {
+                @"necessary John in unload, load, load",
+                @"unload causes not loaded
+             load typically causes loaded
+            impossible load if loaded",false
+            },
+            new object[]
+            {
+                @"possibly John in unload, load",
+                @"unload causes not loaded
+             load causes loaded
+            impossible load if loaded",true
+            },
+            new object[]
+            {
+                @"possibly John in unload, load, load",
+                @"unload causes not loaded
+             load causes loaded
+            impossible load if loaded",false
+            },
+            new object[]
+            {
+                @"possibly John in unload, load, load",
+                @"unload causes not loaded
+             load typically causes loaded
+            impossible load if loaded",true
+            },
+            new object[]
+            {
+                @"possibly John in unload, load, load, load",
+                @"unload causes not loaded
+             load causes loaded
+            impossible load if loaded",false
+            },
+            new object[]
+            {
+                @"possibly John in unload, load, load, load",
+                @"unload causes not loaded
+             load typically causes loaded
+            impossible load if loaded",true
+            },
+            new object[]
+            {
+                @"necessary John in unload, load, load, load",
+                @"unload causes not loaded
+             load causes loaded
+            impossible load if loaded",false
+            },
+            new object[]
+            {
+                @"necessary John in unload, load, load, load",
+                @"unload causes not loaded
+             load typically causes loaded
+            impossible load if loaded",false
+            },
         };
         }
 }

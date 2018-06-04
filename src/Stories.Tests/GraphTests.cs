@@ -103,6 +103,39 @@ when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti";
             && p.Action == "ZrobSpaghetti" && p.Actor == "Michał" && !p.IsTypical);
 
         }
-       
+
+        [Test]
+        public void Test()
+        {
+            var spaghetti = @"initially not An and not At
+initially not Bn and not Bt
+initially not Ct and not Cn
+initially start
+always (start then not An)
+always (start then not At)
+always (At then not An)
+always (An then not At)
+always (Bt then not Bn)
+always (Bn then not Bt)
+always (Ct then not Cn)
+always (Cn then not Ct)
+impossible A if not start or An or At or Bn or Bt or Cn or Ct
+impossible B if start or ( not An and not At)  or Bn or Bt or Cn or Ct
+impossible C if start or ( not An and not At) or ( not Bn and not Bt) or Cn or Ct
+A causes An and not start
+B typically causes Bt if An
+C typically causes Ct if An and Bt
+C causes Cn if An and Bt
+
+A typically causes At and not start
+B causes Bn if At
+C typically causes Ct if At and Bn
+C causes Cn if At and Bn";
+
+            var history = Parsing.GetHistory(spaghetti);
+            var story = new Story(history);
+            var graph = Graph.Graph.CreateGraph(story, null);
+
+        }
     }
 }

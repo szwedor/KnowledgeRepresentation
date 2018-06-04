@@ -6,6 +6,7 @@ using Stories.Parser.Statements;
 using Stories.Parser.Statements.QueryStatements;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Stories.Query
             foreach(var action in nonExisitngActions)
                 foreach (var vertex in graph.Vertexes)
                 {
-                        var edge = new Edge(vertex, vertex, false, action, actor);
+                        var edge = new Edge(vertex, vertex, true, action, actor);
                         vertex.EdgesIncoming.Add(edge);
                         vertex.EdgesOutgoing.Add(edge);
                 }
@@ -44,80 +45,75 @@ namespace Stories.Query
             {
                 vertices = vertices.FindVerticesSatisfyingCondition(val.Condition).ToList();
             }
-            var validation = new int[query.Actions.Count+1];
-            vertices.ForEach(p => Search(p, query, validation, query.Actions.Count,query.Sufficiency));
-
+            query.Actions.Reverse();
             if (query.Sufficiency == Sufficiency.Necessary)
             {
-                if (validation[validation.Length-1] == 0 )
-                return false;
+                var search = new necessarySearch();
 
-                for (int i = 0; i < validation.Length - 1; i++)
-                    if (validation[i] == validation[validation.Length - 1])
-                        return true;
+                 vertices.ForEach(p => search.Search(p, query, query.Actions.Count, new List<Edge>()));
+
+                return search.started && search.result;
+                
             }
             if(query.Sufficiency == Sufficiency.Possibly)
             {
-                if (validation[validation.Length - 1] == 0)
-                    return false;
+                var search = new possibleSearch();
+                vertices.ForEach(p => search.Search(p, query, query.Actions.Count, new List<Edge>()));
 
-                for (int i = 0; i < validation.Length - 1; i++)
-                    if (validation[i]>0)
-                        return true;
+                return search.started && search.result;
             }
- 
+
             return false;
         }
-
-        private static int Search(Vertex vertex, AgentInQueryStatement query, int[] validation, int lvl,Sufficiency sufficiency)
+        public class necessarySearch
         {
-            if (lvl == 0)
-            {
-                // scieżka była zdefiniowana
-                validation[query.Actions.Count]++;
-                return 1;
-            }
-            lvl--;
-            //wszystkie krawędzie z obecnego wierzchołka o danej akcji
-            var actions = vertex.EdgesOutgoing
-                .Where(p => p.Action == query.Actions[lvl].Action).ToArray();
-            if (sufficiency == Sufficiency.Necessary)
-                actions = actions.Where(p => p.IsTypical).ToArray();
 
-                if (query.Actions[lvl].Agent != null)
+            //            .Where(p => p.Action == query.Actions[lvl].Action && p.IsTypical).ToArray();
+            public bool result = true;
+            public bool started = false;
+            public bool haveTypical = false;
+            public void Search(Vertex vertex, AgentInQueryStatement query, int lvl, List<Edge> edges)
             {
-                    //jesli w query akcja ma aktora to zwracamy czy ktorakolwiek sciezka ma koniec
-                 var sucessful =  actions.Where(p => p.Actor == query.Actions[lvl].Agent)
-                     .Sum(p => Search(p.To, query, validation, lvl, sufficiency));
-
-                if (query.Actions[lvl].Agent == query.Agent)
+                if (lvl == 0)
                 {
-                    validation[lvl] += sucessful;
-                    return sucessful;
+                    started = result &= edges.Any(p => p.Actor == query.Agent);
+                    haveTypical |= edges.Any(p => p.IsTypical);
+                    return;
                 }
-            }
-            else
-            {
-                if (actions.Length == 1 && actions[0].Actor == query.Agent)
+                lvl--;
+                var actions = vertex.EdgesOutgoing
+                    .Where(p => p.Action == query.Actions[lvl].Action &&
+                    (p.Actor == query.Actions[lvl].Agent || query.Actions[lvl].Agent == null))
+                    .ToArray();
+                if(!actions.Any())
                 {
-                    // w query nie ma aktora dla danej akcji i w grafie 
-                    //jest tylko przejscie dla naszego agenta
-                    var paths = Search(actions[0].To, query, validation, lvl, sufficiency);
-                    if (paths > 0)
-                    {
-                        validation[lvl] += paths;
-                        return paths;
-                    }
+                    result = false;
                 }
-                else {
-                   var succesful = actions.Select(p=>new { s = Search(p.To, query, validation, lvl, sufficiency) ,p}).ToArray();
-                    var sum = succesful.Where(p => p.p.Actor == query.Agent).Select(p => p.s).Sum();
-                    if(sufficiency == Sufficiency.Possibly)
-                        validation[lvl] += sum;
-                    return sum;
-                }
+                foreach (var edge in actions)
+                    Search(edge.To, query, lvl, edges.Concat(new[] { edge }).ToList());
             }
-            return 0;
         }
+        public class possibleSearch
+        {
+            
+            public bool result = false;
+            public bool started = false;
+            public void Search(Vertex vertex, AgentInQueryStatement query, int lvl, List<Edge> edges)
+            {
+                if (lvl == 0) { 
+                    started = result = result || (edges.Any(p => p.Actor == query.Agent));
+                    return;
+                 }
+                lvl--;
+
+                var actions = vertex.EdgesOutgoing
+                    .Where(p => p.Action == query.Actions[lvl].Action &&
+                    (p.Actor == query.Actions[lvl].Agent || query.Actions[lvl].Agent == null))
+                    .ToArray();
+                foreach (var edge in actions)
+                    Search(edge.To, query, lvl, edges.Concat(new[] { edge }).ToList());
+            }
+        }
+   
     }
 }
