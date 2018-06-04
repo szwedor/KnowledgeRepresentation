@@ -5,6 +5,7 @@ using Stories.Parser;
 using Stories.Parser.Statements;
 using Stories.Parser.Statements.QueryStatements;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,20 @@ namespace Stories.Query
                 throw new ArgumentNullException(nameof(graph));
             }
             // czy występuje jawnie w ścieżce
+            #region 
+            var story = new Story(history);
+            var nonExisitngActions = query.Actions.Select(p => p.Action).Except(story.Actions).ToArray();
+            var actors = new HashSet<string>(story.Agents.Concat(query.Actions.Select(p => p.Agent).Concat(new[] { query.Agent })));
+            actors.ExceptWith(new string[] { null });
+            foreach (var actor in actors)
+            foreach(var action in nonExisitngActions)
+                foreach (var vertex in graph.Vertexes)
+                {
+                        var edge = new Edge(vertex, vertex, false, action, actor);
+                        vertex.EdgesIncoming.Add(edge);
+                        vertex.EdgesOutgoing.Add(edge);
+                }
+            #endregion
             //if (query.Actions.Any(p => p.Agent == query.Agent))
             //    return true;
 
@@ -66,8 +81,10 @@ namespace Stories.Query
             //wszystkie krawędzie z obecnego wierzchołka o danej akcji
             var actions = vertex.EdgesOutgoing
                 .Where(p => p.Action == query.Actions[lvl].Action).ToArray();
+            if (sufficiency == Sufficiency.Necessary)
+                actions = actions.Where(p => p.IsTypical).ToArray();
 
-            if (query.Actions[lvl].Agent != null)
+                if (query.Actions[lvl].Agent != null)
             {
                     //jesli w query akcja ma aktora to zwracamy czy ktorakolwiek sciezka ma koniec
                  var sucessful =  actions.Where(p => p.Actor == query.Actions[lvl].Agent)
