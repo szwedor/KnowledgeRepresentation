@@ -169,7 +169,7 @@
                         </TextBlock>
                     </CheckBox>
                     <Separator />
-                  
+                    <Label Content="{Binding LabelText}" FontSize="18" FontWeight="Black"/>
                 </ToolBar>
                 <avalonedit:TextEditor Name="queryEditor" TextChanged="TextEditor_OnTextChanged"
                                    FontFamily="Consolas"

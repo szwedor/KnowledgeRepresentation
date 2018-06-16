@@ -61,11 +61,13 @@
                             foreach (var qt in queryTexts.Reverse())
                             {
                                 var query = Parser.Parsing.GetQuery(qt);
+                                
                                 var executor = Execute(query);
                                 var graph = Graph.CreateGraph(story, query);
                                 var result = executor.Execute(query, graph, history);
                                 SaveOutput((storyText, qt, result));
-                            }
+                                LabelText = result?"TRUE":"FALSE";
+    }
                         });
                     }
                     catch (Exception ex)
@@ -78,6 +80,17 @@
                     }
                 });
         }
+        
+        
+        public string resulttext;
+        public string LabelText
+        {   get =>resulttext;
+            set
+                {
+        resulttext = value; 
+                    this.OnPropertyChanged();
+                }
+            } 
 
         public ICommand ProcessCommand { get; }
         public ICommand CopyListItem { get; }
