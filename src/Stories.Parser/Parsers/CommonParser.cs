@@ -8,9 +8,9 @@ namespace Stories.Parser.Parsers
 {
     public static class CommonParser
     {
-        public static readonly Parser<string> Action = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).ExceptKeywords().Token();
-        public static readonly Parser<string> Agent = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).ExceptKeywords().Token();
-        public static readonly Parser<string> Fluent = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).ExceptKeywords().Token();
+        public static readonly Parser<string> Action = Parse.Regex("[_0-9a-zA-Z]+").ExceptKeywords().Token();
+        public static readonly Parser<string> Agent = Parse.Regex("[_0-9a-zA-Z]+").ExceptKeywords().Token();
+        public static readonly Parser<string> Fluent = Parse.Regex("[_0-9a-zA-Z]+").ExceptKeywords().Token();
 
         public static readonly Parser<List<string>> Agents = Agent.DelimitedBy(Parse.String("or").Token()).Select(a => a.ToList()).Token();
 

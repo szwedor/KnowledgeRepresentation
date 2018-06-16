@@ -17,8 +17,7 @@ namespace Stories.Parser.Conditions
         private static readonly Parser<ConditionExpression> Constant = 
             (KeywordsParser.True.Return(new ConditionConstant(true))
             .Or(KeywordsParser.False.Return(new ConditionConstant(false)))).Named("bool");
-        private static readonly Parser<ConditionExpression> Variable = Parse
-            .Identifier(Parse.Letter, Parse.LetterOrDigit).Token().ExceptKeywords().Select(t => new ConditionVariable(t));
+        private static readonly Parser<ConditionExpression> Variable = Parse.Regex("[_0-9a-zA-Z]+").Token().ExceptKeywords().Select(t => new ConditionVariable(t));
 
         private static ConditionOperation MakeOperation(OperationType operation, ConditionExpression left, ConditionExpression right)
         {
