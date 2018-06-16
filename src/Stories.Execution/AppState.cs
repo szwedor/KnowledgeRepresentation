@@ -73,6 +73,8 @@ namespace Stories.Execution
 
         public bool GetVariable(string label)
         {
+            if (label == "false") return false;
+            if(label =="true") return true;
             try
             {
                 return values[label];
