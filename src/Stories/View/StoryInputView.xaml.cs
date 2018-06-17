@@ -130,7 +130,8 @@
                 viewmodel.SaveOutput += (t) => this.Dispatcher.Invoke(() =>
                  {
                      var treeItem = new TreeViewItem();
-                     treeItem.Header = t.query + " " + DateTime.Now.ToLocalTime();
+                     var resultText = t.result ? "TRUE" : "FALSE";
+                     treeItem.Header = $"{t.query} {DateTime.Now.ToLocalTime()} Answer: {resultText}";
                      var color = t.result ? TrueColor : FalseColor;
                      treeItem.Background = color;
                      treeItem.Items.Add(new TreeViewItem() { Header = t.history });
