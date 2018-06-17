@@ -34,7 +34,7 @@ namespace Stories.Query
 				case Sufficiency.Necessary:
 					return GetInitialStates().Select(x => ExecuteNecessarySufficiency(0, x)).All(x => x == true);
 				case Sufficiency.Possibly:
-					return GetInitialStates().Select(x => ExecutePossibleSufficiency(0, x)).Where(x => x == true).Any();
+					return GetInitialStates().Select(x => ExecutePossibleSufficiency(0, x)).All(x => x == true);
 				default:
 					throw new InvalidOperationException();
 			}

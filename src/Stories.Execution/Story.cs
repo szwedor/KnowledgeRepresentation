@@ -8,7 +8,7 @@ namespace Stories.Execution
 {
     public class Story
     {
-        private HistoryStatement history { get;  }
+		private HistoryStatement history { get;  }
         public IReadOnlyList<Fluent> Fluents { get; }
         public IReadOnlyList<string> Agents { get;  }
         public IReadOnlyList<string> Actions { get; }
@@ -166,8 +166,9 @@ namespace Stories.Execution
 
         public bool IsActionPossible(string agent, string action, AppState state)
         {
-            var possibility = this.history.Effects.Select(p => p).Where(p => p.Effect is ConditionConstant &&
+            var possibility = this.history.Effects.Select(p => p).Where(p =>
                 !state.EvaluateCondition(p.Effect) && state.EvaluateCondition(p.Condition) && p.Action == action && (p.Agents == null || p.Agents.Contains(agent)));
+
             return !possibility.Any();
         }
     }
