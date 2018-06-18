@@ -158,8 +158,8 @@
                 initially not spaghetti and not tortilla
                 ZrobTortille causes tortilla if not tortilla
                 when Jan ZrobSpaghetti causes spaghetti if not spaghetti
-                when Michał ZrobSpaghetti typically causes spaghetti if not spaghetti
-                impossible Michał ZjedzSpaghetti
+                when Michal ZrobSpaghetti typically causes spaghetti if not spaghetti
+                impossible Michal ZjedzSpaghetti
                 ZjedzSpaghetti causes not spaghetti if spaghetti
                 ZjedzTortille causes not tortilla if tortilla
                 ";
@@ -175,7 +175,7 @@
             var g = Graph.Graph.CreateGraph(story, null);
             //agenci
             string jan = "Jan";
-            string michał = "Michał";
+            string michał = "Michal";
             //akcje
             string zjedzSpaghetti = "ZjedzSpaghetti";
             string zjedzTortille = "ZjedzTortille";

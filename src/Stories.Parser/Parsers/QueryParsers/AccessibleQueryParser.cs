@@ -11,13 +11,12 @@ namespace Stories.Parser.Parsers.QueryParsers
             (from sufficiency in SufficiencyParser.Sufficiency
              from accessible in KeywordsParser.Accessible
              from conditionTo in ConditionsParsing.Condition
-             from fromKeyword in KeywordsParser.From
-             from conditionFrom in ConditionsParsing.Condition
+             from conditionFrom in CommonParser.FromCondition.Optional()
              select new AccessibleQueryStatement
              {
                  Sufficiency = sufficiency,
                  StateToCondition = conditionTo,
-                 StateFromCondition = conditionFrom
+                 StateFromCondition = conditionFrom.GetOrDefault()
              }
             ).Token();
     }
