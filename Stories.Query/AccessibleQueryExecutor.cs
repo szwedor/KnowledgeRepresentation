@@ -18,6 +18,7 @@ namespace Stories.Query
                 throw new ArgumentNullException(nameof(graph));
             }
 
+            query.StateFromCondition = query.StateFromCondition ?? graph.GetStartCondition(history);
             var startVertices = graph.Vertexes.FindVerticesSatisfyingCondition(query.StateFromCondition).ToList();
             startVertices = BuildGraph(startVertices, graph, history).ToList();
 

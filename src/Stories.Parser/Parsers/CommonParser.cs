@@ -37,5 +37,11 @@ namespace Stories.Parser.Parsers
             (from If in KeywordsParser.If
              from condition in ConditionsParsing.Condition
              select condition).Token();
+
+        public static readonly Parser<ConditionExpression> FromCondition =
+            (from fromKeyword in KeywordsParser.From
+             from conditionFrom in ConditionsParsing.Condition
+             select conditionFrom).Token();
+
     }
 }

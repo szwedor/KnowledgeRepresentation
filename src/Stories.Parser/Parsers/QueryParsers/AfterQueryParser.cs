@@ -12,14 +12,13 @@ namespace Stories.Parser.Parsers.QueryParsers
              from conditionTo in ConditionsParsing.Condition
              from after in KeywordsParser.After
              from actions in Parse.DelimitedBy(CommonParser.ActionWithExecutor, Parse.String(","))
-             from fromKeyword in KeywordsParser.From
-             from conditionFrom in ConditionsParsing.Condition
+             from conditionFrom in CommonParser.FromCondition.Optional()
              select new AfterQueryStatement
              {
                  Sufficiency = sufficiency,
                  Actions = actions.ToList(),
                  StateToCondition = conditionTo,
-                 StateFromCondition = conditionFrom
+                 StateFromCondition = conditionFrom.GetOrDefault()
              }
             ).Token();
     }

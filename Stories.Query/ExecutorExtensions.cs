@@ -1,4 +1,5 @@
-﻿using Stories.Parser.Statements;
+﻿using Stories.Parser.Conditions;
+using Stories.Parser.Statements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,17 @@ namespace Stories.Query
             where T: QueryStatement
         {
             return Execute(st).Execute(st, graph, history);
+        }
+        public static ConditionExpression GetStartCondition(this Stories.Graph.Graph graph, HistoryStatement history)
+        {
+            ConditionExpression cond = new ConditionConstant(true);
+            var vertices = graph.Vertexes.ToList();
+            foreach (var val in history.Values.Where(x => x.Actions.Count == 0))
+            {
+                cond = new ConditionOperation()
+                { Left = cond, Right = val.Condition, Operation = OperationType.And };
+            }
+           return cond;
         }
     }
 }

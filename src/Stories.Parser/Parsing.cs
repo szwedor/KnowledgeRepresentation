@@ -10,7 +10,7 @@ namespace Stories.Parser
         public static HistoryStatement GetHistory(string history)
         {
             try { return HistoryParser.History.Parse(history); }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new Exception("Parsing history error");
             }

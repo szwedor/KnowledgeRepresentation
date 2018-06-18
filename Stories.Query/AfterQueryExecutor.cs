@@ -1,5 +1,6 @@
 ﻿using Stories.Graph;
 using Stories.Graph.Model;
+using Stories.Parser.Conditions;
 using Stories.Parser.Statements;
 using Stories.Parser.Statements.QueryStatements;
 using System;
@@ -16,6 +17,7 @@ namespace Stories.Query
             {
                 throw new ArgumentNullException(nameof(graph));
             }
+            query.StateFromCondition = query.StateFromCondition ?? graph.GetStartCondition(history);
 
             switch (query.Sufficiency)
             {
