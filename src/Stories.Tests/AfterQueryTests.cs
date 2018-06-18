@@ -111,7 +111,7 @@ namespace Stories.Tests
             if (query is AfterQueryStatement afterQuery)
             {
                 var queryResult = afterQuery.Execute(graph, history);
-                Assert.AreEqual(false, queryResult);
+                Assert.AreEqual(true, queryResult);
             }
         }
 
