@@ -393,7 +393,7 @@ namespace Stories.Tests
 			if (query is ExecutableQueryStatement executableQuery)
 			{
 				var queryResult = executableQuery.Execute(graph, history);
-				Assert.AreEqual(false, queryResult);
+				Assert.AreEqual(true, queryResult);
 			}
 		}
 
@@ -525,7 +525,7 @@ namespace Stories.Tests
 			if (query is ExecutableQueryStatement executableQuery)
 			{
 				var queryResult = executableQuery.Execute(graph, history);
-				Assert.AreEqual(false, queryResult);
+				Assert.AreEqual(true, queryResult);
 			}
 		}
 
@@ -565,6 +565,50 @@ namespace Stories.Tests
 						 impossible Eric shoot
 						 not loaded after Bob shoot
 						 when John shoot releases loaded";
+
+			var history = Parsing.GetHistory(text);
+			var story = new Story(history);
+			var graph = Graph.Graph.CreateGraph(story, query);
+
+			if (query is ExecutableQueryStatement executableQuery)
+			{
+				var queryResult = executableQuery.Execute(graph, history);
+				Assert.AreEqual(false, queryResult);
+			}
+		}
+
+		[Test]
+		public void PossiblyExecutableTest13()
+		{
+			var queryText = @"possibly executable load, shoot, shoot";
+			var query = Parsing.GetQuery(queryText);
+
+			var text = @"initially alive and not loaded
+						 impossible shoot if not loaded
+						 loaded after load
+						 observable not loaded after load, shoot";
+
+			var history = Parsing.GetHistory(text);
+			var story = new Story(history);
+			var graph = Graph.Graph.CreateGraph(story, query);
+
+			if (query is ExecutableQueryStatement executableQuery)
+			{
+				var queryResult = executableQuery.Execute(graph, history);
+				Assert.AreEqual(true, queryResult);
+			}
+		}
+
+		[Test]
+		public void NecessaryExecutableTest13()
+		{
+			var queryText = @"necessary executable load, shoot, shoot";
+			var query = Parsing.GetQuery(queryText);
+
+			var text = @"initially alive and not loaded
+						 impossible shoot if not loaded
+						 loaded after load
+						 observable not loaded after load, shoot";
 
 			var history = Parsing.GetHistory(text);
 			var story = new Story(history);

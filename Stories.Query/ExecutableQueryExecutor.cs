@@ -172,11 +172,7 @@ namespace Stories.Query
 		private static List<ValueStatement> GetMatchingValueStatements(int currentActionIndex, List<ActionWithExecutor> actionsWithUsedExecutors)
 		{
 			List<ValueStatement> valueStatements = new List<ValueStatement>();
-			for (int i = 0; i <= currentActionIndex; i++)
-			{
-				valueStatements.AddRange(history.Values.Where(x => x.Actions.Count() > 0 && (x.Actions.SequenceEqual(actionsWithUsedExecutors.Take(currentActionIndex + 1).Skip(i), new ActionWithExecutorEqualityComparer()))));
-			}
-
+			valueStatements.AddRange(history.Values.Where(x => x.Actions.Count() > 0 && (x.Actions.SequenceEqual(actionsWithUsedExecutors.Take(currentActionIndex + 1), new ActionWithExecutorEqualityComparer()))));
 			return valueStatements;
 		}
 
